@@ -51,6 +51,8 @@ def metrics(record):
 
 
 def detail(record):
+    from interpreter.audit import audit_record
+    audits = audit_record(record)  # Recompute, not a persisted/model-supplied verdict.
     st.caption(f"{'SYNTHETIC · PRESET' if record.mode == 'synthetic' else 'LIVE · MODEL-ASSISTED'} | Report date: {record.extracted.report_date or 'Unknown'}")
     st.text(f"Series: {record.series}")
     metrics(record)
@@ -64,6 +66,9 @@ def detail(record):
     explanations = {x.row_id: x for x in record.analysis.explanations} if record.analysis else {}
     st.subheader("Facts, evidence & explanations")
     st.caption("These layers are separate. Source checking is not clinical expert review or verification of a generated conclusion.")
+    st.caption("Claim audit: " + " · ".join(f"{state}: {sum(a.outcome == state for a in audits)}"
+        for state in ("Supported", "Unsupported", "Contradicted", "Needs Review")))
+    st.caption("Supported means a bounded report-fact match or complete selected context, not medical correctness. These are not risk levels.")
     for index, row in enumerate(record.checked, 1):
         with st.expander(f"Indicator {index} · {row.canonical_id or 'Unmapped'} · {row.decision.state}"):
             st.text("Available to display: recorded value, unit and printed reference text; unresolved fields are not verified facts.")
@@ -118,11 +123,27 @@ def detail(record):
             else:
                 st.info("Knowledge base coverage is insufficient for this indicator.")
             st.markdown("**Preset explanation**" if record.mode == "synthetic" else "**Model-generated explanation · not medically verified**")
-            st.text(explanations[row.row_id].text if row.row_id in explanations else "No validated explanation is available.")
+            row_audits = [a for a in audits if a.row_id == row.row_id]
+            if not row_audits:
+                st.text("No audited explanation is available.")
+            for claim in row_audits:
+                st.text(f"Claim {claim.claim_id} · {claim.outcome} · {claim.basis}")
+                st.text(claim.reason)
+                if claim.outcome == "Contradicted":
+                    st.warning("Contradicted claim withheld. Inspect the linked checked facts; this text must not be used as a medical conclusion.")
+                else:
+                    if claim.outcome != "Supported":
+                        st.warning("Unconfirmed generated claim — not an established medical conclusion. Manual review required.")
+                    st.text(claim.text)
+                st.text(f"Report observation: {claim.observation_id}")
+                if claim.knowledge_id:
+                    st.text(f"Audited knowledge: {claim.knowledge_id} · {claim.knowledge_version}")
+                if claim.evidence_text:
+                    st.text("Audit comparison evidence:")
+                    st.text(claim.evidence_text)
     if record.analysis:
         with st.expander("Analysis limitations", expanded=True):
-            for text in record.analysis.limitations:
-                st.text(text)
+            st.text("Deterministic consistency checks only. Free-form medical entailment is not verified. Source checking and claim support are not clinical validation. Check original data and seek qualified interpretation.")
 
 
 def dashboard(records):

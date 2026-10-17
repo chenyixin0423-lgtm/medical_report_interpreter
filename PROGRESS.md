@@ -32,6 +32,44 @@ manifest-pinned content, real source links and branch-only Claude context. Clini
 review remains not performed. Known urine/other results are excluded from blood trends.
 
 ## Current Task
+2026-10-17: Claim Audit restored from retained Codex log patches after the earlier
+52ea36e / 74a87ba commit objects were no longer present. Existing baseline 9ab28e1
+passed git fsck and had no uncommitted changes; no old history was rewritten.
+Recovery source: Codex rollout 019fcaac-21b1-7223-b0ce-56ef56bb9b64, ten apply_patch
+records on lines 1019-1158. Patches were replayed in an independent local clone at
+`.local_data/claim-audit-recovery-20261017`, not directly over the official checkout.
+All 11 restored files matched the historical Git blob hashes, including the final
+74a87ba PROGRESS.md contents. The recovery clone retains that exact historical state.
+Its 37 Python files passed in-memory syntax compilation; pip check passed using the
+existing project's Python 3.10 virtual environment (not a fresh dependency install).
+Recovery-directory regression: **136 passed in 37.27s**, no paid API calls.
+Only after passing those checks was the clean, unchanged official checkout updated.
+All 11 hashes matched again after transfer. This recovery entry intentionally changes
+PROGRESS.md from its historical hash; the other ten files remain byte-content equivalent
+under Git's line-ending normalization. No feature redesign or knowledge changes made.
+Recovery copies and existing backups are retained; no Push or remote change authorized.
+Official-directory regression: **136 passed in 38.56s**, exit 0. The inherited pyreadline3
+console destructor emitted an ignored Windows handle warning after the passing summary;
+no test failed. Official in-memory syntax compilation (37 files), pip check and
+git diff --check also passed. Pre-commit git fsck --full returned exit 0, without
+the previous device/index/object errors. A new ordinary local commit will record this
+recovery; no original commit ID recreation or fsync-disabling workaround is required.
+Use git log -1 for the recovery checkpoint and rerun git fsck after committing.
+
+Previous Claim Audit implementation (historical records, not current recovery checks):
+2026-10-17: Claim Audit implementation and verification complete; included in the local
+checkpoint containing this file (identify with `git log -1`). No Push.
+Started from clean commit 9ab28e1; read instructions, actual models, pipeline, gateway,
+UI and tests. Baseline: 113 passed in 32.64s. No corpus changes or UI redesign.
+`audit.py` parses sentence claims and verifies closed-form report facts or complete
+applicable selected knowledge context. Unsupported/Contradicted/Needs Review outcomes
+retain reasons and occurrence links; supported knowledge context retains ID/version/text.
+New model output uses atomic claims; legacy text is also audited, never silently omitted.
+Audit is recomputed on record creation, history load and display; no saved verdict is trusted.
+Contradicted prose is withheld and unconfirmed prose labeled. Demo supplies preset fact
+claims. No semantic model or additional API call is used. Source matching is not clinical truth.
+
+Previous structured knowledge iteration:
 2026-10-17: Structured medical knowledge refactor implemented and verified.
 Started from clean commit 6684671. Read actual MedlinePlus pages for the 16 summaries
 (14 distinct pages), recorded sources and limitations in docs/SOURCE_CHECKS.md. No clinical
@@ -62,11 +100,14 @@ No remaining implementation tasks within this iteration's scope.
 Future work only when requested: clean-environment install check, visual review and an
 explicitly authorized synthetic live-API smoke test. Independent clinician review, wider
 analyte coverage and evaluated population/assay-specific knowledge remain future work.
-Claim audit is deferred.
+Broader semantic entailment evaluation is deferred; deterministic Claim Audit is implemented.
 
 ## Important Decisions
-Evidence tracking and knowledge provenance are now explicitly authorized and implemented;
-Claim Audit and multi-model review remain outside scope.
+Evidence tracking, knowledge provenance and deterministic Claim Audit are implemented.
+Multi-model review remains outside scope. This iteration does not expand medical knowledge.
+Only closed-form facts and complete applicable educational context can receive Supported.
+Free-form paraphrases need review; English safety heuristics can overflag or miss wording,
+but unfamiliar prose is never automatically Supported. These outcomes are not risk labels.
 Keep the existing architecture. Readiness states are not medical risk categories.
 An unusual value alone is not proof of OCR error. Model agreement is not verification.
 All 26 legacy notes lack verifiable bibliographies/review. Original texts are preserved;
@@ -89,6 +130,13 @@ withheld to avoid bypassing the row gate. Structural checks cannot establish tru
 Trends may display numeric facts even when missing intervals/notes block interpretation.
 
 ## Known Issues
+Claim Audit is conservative, not general semantic entailment or medical truth verification.
+Unparsed factual errors may receive Needs Review instead of Contradicted; safety keyword
+checks may overflag negations. No claim-unit conversions are inferred. Context matching
+preserves the entire selected block and caveats, not arbitrary sentence-level paraphrases.
+Original extraction can still be wrong even when a claim matches its reviewed fields.
+Rejected extra-row explanations are discarded with a report notice, not attached to a
+fabricated observation. Audit/raw generated text remains in opt-in local history, not logs.
 Original code sent rejected rows to Claude; new pipeline now filters them. Original review
 confirmation lacked editing; corrections now retain original extraction and require rechecking.
 Old v2/v3 history is upgraded in memory; old explanations are withheld, files untouched.
@@ -107,6 +155,27 @@ Mismatched reference units require explicit review. Re-upload/review old reports
 regenerate gated explanations when adequate knowledge exists; v2/v3 files are not automatically rewritten.
 
 ## Test Results
+Claim Audit iteration: baseline 113 passed in 32.64s; initial implementation retained all
+113 existing tests (33.31s). Initial new synthetic audit suite: 22 passed in 7.92s.
+Final full regression: **136 passed in 37.35s** (23 new audit cases). Includes real local
+Chroma context checks, mocked Claude tool output, correction/history recomputation,
+legacy v4 compatibility, ignored forged saved verdicts, partial abstention, synthetic
+presets and AppTest contradiction withholding. No paid model calls.
+`pip check` and `git diff --check` passed. `compileall` did not fully pass: repeated
+OSError [Errno 22] writing test_audit's bytecode cache, including an unsandboxed retry;
+a separate cache-prefix attempt also had I/O errors. Cause not established. Pytest
+successfully imported/executed all modules and tests. No source syntax failure reported.
+Hidden loopback Streamlit service on port 8506 started (PID 22340 at verification),
+health endpoint **HTTP 200 / ok**. UI verified via AppTest, not browser screenshots.
+Git staging twice failed with `fsync / Bad file descriptor`. A command-local
+`-c core.fsync=none -c core.fsyncObjectFiles=false` workaround allowed staging; no
+persistent Git configuration changed. Use the same scoped flags for this checkpoint,
+then inspect commit/object integrity. This does not resolve the underlying filesystem issue.
+Implementation committed locally as `52ea36e`; `git show HEAD` succeeded and the working
+tree was clean. `git fsck --no-reflogs` and an approved `git fsck --full` both returned
+exit 1 without diagnostics, so full repository integrity verification is **not confirmed**.
+Do not interpret the successful commit as resolution of that environment limitation.
+
 Structured knowledge iteration baseline: **100 passed in 14.28s**.
 First integration run: 98 passed / 2 failed (legacy-only inventory count and old UI source
 label assertions). Retained legacy coverage through explicit legacy-only retrieval and
@@ -158,3 +227,7 @@ No paid model calls. UI behavior verified through AppTest, not browser screensho
 1. On resumption read this file, inspect `git status` / `git log -2`, then relevant code.
 2. Run `.venv/Scripts/python -m pytest -q` before extending the readiness policy.
 3. Pick a requested follow-up from Pending Tasks; do not automatically build deferred systems.
+4. Before broadening claim acceptance, add an independently labeled synthetic/adversarial
+   evaluation set for paraphrases, negation, compound claims and multilingual wording.
+   Do not promote heuristic matches to medical entailment. Investigate the local bytecode
+   cache I/O issue separately; do not change clinical logic to address environment errors.

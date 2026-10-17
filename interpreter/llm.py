@@ -87,6 +87,8 @@ Never infer a blood specimen from the analyte name or infer fasting from a gluco
         serialized = []
         for row in rows:
             item = row.model_dump()
+            from interpreter.audit import fact_text
+            item["auditable_fact_template"] = fact_text(row)
             if row.evidence.provenance == "source_checked_summary":
                 # Never send unrelated high/low branches, archived legacy text or a
                 # full structured corpus to Claude. Keep ID/version and real sources.
@@ -94,7 +96,12 @@ Never infer a blood specimen from the analyte name or infer fasting from a gluco
             serialized.append(item)
         payload = {"checked_indicators": serialized}
         return self._call(GeneratedAnalysis, [{"type": "text", "text": json.dumps(payload, ensure_ascii=False)}],
-                          """Explain each row in plain English. Use only the supplied project notes for
+                          """Return each row's explanation as atomic strings in claims; leave text empty.
+For a report-fact claim copy auditable_fact_template exactly. For general knowledge use a
+separate claim consisting of 'General context: ' followed by the COMPLETE selected_text,
+including every caveat. Do not trim, combine it with a patient inference, or select another branch.
+Additional paraphrases/inferences cannot be automatically certified and will be flagged for review.
+Explain each row in plain English. Use only the supplied project notes for
 medical context within their recorded applicability. Source checking is not clinical expert review.
 Retrieval does not prove any conclusion. Do not introduce causes, thresholds or advice
 absent from the selected context. Unknown fasting is not confirmed fasting. A printed range

@@ -342,7 +342,53 @@ docs/                          Architecture, provenance, security and verificati
 The original root modules remain as re-exports; the old Python function signatures are
 not maintained. See [architecture details](docs/ARCHITECTURE.md).
 
-## Tests and verification
+## Claim Audit
+
+Claude now returns per-row `claims`, rather than an unchecked narrative. The application
+splits ordinary sentences (also auditing legacy `text` and any extra text) and computes
+its own outcomes in `interpreter/audit.py`. This is deterministic, with **no additional
+model call**, confidence score or claim of clinical validation.
+
+| Outcome | Meaning and presentation |
+| --- | --- |
+| Supported | Exact bounded report-fact check, or complete applicable retrieved context including caveats. Not proof of medical correctness. |
+| Contradicted | Parsed value, unit or range status conflicts with the checked observation. Claim text is withheld. |
+| Unsupported | Different/unrecognized indicator, unsupported context, or detected diagnosis, causal overreach or treatment advice. Explicitly marked unconfirmed. |
+| Needs Review | Meaning cannot be established by the deterministic contract. Explicit manual-review label; never a confirmed conclusion. |
+
+The report-fact grammar is `Report fact: WBC = 8 10^9/L; range status = within_range.`
+It checks normalized indicator identity, numeric value, normalized unit spelling and
+calculated status against the **effective reviewed fields**, retaining the occurrence ID
+link to original extraction and corrections. It does not silently convert claim units.
+Some simple free-form factual errors are also recognized, but free-form matches are not
+automatically promoted to Supported.
+
+For general medical context, automatic support requires `General context: ` followed by
+the **entire exact selected context** for that row. The context remains one evidence unit
+to preserve qualifications. Snapshot integrity, source-check status and specimen/unit/
+direction/fasting applicability are rechecked. A related source ID, a clipped sentence,
+an unselected high/low branch or a patient-specific inference is not sufficient. This
+deliberately conservative mechanism supports faithful educational context, not arbitrary
+semantic entailment or diagnostic reasoning. Paraphrases require review.
+
+Detailed Results displays claim IDs, outcomes, reasons, observation IDs and, where
+applicable, knowledge ID/version and comparison text. Passing claims remain available
+when another fails. Audit outcomes do not change the medical meaning of facts or become
+risk levels. Summary counts remain deterministic report comparisons, not claim-derived
+diagnoses. Model-written global limitations/summaries are not displayed as conclusions.
+
+Audit snapshots are recalculated on construction/history load and display, not trusted
+from saved labels. Pre-audit v4 records remain readable; v2/v3 migration still withholds
+old explanations. Synthetic Demo uses auditable preset facts without a model call.
+Audit text, including withheld claims, may be retained in opted-in local history; it is
+not emitted to debug logs. Original-source uncertainty is not erased by a fact match.
+
+Limitations: fixed grammar and English heuristics can miss or overflag unsafe language;
+unrecognized wording stays Needs Review rather than Supported. This is not a general
+medical truth checker, clinical expert review, or tamper-proof audit log. There is no
+semantic-audit LLM, clinical benchmark, or new knowledge in this iteration.
+
+## Running tests
 
 ```bash
 python -m pip install -r requirements-dev.txt

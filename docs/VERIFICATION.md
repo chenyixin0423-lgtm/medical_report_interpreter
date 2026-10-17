@@ -2,7 +2,22 @@
 
 Date: **2026-10-17** (Asia/Shanghai).
 
-## Current iteration: structured source-checked knowledge
+## Current iteration: Claim Audit
+
+- Baseline: **113 passed in 32.64s**; final: **136 passed in 37.35s**, exit 0.
+- 23 added synthetic cases cover values, units, status, invented indicators, diagnosis,
+  advice, overreach, exact-context support versus citation-only claims, correction/history
+  links, forged saved labels, legacy prose, partial refusal, mock tool output and Demo.
+- AppTest verifies mixed audit outcomes and that contradicted text is not displayed;
+  existing five pages, history, trends and evidence viewer regressions pass.
+- `pip check` and `git diff --check` passed. `compileall` remains incomplete due to repeated
+  bytecode-cache OSError [Errno 22], including unsandboxed retry; alternate-cache run also
+  encountered I/O errors. Cause unresolved. Pytest imported and executed the test module.
+- Hidden loopback service on `127.0.0.1:8506` returned **HTTP 200 / ok** (PID 22340).
+- No paid Claude call, semantic-audit model, corpus expansion, clinical evaluation or
+  browser screenshot. Supported means deterministic consistency, not medical truth.
+
+## Previous iteration: structured source-checked knowledge
 
 - Baseline: **100 passed in 14.28s**. Final full suite: **113 passed in 32.87s**, exit 0.
 - New corpus tests include all 16 entries across high/low/within-range directions, real local

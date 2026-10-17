@@ -55,6 +55,7 @@ def finish(report, rows, gateway, series="My reports", question="", corrections=
         # analysis to row explanations and does not forward arbitrary questions.
         response = gateway.analyze(eligible, "")
         counts = Counter(x.row_id for x in response.explanations)
+        unexpected = set(counts) - {r.row_id for r in eligible}
         accepted = []
         for row in eligible:
             items = [x for x in response.explanations if x.row_id == row.row_id]
@@ -72,6 +73,8 @@ def finish(report, rows, gateway, series="My reports", question="", corrections=
             "Source checking is not clinical expert review. Interpretation readiness does not establish medical correctness."])
         if rejected:
             issue = "Some generated explanations failed row/source validation and were withheld. Other eligible rows remain available."
+        if unexpected:
+            issue = (issue or "") + " Unsupported extra indicator explanations were discarded: no eligible report observation supports them."
         if not accepted:
             analysis = None
     except (ValueError, ModelError):

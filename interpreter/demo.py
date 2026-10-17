@@ -2,6 +2,7 @@
 from interpreter.models import ExtractedReport, GeneratedAnalysis, ReportRecord
 from interpreter.pipeline import prepare
 from interpreter.validation import validate_analysis
+from interpreter.audit import fact_text
 
 
 def demo_reports(knowledge):
@@ -28,9 +29,8 @@ def demo_reports(knowledge):
         rows = prepare(facts, knowledge, synthetic=True)
         analysis = GeneratedAnalysis.model_validate({"explanations": [
             {"row_id": row.row_id,
-             "text": ("Preset example: the displayed status is calculated only from the synthetic report's printed range. "
-                      "It is not a diagnosis. Inspect the linked note's source status; it is educational context, not clinical review."
-                      if row.evidence else "Preset example: knowledge base coverage is insufficient. Check the original report with a qualified professional."),
+             "claims": [fact_text(row)],
+             "text": "",
              "source_ids": [row.evidence.source_id] if row.evidence else []} for row in rows
              if row.decision.state == "interpretable"],
             "limitations": ["Preset explanations, not a real-time model response.",

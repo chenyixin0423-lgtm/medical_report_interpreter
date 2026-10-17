@@ -17,6 +17,8 @@ unnecessary infrastructure, frameworks, services or speculative abstractions.
   selection. Sixteen structured source-checked summaries supersede overlapping legacy notes.
 - `llm.py`, `pipeline.py`: schema-bound Claude calls and processing orchestration.
 - `abstention.py`: deterministic readiness/reasons and safe summary counts; no confidence scores.
+- `audit.py`: derived claim-level consistency checks; only closed-form report facts and
+  complete applicable selected context can be Supported, never clinical approval.
 - `review.py`: correction baselines and effective facts without overwriting extraction.
 - `tracking.py`: occurrence-linked original snapshots and conservative PDF text matches.
 - `knowledge_base/provenance.json`: all 26 legacy-note applicability/concern inventories;
@@ -40,8 +42,10 @@ mock model calls; avoid paid API calls unless needed and authorized.
 After changes run relevant tests; before a stable checkpoint run the full suite using
 `.\.venv\Scripts\python -m pytest -q` (Windows). Record actual results in PROGRESS.md.
 Update PROGRESS.md after every major stage, including failures, decisions and next steps.
-Current scope: source-checked structured medical knowledge integrated with existing tracking
-and abstention. Do not add claim auditing, multi-model review or unrelated UI redesign.
+Current scope: Claim Audit integrated with tracking, provenance and abstention. No corpus
+expansion, multi-model review or unrelated UI redesign. Recompute audit outcomes at history
+load and display; never trust persisted/model-supplied verdicts. Block contradicted prose,
+label all unconfirmed prose, and never render raw explanation fields outside the audit gate.
 Source checking is AI-assisted comparison against actual linked pages, not clinical expert
 review. Do not invent reviewers/dates or equate access dates with publication dates. Preserve
 null unsupported branches. Changed content requires a fresh source check and manifest pin.

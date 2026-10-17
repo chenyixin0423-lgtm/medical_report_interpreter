@@ -167,8 +167,23 @@ class CheckedIndicator(Model):
 
 class Explanation(Model):
     row_id: str
-    text: str = Field(min_length=1, max_length=1500)
+    text: str = Field(default="", max_length=1500)
+    claims: list[str] = Field(default_factory=list, max_length=12)
     source_ids: list[str] = Field(max_length=3)
+
+
+class AuditedClaim(Model):
+    claim_id: str
+    row_id: str
+    observation_id: str | None
+    text: str
+    outcome: Literal["Supported", "Unsupported", "Contradicted", "Needs Review"]
+    reason: str
+    basis: Literal["report_fact", "general_context", "unresolved"] = "unresolved"
+    knowledge_id: str | None = None
+    knowledge_version: str | None = None
+    evidence_text: str | None = None
+    policy_version: str = "claim-audit-v1"
 
 
 class GeneratedAnalysis(Model):
@@ -187,6 +202,7 @@ class ReportRecord(Model):
     checked: list[CheckedIndicator]
     analysis: GeneratedAnalysis | None = None
     analysis_issue: str | None = None
+    claim_audits: list[AuditedClaim] = Field(default_factory=list)
     corrections: list[Correction] = Field(default_factory=list)
     analysis_rejections: list[str] = Field(default_factory=list)
     data_conflicts: list[str] = Field(default_factory=list)
@@ -261,4 +277,7 @@ class ReportRecord(Model):
             actual.decision = computed.decision
         if self.analysis:
             validate_analysis(self.analysis, self.checked)
+        # Derived, never trusted from a model or persisted audit label.
+        from interpreter.audit import audit_record
+        self.claim_audits = audit_record(self)
         return self
