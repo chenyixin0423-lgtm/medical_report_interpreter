@@ -1,0 +1,33 @@
+Indicator: MCV (Mean Corpuscular Volume)
+Full name: Mean Corpuscular Volume
+
+Reference range: 80 – 100 fL
+Unit: fL (femtolitres)
+
+Clinical significance:
+MCV is the average size of a single red blood cell. It is the key parameter for classifying anaemia into three morphological types: macrocytic (large cells), normocytic (normal-sized cells), and microcytic (small cells).
+
+HIGH — macrocytic anaemia (MCV > 100 fL) — common causes:
+- Vitamin B12 deficiency (vegans, patients with chronic gastric disease)
+- Folate deficiency (pregnant women, heavy drinkers)
+- Alcoholic liver disease (alcohol directly impairs RBC maturation)
+- Hypothyroidism
+- Certain drugs (methotrexate, hydroxyurea, some antiretrovirals)
+- Myelodysplastic syndrome
+
+LOW — microcytic anaemia (MCV < 80 fL) — common causes:
+- Iron-deficiency anaemia (most common cause worldwide)
+- Thalassaemia (hereditary haemoglobin disorder — cells are characteristically small)
+- Sideroblastic anaemia (impaired iron utilisation)
+- Some cases of anaemia of chronic disease
+
+NORMAL — normocytic anaemia (MCV 80–100 fL) — causes include:
+- Acute blood loss
+- Haemolytic anaemia
+- Aplastic anaemia
+- Chronic kidney disease
+
+Notes:
+- MCV should be interpreted together with MCH, MCHC, RDW, serum ferritin, and iron studies.
+- Concurrent iron deficiency and B12/folate deficiency can produce a falsely normal MCV.
+- Thalassaemia trait gives a low MCV but near-normal HGB — distinguish from iron-deficiency anaemia with iron studies or haemoglobin electrophoresis.

@@ -1,0 +1,38 @@
+Indicator: BUN (Blood Urea Nitrogen)
+Full name: Blood Urea Nitrogen (also reported as Urea or Serum Urea)
+
+Reference range:
+- Adults: 2.9 – 8.2 mmol/L  (8 – 23 mg/dL)
+- Elderly: upper limit may be slightly higher
+Unit: mmol/L or mg/dL
+
+Clinical significance:
+Urea is the end product of protein metabolism. It is synthesised in the liver and excreted by the kidneys. BUN (or serum urea) reflects both renal filtration capacity and the rate of protein catabolism, making it less kidney-specific than creatinine. It is always interpreted together with creatinine.
+
+HIGH — common causes:
+
+Renal causes:
+- Acute or chronic kidney disease (most important cause)
+- Glomerulonephritis, renovascular disease
+
+Pre-renal causes (reduced kidney perfusion or increased protein load):
+- Dehydration (haemoconcentration increases BUN more than creatinine)
+- Upper GI bleeding (digested blood protein is absorbed and converted to urea — disproportionate BUN rise)
+- High-protein diet (large meat intake)
+- Severe infection, major surgery, or trauma (increased tissue catabolism)
+- Congestive heart failure (reduced renal perfusion)
+
+LOW — common causes:
+- Severe liver failure (urea synthesis is impaired — indicates very poor hepatic function)
+- Low-protein diet or malnutrition
+- Large-volume IV fluid administration
+- Pregnancy (increased plasma volume and GFR lower BUN)
+
+BUN-to-creatinine ratio (using mg/dL units):
+- Normal: 10 : 1 – 20 : 1
+- Ratio > 20 : pre-renal aetiology (dehydration, GI bleed)
+- Ratio < 10 : renal cause, hepatic disease, or protein malnutrition
+
+Notes:
+- BUN is sensitive but not very specific for kidney function — always pair with creatinine (CREA) and eGFR.
+- A disproportionate BUN rise with only a modest creatinine rise strongly suggests upper GI bleeding as the cause.

@@ -1,0 +1,34 @@
+Indicator: TBIL (Total Bilirubin)
+Full name: Total Bilirubin
+
+Reference range: 3.4 – 17.1 µmol/L  (0.2 – 1.0 mg/dL)
+Unit: µmol/L or mg/dL
+
+Clinical significance:
+Bilirubin is the yellow breakdown product of haem (from ageing red blood cells). It is processed by the liver and excreted in bile. Total bilirubin = direct (conjugated) bilirubin + indirect (unconjugated) bilirubin. When bilirubin accumulates, it causes jaundice — yellowing of the skin and whites of the eyes.
+
+Jaundice grading:
+- Latent / pre-clinical: 17.1 – 34.2 µmol/L   (not visible to the naked eye)
+- Mild jaundice:         34.2 – 85.5 µmol/L
+- Moderate jaundice:    85.5 – 171  µmol/L
+- Severe jaundice:      > 171 µmol/L
+
+HIGH — classified by predominant fraction:
+
+Predominantly indirect bilirubin elevated (IBIL ↑):
+- Haemolytic anaemia (accelerated RBC destruction)
+- Neonatal jaundice (physiological or pathological)
+- Gilbert's syndrome (benign hereditary condition — often an incidental finding)
+- Ineffective erythropoiesis
+
+Predominantly direct bilirubin elevated (DBIL ↑):
+- Biliary obstruction (gallstones, tumours blocking bile ducts)
+- Hepatocellular disease (viral hepatitis, cirrhosis, hepatocellular carcinoma)
+- Drug-induced cholestasis
+
+LOW: no clinical significance.
+
+Notes:
+- Mildly elevated TBIL (< 34 µmol/L) with all other liver tests normal is very often Gilbert's syndrome — a harmless genetic variant requiring no treatment.
+- Neonatal jaundice requires close monitoring to prevent kernicterus (bilirubin-induced brain damage).
+- Combine with DBIL/IBIL ratio and ALT/ALP pattern to classify jaundice type (haemolytic / hepatocellular / obstructive) before further workup.

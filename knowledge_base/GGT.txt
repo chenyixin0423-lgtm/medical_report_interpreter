@@ -1,0 +1,31 @@
+Indicator: GGT (Gamma-Glutamyl Transferase)
+Full name: Gamma-Glutamyl Transferase (γ-GT)
+
+Reference range:
+- Males:   10 – 60 U/L (some laboratories use 50 U/L)
+- Females: 7 – 45 U/L
+Unit: U/L
+
+Clinical significance:
+GGT is found mainly in the liver (bile duct epithelium), kidney, and pancreas. It is highly sensitive to liver disease and is particularly useful as a marker of biliary obstruction and alcohol consumption.
+
+HIGH — common causes:
+- Alcoholic liver disease (GGT is extremely sensitive to alcohol — even moderate regular drinking elevates it; it falls significantly with abstinence and is a useful sobriety marker)
+- Biliary obstruction / cholestasis (gallstones, cholangitis, bile duct cancer)
+- Non-alcoholic fatty liver disease
+- Viral hepatitis
+- Drug-induced liver injury (especially enzyme-inducing drugs: phenobarbitone, phenytoin, rifampicin; some traditional herbal remedies)
+- Pancreatic disease
+- Hyperthyroidism (elevated thyroid hormones induce GGT)
+
+LOW: no clinical significance.
+
+GGT + ALP — key combination:
+- GGT ↑ + ALP ↑  → strongly suggests biliary/cholestatic disease
+- GGT ↑, ALP normal → likely alcohol or drug effect on the liver
+- ALP ↑, GGT normal → likely bone origin (ALP is also produced by bone)
+
+Notes:
+- GGT is the most alcohol-sensitive routine liver enzyme; a rise after claimed abstinence can indicate ongoing drinking.
+- Certain medications (enzyme inducers) can double or triple GGT as a normal pharmacological effect — not a sign of liver damage.
+- Isolated mild GGT elevation with normal ALT, AST, and ALP often resolves with alcohol abstinence or stopping the offending drug; recheck in 4–8 weeks.

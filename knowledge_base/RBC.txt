@@ -1,0 +1,30 @@
+Indicator: RBC (Red Blood Cell Count)
+Full name: Red Blood Cell Count
+
+Reference range:
+- Adult males: 4.3 – 5.8 × 10¹²/L
+- Adult females: 3.8 – 5.1 × 10¹²/L
+- Children: 3.8 – 5.5 × 10¹²/L (varies with age)
+Unit: × 10¹²/L (equivalent to 10⁶/µL or M/µL)
+
+Clinical significance:
+Red blood cells (erythrocytes) carry oxygen from the lungs to every tissue in the body. The RBC count directly influences the blood's oxygen-carrying capacity.
+
+HIGH — common causes:
+- Dehydration (haemoconcentration — a relative increase)
+- High-altitude residence (compensatory erythrocytosis)
+- Chronic hypoxic conditions (COPD, cyanotic congenital heart disease)
+- Polycythaemia vera (bone marrow overproduces RBCs)
+- Heavy smoking
+
+LOW — common causes:
+- Anaemia of various types (iron-deficiency, haemolytic, aplastic, etc.)
+- Acute or chronic blood loss (trauma, GI bleeding, heavy menstruation)
+- Chronic kidney disease (reduced erythropoietin production)
+- Bone marrow disorders
+- Nutritional deficiency (iron, vitamin B12, or folate)
+
+Notes:
+- RBC is usually interpreted together with HGB and HCT to characterise the severity of anaemia.
+- A low RBC alone does not confirm anaemia — HGB is the definitive parameter.
+- Mild fluctuations around menstruation are normal in females.

@@ -1,0 +1,34 @@
+Indicator: TP (Total Protein)
+Full name: Total Protein
+
+Reference range: 65 – 85 g/L
+Unit: g/L
+
+Clinical significance:
+Total protein = albumin (ALB) + globulins (GLB).
+Globulin is calculated as: GLB = TP − ALB  (normal: ~20–30 g/L)
+The albumin-to-globulin ratio (A/G) reflects the balance between the liver's synthetic function and the immune system's activity.
+
+A/G ratio:
+- Normal: 1.2 – 2.4
+- Decreased A/G (< 1.0): chronic liver disease, cirrhosis, multiple myeloma
+- Inverted A/G (< 1.0): signals serious hepatic synthetic impairment
+
+HIGH (hyperproteinaemia) — common causes:
+- Dehydration (haemoconcentration)
+- Multiple myeloma or Waldenström's macroglobulinaemia (marked globulin overproduction — TP can exceed 90–100 g/L)
+- Chronic infections or chronic inflammation (polyclonal globulin increase)
+- Autoimmune diseases (SLE, chronic active hepatitis)
+
+LOW (hypoproteinaemia) — common causes:
+- Malnutrition (inadequate dietary protein)
+- Severe liver dysfunction (reduced albumin synthesis)
+- Nephrotic syndrome (urinary protein loss)
+- Malabsorption syndromes
+- Large-volume IV fluid administration (haemodilution)
+- Advanced cancer (increased catabolism)
+
+Notes:
+- A low TP is most clinically meaningful when evaluated alongside ALB; a very low ALB with a normal or high globulin points to specific conditions (e.g. cirrhosis with ongoing inflammation).
+- TP > 90 g/L with a normal ALB suggests a major globulin excess — serum protein electrophoresis (SPEP) is indicated to exclude a plasma cell dyscrasia.
+- The A/G ratio and serum protein electrophoresis together provide a clearer picture of the nature of any protein abnormality.

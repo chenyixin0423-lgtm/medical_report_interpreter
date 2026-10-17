@@ -1,0 +1,28 @@
+Indicator: HCT / PCV (Hematocrit / Packed Cell Volume)
+Full name: Hematocrit
+
+Reference range:
+- Adult males:   0.40 – 0.50  (40 % – 50 %)
+- Adult females: 0.35 – 0.45  (35 % – 45 %)
+Unit: dimensionless fraction or percentage (%)
+
+Clinical significance:
+Hematocrit is the proportion of whole blood volume occupied by red blood cells — essentially a measure of how "thick" or concentrated the blood is. It is a quick indicator of anaemia and haemoconcentration.
+
+HIGH — common causes:
+- Dehydration (most common — haemoconcentration from fluid loss)
+- High-altitude residence
+- Chronic hypoxic lung or heart disease
+- Polycythaemia vera
+- Severe sweating or diarrhoea
+
+LOW — common causes:
+- All forms of anaemia (HCT typically mirrors HGB changes)
+- Large-volume IV fluid administration (haemodilution)
+- Pregnancy (expanded plasma volume causes relative decrease)
+- Acute or chronic blood loss
+
+Notes:
+- HCT and HGB usually change in the same direction; a discrepancy may indicate a specimen or measurement issue.
+- HCT is used to calculate other red-cell indices (e.g. MCV = HCT / RBC × 10).
+- A high HCT combined with headache, flushed face, or visual disturbance warrants evaluation for polycythaemia.

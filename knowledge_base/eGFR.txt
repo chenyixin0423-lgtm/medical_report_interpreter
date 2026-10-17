@@ -1,0 +1,33 @@
+Indicator: eGFR (Estimated Glomerular Filtration Rate)
+Full name: Estimated Glomerular Filtration Rate
+
+Reference range: ≥ 90 mL/min/1.73 m²
+Unit: mL/min/1.73 m²
+
+Clinical significance:
+eGFR is calculated from serum creatinine together with age, sex, and (in some equations) race. It estimates how much blood the kidneys filter per minute — the higher, the better. eGFR is the authoritative metric for staging chronic kidney disease (CKD) and is far more informative than creatinine alone.
+
+CKD staging by eGFR:
+| Stage | eGFR (mL/min/1.73 m²) | Description                        | Action                             |
+|-------|------------------------|------------------------------------|-----------------------------------|
+| G1    | ≥ 90                   | Normal or mildly reduced           | Monitor if proteinuria present     |
+| G2    | 60 – 89                | Mildly reduced                     | Identify and address cause         |
+| G3a   | 45 – 59                | Mild-to-moderate reduction         | Nephrology referral may be needed  |
+| G3b   | 30 – 44                | Moderate-to-severe reduction       | Nephrology referral recommended    |
+| G4    | 15 – 29                | Severely reduced                   | Prepare for renal replacement      |
+| G5    | < 15                   | Kidney failure                     | Dialysis or transplant evaluation  |
+
+Causes of reduced eGFR:
+- Diabetic nephropathy (leading cause of CKD globally)
+- Hypertensive nephrosclerosis
+- Chronic glomerulonephritis
+- Polycystic kidney disease
+- Recurrent kidney infections or obstruction
+- Physiological decline with ageing (≈ 5–10 mL/min per decade after age 40)
+
+Notes:
+- Adults > 60 years with eGFR 60–89 mL/min and no other evidence of kidney damage (normal urine, no proteinuria) may simply reflect normal age-related decline — not CKD.
+- CKD is defined as kidney damage OR eGFR < 60 mL/min/1.73 m² persisting for > 3 months.
+- An eGFR alone does not detect early kidney damage — always add a urine albumin-to-creatinine ratio (uACR) for the most sensitive screening.
+- eGFR < 30 (Stage G4): begin planning for renal replacement therapy (dialysis or transplantation).
+- Acute changes in eGFR (over days to weeks) indicate acute kidney injury (AKI), not CKD — require urgent evaluation.

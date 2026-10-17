@@ -1,0 +1,32 @@
+Indicator: ALT (Alanine Aminotransferase)
+Full name: Alanine Aminotransferase (formerly SGPT — Serum Glutamic-Pyruvic Transaminase)
+
+Reference range:
+- Males:   7 – 40 U/L (some laboratories use 45 U/L as the upper limit)
+- Females: 7 – 35 U/L
+Unit: U/L (international units per litre)
+
+Clinical significance:
+ALT is found predominantly in liver cells (hepatocytes). When hepatocytes are damaged, ALT leaks into the bloodstream, making it the most sensitive routine marker of liver cell injury. It is often called "the liver enzyme" in everyday speech.
+
+HIGH — common causes:
+- Viral hepatitis (hepatitis A, B, C) — acute phase can reach 10–100× the upper limit
+- Non-alcoholic fatty liver disease (NAFLD) — most common cause of chronically elevated ALT, closely linked to obesity and metabolic syndrome
+- Alcoholic liver disease
+- Drug-induced liver injury (paracetamol/acetaminophen overdose, certain antibiotics, statins, herbal supplements)
+- Biliary tract disease (gallstones, cholangitis)
+- Transient rise after intense physical exercise (skeletal muscle also contains small amounts of ALT)
+- Myocardial infarction (cardiac muscle contains ALT)
+- Autoimmune hepatitis
+
+LOW: no clinical significance.
+
+Severity grading (multiples of the upper limit of normal, ULN):
+- < 3× ULN  : Mild — monitor and recheck; often resolves with lifestyle changes
+- 3–10× ULN : Moderate — investigate the cause; see a doctor
+- > 10× ULN : Severe — indicates acute or significant liver injury; seek medical attention promptly
+
+Notes:
+- An elevated ALT confirms hepatocyte damage but does not indicate the degree of fibrosis or cirrhosis.
+- Interpret alongside AST, AST/ALT ratio, bilirubin, albumin, and PT for a complete liver assessment.
+- Mild ALT elevation found on a routine check-up often improves with alcohol abstinence, weight loss, and a follow-up recheck in 1–3 months.

@@ -1,0 +1,45 @@
+Indicator: ALP (Alkaline Phosphatase)
+Full name: Alkaline Phosphatase
+
+Reference range:
+- Adult males:              40 – 130 U/L
+- Adult females:            35 – 105 U/L
+- Children and adolescents: up to 300–500 U/L (normal during bone growth)
+- Pregnancy (third trimester): up to 2–3× the normal adult range (placental ALP)
+Unit: U/L
+
+Clinical significance:
+ALP is produced by the liver (bile duct cells), bone, intestine, and placenta. Elevated levels mainly indicate biliary tract disease or bone disorders.
+
+HIGH — hepatobiliary origin:
+- Biliary obstruction / cholestasis — ALP is the most sensitive routine marker of bile-duct blockage
+- Gallstones obstructing the common bile duct
+- Cholangitis (bile duct infection)
+- Primary sclerosing cholangitis / primary biliary cholangitis
+- Liver metastases (secondary tumours in the liver)
+- Infiltrative liver disease (sarcoidosis, lymphoma)
+
+HIGH — bone origin:
+- Normal rapid bone growth in children and adolescents
+- Fracture healing
+- Osteoporosis, Paget's disease of bone (osteitis deformans)
+- Bone metastases from cancer
+- Hyperparathyroidism
+
+HIGH — physiological:
+- Third-trimester pregnancy (placental isoform)
+- Post-meal (transient intestinal isoform rise)
+
+LOW — common causes:
+- Hypothyroidism
+- Pernicious anaemia (vitamin B12 deficiency)
+- Zinc deficiency
+- Hypophosphatasia (rare genetic condition)
+
+Key diagnostic patterns:
+- ALP ↑ + GGT ↑       → biliary / cholestatic liver disease
+- ALP ↑, GGT normal   → bone source likely (confirm with bone-specific ALP isoenzyme)
+
+Notes:
+- Children naturally have ALP values well above the adult reference range — this is a normal finding during growth.
+- An isolated ALP elevation in a pregnant woman in the third trimester is almost always from the placenta and is benign.

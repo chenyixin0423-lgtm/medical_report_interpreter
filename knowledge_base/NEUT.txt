@@ -1,0 +1,34 @@
+Indicator: NEUT (Neutrophils)
+Full name: Neutrophil Count / Neutrophil Percentage
+
+Reference range:
+- Percentage (NEUT%): 50 % – 70 %
+- Absolute count (NEUT#): 1.8 – 6.3 × 10⁹/L
+Unit: % or × 10⁹/L
+
+Clinical significance:
+Neutrophils are the most abundant white blood cells and the immune system's first responders against bacterial infection. They engulf and destroy bacteria within minutes of arriving at an infection site.
+
+HIGH (neutrophilia) — common causes:
+- Bacterial infection (classic indicator, e.g. pneumonia, appendicitis, cellulitis)
+- Acute inflammation (appendicitis, cholecystitis)
+- Tissue injury (trauma, surgery, myocardial infarction)
+- Corticosteroid therapy (e.g. prednisone)
+- Granulocytic leukaemia (consider when markedly elevated)
+- Physiological: intense exercise, emotional stress, late pregnancy
+
+LOW (neutropenia, NEUT# < 1.8 × 10⁹/L) — common causes:
+- Viral infections (viruses often suppress neutrophils while lymphocytes rise)
+- Chemotherapy or radiation therapy (most common cause in treated cancer patients)
+- Certain drugs (sulfonamides, methimazole, clozapine)
+- Autoimmune diseases
+- Bone marrow failure
+
+Critical thresholds (absolute neutrophil count):
+- < 1.0 × 10⁹/L : Significantly increased infection risk (febrile neutropenia)
+- < 0.5 × 10⁹/L : Severe agranulocytosis — risk of life-threatening infection
+
+Notes:
+- Elevated neutrophils with fever strongly suggest a bacterial infection.
+- When neutrophils are low, patients should practise strict hand hygiene and avoid crowded places.
+- Combine with lymphocyte count, CRP, and temperature to distinguish bacterial from viral infection.

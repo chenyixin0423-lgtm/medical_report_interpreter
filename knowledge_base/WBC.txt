@@ -1,0 +1,29 @@
+Indicator: WBC (White Blood Cell Count)
+Full name: White Blood Cell Count
+
+Reference range:
+- Adults: 4.0 – 10.0 × 10⁹/L
+- Children (6–18 years): 5.0 – 14.5 × 10⁹/L
+Unit: × 10⁹/L (equivalent to 10³/µL or K/µL)
+
+Clinical significance:
+White blood cells (leukocytes) are the primary soldiers of the immune system, defending the body against bacteria, viruses, and other pathogens. The WBC count reflects the current immune and inflammatory status.
+
+HIGH (leukocytosis, > 10.0 × 10⁹/L) — common causes:
+- Bacterial infection (most common cause, e.g. pneumonia, UTI)
+- Acute inflammation or tissue injury
+- Physical stress (surgery, trauma, intense exercise — transient)
+- Long-term corticosteroid use (e.g. prednisone)
+- Leukaemia or myeloproliferative disorders (suspect when WBC > 30 × 10⁹/L)
+
+LOW (leukopenia, < 4.0 × 10⁹/L) — common causes:
+- Viral infection (influenza, EBV, HIV)
+- Drug side effects (chemotherapy, certain antibiotics)
+- Autoimmune diseases (e.g. systemic lupus erythematosus)
+- Bone marrow failure or suppression
+- Severe nutritional deficiency (vitamin B12 or folate)
+
+Notes:
+- Mild elevation (10–15 × 10⁹/L) is usually due to infection or stress and resolves with the underlying cause.
+- Marked elevation (> 30 × 10⁹/L) or marked reduction (< 2.0 × 10⁹/L) requires prompt further investigation.
+- Always interpret alongside the differential count (neutrophils, lymphocytes, etc.).

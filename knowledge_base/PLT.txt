@@ -1,0 +1,33 @@
+Indicator: PLT (Platelet Count)
+Full name: Platelet Count (Thrombocyte Count)
+
+Reference range: 100 – 300 × 10⁹/L
+Unit: × 10⁹/L (equivalent to 10³/µL or K/µL)
+
+Clinical significance:
+Platelets are tiny cell fragments that initiate clot formation at the site of vessel injury to stop bleeding. The platelet count determines the body's ability to form a primary haemostatic plug.
+
+HIGH (thrombocytosis, > 300 × 10⁹/L) — common causes:
+- Iron-deficiency anaemia (reactive thrombocytosis)
+- Acute or chronic infection and inflammation
+- Post-splenectomy (the spleen normally removes old platelets)
+- Essential thrombocythaemia (a myeloproliferative disorder — rule out when PLT > 600 × 10⁹/L)
+- Post-surgical or post-traumatic reactive increase
+
+LOW (thrombocytopenia, < 100 × 10⁹/L) — common causes:
+- Immune thrombocytopenic purpura (ITP — autoimmune destruction)
+- Drug-induced (heparin — HIT, chemotherapy, certain antibiotics)
+- Viral infections (dengue fever, EBV, HIV)
+- Sepsis (severe bacterial infection)
+- Bone marrow failure or suppression
+- Disseminated intravascular coagulation (DIC)
+- Liver cirrhosis (hypersplenism increases platelet destruction)
+
+Critical thresholds:
+- < 50 × 10⁹/L  : Risk of spontaneous bruising, nosebleeds, prolonged bleeding from minor cuts
+- < 20 × 10⁹/L  : Risk of serious spontaneous bleeding (GI, intracranial) — urgent evaluation needed
+
+Notes:
+- Mildly low PLT (80–100 × 10⁹/L) without bleeding symptoms may simply be monitored.
+- A very high PLT (> 1 000 × 10⁹/L) can paradoxically increase thrombosis risk.
+- Combine with coagulation studies (PT, APTT) for a complete haemostatic assessment.

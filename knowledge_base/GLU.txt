@@ -1,0 +1,40 @@
+Indicator: GLU / FBG / FPG (Fasting Blood Glucose)
+Full name: Fasting Blood Glucose / Fasting Plasma Glucose
+
+Reference range: 3.9 – 6.1 mmol/L  (70 – 110 mg/dL)
+Unit: mmol/L or mg/dL  (conversion: mmol/L × 18 = mg/dL)
+
+Sampling requirement: patient must fast for 8–12 hours (plain water is permitted)
+
+Clinical significance:
+Blood glucose is the concentration of glucose in the blood. Fasting blood glucose (FBG) measures the baseline glucose level after overnight fasting and is the primary screening test for diabetes mellitus and prediabetes.
+
+Diagnostic categories (WHO / ADA criteria):
+| Category            | Fasting glucose (mmol/L) |
+|---------------------|--------------------------|
+| Normal              | 3.9 – 6.0                |
+| Impaired fasting glucose (prediabetes) | 6.1 – 6.9 |
+| Diabetes mellitus   | ≥ 7.0 (must be confirmed on a second occasion, or with symptoms) |
+
+Hypoglycaemia: FBG < 3.9 mmol/L
+Symptoms: dizziness, diaphoresis, palpitations, tremor, confusion, loss of consciousness
+
+HIGH — common causes:
+- Type 2 diabetes mellitus (most common — associated with obesity, sedentary lifestyle)
+- Type 1 diabetes mellitus (autoimmune destruction of pancreatic beta cells)
+- Stress hyperglycaemia (surgery, severe illness, trauma — may be transient, not diabetes)
+- Corticosteroid therapy
+- Endocrine disorders (Cushing's syndrome, acromegaly, phaeochromocytoma)
+- Non-fasting specimen (patient did not fast properly before the test)
+
+LOW (hypoglycaemia) — common causes:
+- Insulin or sulphonylurea overdose (most common cause in diabetic patients)
+- Prolonged fasting or missed meals
+- Insulinoma (rare pancreatic tumour secreting insulin autonomously)
+- Severe liver failure (impaired gluconeogenesis)
+- Adrenal insufficiency
+
+Notes:
+- A single raised FBG requires confirmation with a repeat test or HbA1c before diagnosing diabetes.
+- FBG in the impaired range (6.1–6.9 mmol/L) indicates prediabetes — lifestyle intervention (diet, exercise, weight loss) can prevent or delay progression to diabetes.
+- Symptomatic hyperglycaemia (polyuria, polydipsia, weight loss) with any random glucose ≥ 11.1 mmol/L is diagnostic of diabetes without a fasting sample.

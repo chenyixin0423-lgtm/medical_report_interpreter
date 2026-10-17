@@ -1,0 +1,37 @@
+Indicator: HGB / HB (Hemoglobin)
+Full name: Hemoglobin
+
+Reference range:
+- Adult males: 130 – 175 g/L
+- Adult females: 115 – 150 g/L
+- Pregnant women: ≥ 110 g/L
+- Children: 110 – 160 g/L (varies with age)
+Unit: g/L (some reports use g/dL; conversion: g/L ÷ 10 = g/dL)
+
+Clinical significance:
+Hemoglobin is the protein inside red blood cells responsible for binding and transporting oxygen. It is the primary indicator for diagnosing and grading anaemia.
+
+Anaemia grading (adults):
+- Mild anaemia:      HGB 90 g/L to lower limit of normal
+- Moderate anaemia: HGB 60 – 90 g/L
+- Severe anaemia:   HGB 30 – 60 g/L
+- Very severe:      HGB < 30 g/L
+
+HIGH — common causes:
+- Dehydration (haemoconcentration)
+- High-altitude residence or chronic hypoxia
+- Chronic obstructive pulmonary disease (COPD)
+- Polycythaemia vera
+
+LOW (anaemia) — common causes:
+- Iron-deficiency anaemia (most common, especially in women and children)
+- Vitamin B12 or folate deficiency (megaloblastic anaemia)
+- Haemolytic anaemia (premature RBC destruction)
+- Acute or chronic blood loss
+- Aplastic anaemia
+- Anaemia of chronic disease (kidney disease, chronic inflammation)
+
+Notes:
+- A mild physiological decline in HGB during pregnancy (100–110 g/L) is normal due to increased plasma volume.
+- HGB < 70 g/L generally warrants consideration of a blood transfusion — seek medical attention promptly.
+- Combine with MCV and MCH to classify the type of anaemia and guide treatment.

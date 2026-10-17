@@ -1,0 +1,31 @@
+Indicator: AST (Aspartate Aminotransferase)
+Full name: Aspartate Aminotransferase (formerly SGOT — Serum Glutamic-Oxaloacetic Transaminase)
+
+Reference range:
+- Males:   10 – 40 U/L
+- Females: 10 – 35 U/L
+Unit: U/L
+
+Clinical significance:
+AST is present in the liver, heart muscle, skeletal muscle, kidneys, and red blood cells. Because it is less liver-specific than ALT, it is best interpreted in combination with ALT and other markers rather than in isolation.
+
+HIGH — common causes:
+- Liver diseases (hepatitis, fatty liver, cirrhosis, hepatocellular carcinoma)
+- Acute myocardial infarction (begins to rise 6–12 hours after onset — now largely replaced by troponin)
+- Skeletal muscle injury (intense exercise, rhabdomyolysis, muscle trauma)
+- Alcoholic liver disease (AST/ALT ratio > 2 is a hallmark of alcoholic hepatitis)
+- Drug-induced liver injury
+- Haemolysis (RBCs contain AST — haemolysed specimens give falsely high values)
+
+LOW: no clinical significance.
+
+AST/ALT ratio — diagnostic value:
+- Ratio < 1   : Suggests viral hepatitis or NAFLD (ALT rise predominates)
+- Ratio 1–2   : Non-specific; may be seen in cirrhosis or chronic hepatitis
+- Ratio > 2   : Strongly suggests alcoholic liver disease
+- Ratio > 3   : Highly specific for alcoholic hepatitis
+
+Notes:
+- An isolated AST elevation without elevated ALT should prompt cardiac enzyme testing (CK, troponin) to rule out a cardiac event.
+- After intense exercise, both AST and CK may be transiently elevated — blood should be drawn after adequate rest.
+- AST and ALT should always be read together; the ratio provides more diagnostic information than either value alone.

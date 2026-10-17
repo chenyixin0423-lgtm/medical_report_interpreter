@@ -1,0 +1,24 @@
+Indicator: MCH (Mean Corpuscular Hemoglobin)
+Full name: Mean Corpuscular Hemoglobin
+
+Reference range: 26 – 34 pg
+Unit: pg (picograms)
+
+Clinical significance:
+MCH is the average mass of hemoglobin contained in a single red blood cell. It helps classify anaemia alongside MCV, indicating whether red cells are well-filled ("hyperchromic") or poorly filled ("hypochromic") with hemoglobin.
+
+HIGH (hyperchromic, MCH > 34 pg) — common causes:
+- Megaloblastic anaemia (vitamin B12 or folate deficiency)
+- Liver disease
+- Hypothyroidism
+
+LOW (hypochromic, MCH < 26 pg) — common causes:
+- Iron-deficiency anaemia (most common)
+- Thalassaemia
+- Sideroblastic anaemia
+- Anaemia of chronic blood loss
+
+Notes:
+- MCH and MCV almost always move in the same direction (both high or both low).
+- A low MCH means each red cell carries less hemoglobin than normal — the cells appear paler under a microscope (hypochromia).
+- MCH in isolation has limited clinical value; always evaluate alongside MCHC, MCV, and iron studies for a complete picture.

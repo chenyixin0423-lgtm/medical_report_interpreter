@@ -1,0 +1,46 @@
+Indicator: HbA1c (Glycated Hemoglobin / Hemoglobin A1c)
+Full name: Glycated Hemoglobin A1c
+
+Reference range: < 5.7 %
+Unit: % (percentage) or mmol/mol (IFCC units)
+
+No fasting required — can be measured at any time of day.
+
+Clinical significance:
+HbA1c reflects the average blood glucose concentration over the preceding 2–3 months (the lifespan of a red blood cell). Glucose binds irreversibly to hemoglobin in proportion to ambient blood glucose levels. HbA1c is the gold-standard metric for both diagnosing diabetes and monitoring glycaemic control in known diabetic patients.
+
+Diagnostic categories (ADA / WHO):
+| Category            | HbA1c    |
+|---------------------|----------|
+| Normal              | < 5.7 %  |
+| Prediabetes         | 5.7 – 6.4 % |
+| Diabetes mellitus   | ≥ 6.5 %  |
+
+Glycaemic control targets for diabetic patients:
+| Population                              | Target HbA1c |
+|-----------------------------------------|-------------|
+| Most non-elderly adults                 | < 7.0 %     |
+| Young patients, newly diagnosed, no complications | < 6.5 % |
+| Elderly, high hypoglycaemia risk, multiple comorbidities | < 8.0 % |
+
+Approximate mean blood glucose equivalent:
+- HbA1c 6 % ≈ average glucose 7.0 mmol/L
+- HbA1c 7 % ≈ 8.6 mmol/L
+- HbA1c 8 % ≈ 10.2 mmol/L
+- HbA1c 9 % ≈ 11.8 mmol/L
+
+HIGH — common causes:
+- Poorly controlled type 1 or type 2 diabetes
+- Prediabetes with persistent hyperglycaemia
+- Iron-deficiency anaemia (falsely elevated HbA1c — iron deficiency extends RBC lifespan)
+
+LOW — common causes:
+- Haemolytic anaemia (shortened RBC lifespan reduces HbA1c — results are unreliable)
+- Recent large-volume blood transfusion
+- Haemoglobin variants (thalassaemia, sickle-cell disease — may interfere with some assay methods)
+
+Notes:
+- HbA1c is not affected by a single meal and reflects long-term control, unlike FBG.
+- Haemoglobinopathies and haemolytic conditions render HbA1c unreliable — use fructosamine or a continuous glucose monitor instead.
+- In confirmed diabetic patients, recheck HbA1c every 3 months until the target is reached, then every 6 months.
+- Every 1 % reduction in HbA1c reduces the risk of diabetes-related complications (retinopathy, neuropathy, nephropathy) by approximately 20–40 %.

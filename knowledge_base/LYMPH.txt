@@ -1,0 +1,34 @@
+Indicator: LYMPH (Lymphocytes)
+Full name: Lymphocyte Count / Lymphocyte Percentage
+
+Reference range:
+- Percentage (LYMPH%): 20 % – 40 %
+- Absolute count (LYMPH#): 1.0 – 3.3 × 10⁹/L
+Unit: % or × 10⁹/L
+
+Clinical significance:
+Lymphocytes are the immune system's key coordinators: T cells mediate cellular immunity (killing virus-infected cells and tumour cells) and B cells produce antibodies. They are central to adaptive immunity against viral infections and long-term immune memory.
+
+HIGH (lymphocytosis) — common causes:
+- Viral infections (most common — influenza, COVID-19, EBV, CMV)
+- Pertussis (whooping cough — can cause striking lymphocytosis)
+- Tuberculosis
+- Lymphocytic leukaemia (consider when LYMPH# is markedly and persistently elevated)
+- Normal in infants and young children (lymphocytes dominate in early childhood)
+
+LOW (lymphocytopenia, LYMPH# < 1.0 × 10⁹/L) — common causes:
+- Long-term corticosteroid use
+- Chemotherapy or radiotherapy
+- HIV / AIDS (progressive destruction of CD4⁺ T cells)
+- Severe sepsis
+- Autoimmune diseases
+- Severe malnutrition
+
+Key diagnostic pattern:
+- Bacterial infection: neutrophils ↑, lymphocyte percentage relatively ↓
+- Viral infection: lymphocyte percentage ↑, neutrophil percentage relatively ↓
+This "shift" helps distinguish bacterial from viral aetiology on a routine CBC.
+
+Notes:
+- A persistently low lymphocyte count warrants HIV testing and immune function evaluation.
+- Absolute lymphocyte count (not just percentage) should be used when bone marrow suppression is suspected.

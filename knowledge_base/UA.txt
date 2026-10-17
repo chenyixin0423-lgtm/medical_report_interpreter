@@ -1,0 +1,40 @@
+Indicator: UA / URIC (Uric Acid)
+Full name: Serum Uric Acid
+
+Reference range:
+- Adult males:   208 – 428 µmol/L  (3.5 – 7.2 mg/dL)
+- Adult females: 155 – 357 µmol/L  (2.6 – 6.0 mg/dL; approaches male levels after menopause)
+Unit: µmol/L or mg/dL
+
+Clinical significance:
+Uric acid is the final breakdown product of purines, which come from dietary sources (organ meats, shellfish, red meat, beer) and from the natural turnover of cells. It is excreted mainly by the kidneys. Chronically elevated urate leads to monosodium urate crystal deposition in joints (gout) and kidneys (urate nephropathy).
+
+Hyperuricaemia thresholds:
+- Males:   > 420 µmol/L  (> 7.0 mg/dL)
+- Females: > 360 µmol/L  (> 6.0 mg/dL)
+
+HIGH — common causes:
+- High-purine diet (organ meats, shellfish, anchovies, red meat)
+- Excessive alcohol consumption, especially beer (beer is high in purines and impairs urate excretion)
+- Obesity and metabolic syndrome
+- Chronic kidney disease (reduced renal urate excretion)
+- Medications: low-dose aspirin, thiazide diuretics, ciclosporin, pyrazinamide
+- Tumour lysis syndrome (massive cell death after chemotherapy releases purines)
+- Psoriasis (rapid skin-cell turnover)
+
+LOW — common causes:
+- Uricosuric drugs (probenecid, losartan)
+- Allopurinol or febuxostat therapy (intended reduction)
+- Low-purine diet
+- Rare: xanthine oxidase deficiency (genetic)
+
+Clinical stages of gout:
+1. Asymptomatic hyperuricaemia (elevated urate, no symptoms)
+2. Acute gouty arthritis (sudden onset of severe joint pain, usually great toe, ankle, or knee)
+3. Intercritical gout (asymptomatic intervals between attacks)
+4. Chronic tophaceous gout (urate deposits — tophi — in joints and soft tissues)
+
+Notes:
+- Serum urate during a gout flare can be normal because urate moves into the joint — do not use this alone to rule out gout.
+- Lifestyle measures: limit high-purine foods and alcohol, drink ≥ 2 L of water daily, lose weight.
+- Urate > 540 µmol/L is associated with urate nephropathy — discuss urate-lowering therapy with a doctor even if asymptomatic.

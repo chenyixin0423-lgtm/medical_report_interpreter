@@ -1,0 +1,35 @@
+Indicator: DBIL / IBIL (Direct Bilirubin / Indirect Bilirubin)
+Full name: Direct (Conjugated) Bilirubin / Indirect (Unconjugated) Bilirubin
+
+Reference range:
+- DBIL (direct bilirubin):   0 – 6.8 µmol/L
+- IBIL (indirect bilirubin): 1.7 – 10.2 µmol/L  (= TBIL − DBIL)
+Unit: µmol/L
+
+Clinical significance:
+Understanding the difference between the two fractions of bilirubin helps pinpoint where in the bilirubin pathway the problem lies:
+
+- Indirect bilirubin (IBIL): the water-insoluble form produced from haem breakdown in the spleen — not yet processed by the liver. High levels can cross the blood-brain barrier and are toxic.
+- Direct bilirubin (DBIL): the water-soluble, liver-conjugated form that is excreted into bile. Elevated levels indicate impaired biliary excretion.
+
+Classifying jaundice type by DBIL/TBIL ratio:
+
+IBIL elevated, DBIL/TBIL < 20 % → Haemolytic (pre-hepatic) jaundice:
+- Haemolytic anaemia, transfusion reactions
+- Neonatal physiological jaundice
+- Gilbert's syndrome or Crigler–Najjar syndrome (genetic enzyme deficiency)
+
+DBIL elevated, DBIL/TBIL > 50 % → Obstructive (post-hepatic) jaundice:
+- Common bile duct stones
+- Stricture, bile duct cancer, or pancreatic head tumour compressing the duct
+- Drug-induced cholestasis
+
+Both elevated, DBIL/TBIL 20–50 % → Hepatocellular (hepatic) jaundice:
+- Acute or chronic viral hepatitis
+- Liver cirrhosis or hepatocellular carcinoma
+- Alcoholic hepatitis
+
+Notes:
+- DBIL and IBIL are components of TBIL; they must be read together with the total value.
+- An isolated mild IBIL elevation with a normal DBIL is most commonly Gilbert's syndrome — benign, no treatment needed.
+- Dark urine (bilirubinuria — a tea-coloured appearance) correlates with elevated DBIL and can be an early sign of bile duct obstruction or hepatocellular disease.

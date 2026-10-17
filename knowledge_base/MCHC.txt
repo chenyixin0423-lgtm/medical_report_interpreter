@@ -1,0 +1,23 @@
+Indicator: MCHC (Mean Corpuscular Hemoglobin Concentration)
+Full name: Mean Corpuscular Hemoglobin Concentration
+
+Reference range: 320 – 360 g/L
+Unit: g/L
+
+Clinical significance:
+MCHC is the concentration of hemoglobin within a given volume of packed red blood cells. It reflects how "densely packed" each cell is with hemoglobin and is the most stable of the four red-cell indices.
+
+HIGH (MCHC > 360 g/L) — common causes:
+- Hereditary spherocytosis (abnormally shaped RBCs with high hemoglobin density)
+- Haemolysed specimen (artefactual — specimen must be recollected)
+Note: MCHC > 380 g/L is physiologically impossible in vivo and almost certainly indicates in vitro haemolysis.
+
+LOW (MCHC < 320 g/L) — common causes:
+- Iron-deficiency anaemia (hemoglobin synthesis is reduced; cells appear pale)
+- Thalassaemia
+- Sideroblastic anaemia
+
+Notes:
+- MCHC is more resistant to dilution effects than other indices.
+- A markedly elevated MCHC (> 380 g/L) almost always means the specimen haemolysed during collection or transport — a repeat blood draw is required before clinical interpretation.
+- Interpret MCHC together with MCV and MCH to classify anaemia type accurately.

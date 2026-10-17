@@ -1,0 +1,32 @@
+Indicator: EOS (Eosinophils)
+Full name: Eosinophil Count / Eosinophil Percentage
+
+Reference range:
+- Percentage (EOS%): 0.5 % – 5 %
+- Absolute count (EOS#): 0.02 – 0.52 × 10⁹/L
+Unit: % or × 10⁹/L
+
+Clinical significance:
+Eosinophils are specialised white blood cells that defend against parasitic worms and regulate allergic and inflammatory reactions. An elevated count is a classic marker of allergic disease or parasitic infection.
+
+HIGH (eosinophilia) — common causes:
+- Allergic conditions (asthma, allergic rhinitis, eczema, urticaria) — most common
+- Parasitic infections (roundworms, hookworms, schistosomiasis, Toxocara)
+- Drug hypersensitivity reactions
+- Eosinophilic oesophagitis or gastroenteritis
+- Autoimmune diseases (coeliac disease, inflammatory bowel disease)
+- Rare: hypereosinophilic syndrome or eosinophilic leukaemia (EOS# > 1.5 × 10⁹/L, persistent)
+
+LOW (eosinopenia):
+- Usually has no direct clinical significance
+- Seen with corticosteroid therapy (steroids suppress eosinophils)
+- Acute bacterial infection or severe physiological stress (early phase)
+
+Severity grading (absolute count):
+- Mild:     0.5 – 1.5 × 10⁹/L  — often allergic or drug-related
+- Moderate: 1.5 – 5.0 × 10⁹/L  — parasitic infection or drug reaction likely
+- Severe:   > 5.0 × 10⁹/L      — hypereosinophilic syndrome must be excluded; risk of organ damage
+
+Notes:
+- Recent travel to tropical regions with a raised EOS warrants stool microscopy and serology for parasites.
+- Eosinophilia combined with skin rash, fever, and lymphadenopathy may indicate drug reaction with eosinophilia and systemic symptoms (DRESS) — seek urgent evaluation.

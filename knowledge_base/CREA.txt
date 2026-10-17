@@ -1,0 +1,41 @@
+Indicator: CREA / SCr (Serum Creatinine)
+Full name: Serum Creatinine
+
+Reference range:
+- Adult males:   44 – 133 µmol/L  (0.5 – 1.5 mg/dL)
+- Adult females: 44 – 97 µmol/L   (0.5 – 1.1 mg/dL)
+- Elderly: values may be lower due to reduced muscle mass
+Unit: µmol/L or mg/dL
+
+Clinical significance:
+Creatinine is a waste product of muscle energy metabolism, produced at a fairly constant daily rate. Because it is filtered exclusively by the kidneys and not reabsorbed, it is the most direct and specific routine marker of glomerular filtration function. Creatinine is used together with age, sex, and body surface area to calculate eGFR.
+
+Important caveat: Kidney function must decline by more than 50 % before serum creatinine rises above the normal range. Early-stage kidney disease may be missed by creatinine alone — always check eGFR.
+
+HIGH — common causes:
+- Acute kidney injury (AKI) — caused by medications, dehydration, contrast agents, sepsis
+- Chronic kidney disease (CKD) of any aetiology
+- Diabetic nephropathy
+- Hypertensive nephrosclerosis
+- Rhabdomyolysis (massive muscle breakdown releases large amounts of creatinine)
+- Some antibiotics (cephalosporins, trimethoprim) can interfere with the assay and produce a falsely elevated result
+
+LOW — common causes:
+- Reduced muscle mass (elderly, underweight, prolonged bed rest)
+- Malnutrition
+- Pregnancy (expanded plasma volume and increased GFR lower creatinine)
+
+CKD staging (using eGFR — creatinine alone is insufficient):
+| Stage | eGFR (mL/min/1.73 m²) | Description          |
+|-------|------------------------|----------------------|
+| G1    | ≥ 90                   | Normal/mildly reduced |
+| G2    | 60 – 89                | Mildly reduced        |
+| G3a   | 45 – 59                | Mild–moderate         |
+| G3b   | 30 – 44                | Moderate–severe       |
+| G4    | 15 – 29                | Severely reduced      |
+| G5    | < 15                   | Kidney failure        |
+
+Notes:
+- Always calculate eGFR from creatinine — a creatinine within range does not rule out significant kidney function loss.
+- Early CKD is best detected by combining eGFR with a urine albumin-to-creatinine ratio (uACR).
+- Avoid intense exercise in the 24 hours before blood collection, as creatinine may be transiently elevated.

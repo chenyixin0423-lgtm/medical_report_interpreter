@@ -1,0 +1,35 @@
+Indicator: ALB (Albumin)
+Full name: Albumin
+
+Reference range: 35 – 50 g/L
+Unit: g/L
+
+Clinical significance:
+Albumin is the most abundant protein in human blood and is synthesised exclusively by the liver. It has three key roles:
+1. Maintains oncotic pressure (keeps water inside blood vessels and prevents oedema)
+2. Transports hormones, fatty acids, drugs, bilirubin, and other substances
+3. Reflects the liver's synthetic capacity and overall nutritional status
+
+Because albumin has a half-life of ~20 days, it reflects the liver's synthetic function over a period of weeks — making it a marker of chronic rather than acute liver damage.
+
+HIGH (rare):
+- Dehydration (relative concentration — haemoconcentration)
+
+LOW (hypoalbuminaemia, ALB < 35 g/L) — common causes:
+- Liver cirrhosis or severe liver dysfunction (most important cause — reduced synthesis)
+- Malnutrition (inadequate protein intake, common in the elderly, chronic illness)
+- Nephrotic syndrome (massive urinary albumin loss)
+- Chronic inflammatory disease (acute-phase response diverts synthetic resources)
+- Extensive burns (protein lost through skin)
+- Malabsorption syndromes (Crohn's disease, coeliac disease)
+- Advanced malignancy (increased catabolism)
+
+Severity grading:
+- 30–35 g/L : Mild — usually well tolerated
+- 25–30 g/L : Moderate — peripheral oedema may develop
+- < 25 g/L  : Severe — risk of ascites, significant peripheral and pulmonary oedema
+
+Notes:
+- Albumin < 28 g/L is commonly associated with visible lower-limb oedema and ascites.
+- Albumin is one of five variables in the Child–Pugh score used to assess cirrhosis severity.
+- Both treating the underlying cause and optimising nutritional support are necessary to raise albumin levels.

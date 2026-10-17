@@ -1,0 +1,28 @@
+Indicator: MONO (Monocytes)
+Full name: Monocyte Count / Monocyte Percentage
+
+Reference range:
+- Percentage (MONO%): 3 % – 8 %
+- Absolute count (MONO#): 0.12 – 0.80 × 10⁹/L
+Unit: % or × 10⁹/L
+
+Clinical significance:
+Monocytes are the largest white blood cells. They migrate into tissues and differentiate into macrophages, where they phagocytose pathogens, dead cells, and foreign particles. They are key regulators of chronic inflammation and immune surveillance.
+
+HIGH (monocytosis) — common causes:
+- Chronic infections (tuberculosis, subacute bacterial endocarditis, fungal infections)
+- Viral infections during the recovery phase (especially EBV / infectious mononucleosis)
+- Chronic inflammatory diseases (inflammatory bowel disease, systemic lupus erythematosus)
+- Some malignancies (chronic myelomonocytic leukaemia — suspect when MONO# > 1.0 × 10⁹/L persistently)
+- Rebound after corticosteroid taper
+
+LOW (monocytopenia) — common causes:
+- Aplastic anaemia
+- Bone marrow suppression from chemotherapy
+- Corticosteroid therapy (transient suppression)
+- Hairy cell leukaemia (characteristically low monocytes)
+
+Notes:
+- Minor fluctuations in monocyte count are usually not clinically significant.
+- Monocyte count should be interpreted alongside the full differential and clinical context.
+- A sustained monocyte count > 1.0 × 10⁹/L should prompt evaluation for haematological malignancy.
