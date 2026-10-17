@@ -1,0 +1,39 @@
+{
+  "code": "TG",
+  "name_en": "Triglycerides",
+  "name_zh": "甘油三酯",
+  "aliases": [
+    "TG",
+    "TRIG"
+  ],
+  "revision": "1.0.0",
+  "source_checked_on": "2026-10-17",
+  "verification_method": "AI-assisted comparison with the linked public source; not clinician review",
+  "clinical_review": "not_performed",
+  "sources": [
+    {
+      "name": "MedlinePlus / U.S. National Library of Medicine — Triglycerides Test",
+      "url": "https://medlineplus.gov/lab-tests/triglycerides-test/",
+      "scope": "General blood-test education: test description and result interpretation sections; not individual diagnosis."
+    }
+  ],
+  "units": [
+    "mg/dL",
+    "mmol/L"
+  ],
+  "specimens": [
+    "blood",
+    "serum",
+    "plasma"
+  ],
+  "scope": "General blood-test education only, with the report's applicable laboratory interval. No pediatric, pregnancy-specific, disease-management or assay-specific targets.",
+  "overview": "Measures a type of blood fat, often included in a lipid panel.",
+  "high": "Higher triglycerides are associated with cardiovascular risk; interpretation requires collection and clinical context.",
+  "low": null,
+  "caveats": "Fasting conditions matter. No severity cutoffs, pancreatitis prediction or treatment advice are supplied; below-interval causes are not covered.",
+  "fasting_notes": {
+    "unknown": "Collection fasting status is unknown; no fasting-specific classification is made.",
+    "fasting": "Fasting was reported; no individualized lipid target is inferred.",
+    "nonfasting": "Nonfasting collection was reported; no fasting-specific classification is made."
+  }
+}

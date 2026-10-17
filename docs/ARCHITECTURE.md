@@ -39,8 +39,10 @@ contradicts the calculation becomes `conflict`.
 
 `Evidence` contains the full retrieved note, its actual project-relative source ID,
 content hash and explicit provenance metadata (stable ID/version, sources, applicability,
-review status and review details). All 26 shipped notes remain unverified and block live
-explanation, regardless of whether their headers and hashes match. The copied content preserves the
+review status and review details). All 26 legacy notes remain unverified. Sixteen structured
+source-checked summaries are separate from clinical review. `curated.py` validates snapshots
+and selects a passage by specimen, allowed unit, range direction and fasting context. Missing
+coverage blocks live explanation. The gateway never sends unrelated branches. The copied content preserves the
 evidence used at analysis time even if the local knowledge base changes later.
 
 `InterpretationDecision` adds interpretable / needs_review / insufficient_evidence /

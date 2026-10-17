@@ -24,6 +24,8 @@ class Measurement(Model):
     reference: ReferenceRange
     report_flag: Literal["high", "low", "normal", "unknown"] = "unknown"
     uncertain: bool = False
+    specimen: Literal["unknown", "blood", "whole_blood", "serum", "plasma", "urine", "other"] = "unknown"
+    fasting: Literal["unknown", "fasting", "nonfasting"] = "unknown"
 
 
 class ExtractionPayload(Model):
@@ -85,15 +87,21 @@ class KnowledgeSource(Model):
 class KnowledgeMetadata(Model):
     entry_id: str
     version: str
-    review_status: Literal["unverified", "reviewed"] = "unverified"
+    review_status: Literal["unverified", "reviewed", "source_checked"] = "unverified"
     sources: list[KnowledgeSource] = Field(default_factory=list)
     applicability: str = "Unknown; not established for patient interpretation."
     reviewer: str | None = None
     reviewed_on: str | None = None
     audit_note: str = "No traceable source or clinical review is recorded."
+    source_checked_on: str | None = None
+    verification_method: str | None = None
 
     @model_validator(mode="after")
     def review_contract(self):
+        if self.review_status == "source_checked":
+            if not (self.sources and self.source_checked_on and self.verification_method):
+                raise ValueError("Source checking requires sources, date and method.")
+            date.fromisoformat(self.source_checked_on)
         if self.review_status == "reviewed":
             if not (self.sources and self.reviewer and self.reviewed_on):
                 raise ValueError("Reviewed content needs explicit sources and review details.")
@@ -105,13 +113,14 @@ class Evidence(Model):
     source_id: str
     indicator_id: str
     text: str
-    provenance: Literal["unverified_project_note"] = "unverified_project_note"
+    provenance: Literal["unverified_project_note", "source_checked_summary"] = "unverified_project_note"
     sha256: str
     metadata: KnowledgeMetadata | None = None
+    selected_text: str | None = None
 
     @model_validator(mode="after")
     def metadata_identity(self):
-        if self.metadata and (self.metadata.entry_id != "kb:" + self.source_id.rsplit("/", 1)[-1].removesuffix(".txt")
+        if self.metadata and (self.metadata.entry_id != "kb:" + self.source_id.rsplit("/", 1)[-1].removesuffix(".txt").removesuffix(".json")
                               or self.metadata.version != "sha256:" + self.sha256):
             raise ValueError("Knowledge metadata identity/version integrity failed.")
         return self
@@ -236,7 +245,7 @@ class ReportRecord(Model):
                 evidence = actual.evidence
                 source = SOURCE_MAP.get(actual.canonical_id, actual.canonical_id)
                 if (not source or evidence.indicator_id != actual.canonical_id
-                        or evidence.source_id != f"knowledge_base/{source}.txt"
+                        or evidence.source_id not in (f"knowledge_base/{source}.txt", f"knowledge_base/curated/{actual.canonical_id}.json")
                         or sha256(evidence.text.encode()).hexdigest() != evidence.sha256):
                     raise ValueError("Evidence identity or integrity check failed.")
         from interpreter.abstention import assign_decisions

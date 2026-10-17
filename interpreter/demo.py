@@ -29,7 +29,7 @@ def demo_reports(knowledge):
         analysis = GeneratedAnalysis.model_validate({"explanations": [
             {"row_id": row.row_id,
              "text": ("Preset example: the displayed status is calculated only from the synthetic report's printed range. "
-                      "It is not a diagnosis. The linked project note is unverified educational context."
+                      "It is not a diagnosis. Inspect the linked note's source status; it is educational context, not clinical review."
                       if row.evidence else "Preset example: knowledge base coverage is insufficient. Check the original report with a qualified professional."),
              "source_ids": [row.evidence.source_id] if row.evidence else []} for row in rows
              if row.decision.state == "interpretable"],

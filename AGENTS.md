@@ -13,7 +13,8 @@ unnecessary infrastructure, frameworks, services or speculative abstractions.
 - `app.py`, `interpreter/ui.py`: entry point and five native Streamlit pages.
 - `models.py`: strict raw, checked and generated data contracts.
 - `catalog.py`, `units.py`, `validation.py`: aliases, compatible units and deterministic checks.
-- `knowledge.py`: exact-ID retrieval from 26 existing project notes using Chroma.
+- `knowledge.py`, `curated.py`: exact-ID Chroma retrieval plus specimen/unit/direction/fasting
+  selection. Sixteen structured source-checked summaries supersede overlapping legacy notes.
 - `llm.py`, `pipeline.py`: schema-bound Claude calls and processing orchestration.
 - `abstention.py`: deterministic readiness/reasons and safe summary counts; no confidence scores.
 - `review.py`: correction baselines and effective facts without overwriting extraction.
@@ -39,8 +40,11 @@ mock model calls; avoid paid API calls unless needed and authorized.
 After changes run relevant tests; before a stable checkpoint run the full suite using
 `.\.venv\Scripts\python -m pytest -q` (Windows). Record actual results in PROGRESS.md.
 Update PROGRESS.md after every major stage, including failures, decisions and next steps.
-Current scope: report evidence tracking and knowledge provenance integrated with
-abstention. Do not add claim auditing, multi-model review or a large UI redesign.
+Current scope: source-checked structured medical knowledge integrated with existing tracking
+and abstention. Do not add claim auditing, multi-model review or unrelated UI redesign.
+Source checking is AI-assisted comparison against actual linked pages, not clinical expert
+review. Do not invent reviewers/dates or equate access dates with publication dates. Preserve
+null unsupported branches. Changed content requires a fresh source check and manifest pin.
 Keep occurrence IDs independent of indicator names. Never promote model extraction
 or human confirmation to independently verified original evidence. Unknown locations
 stay unknown. Retain original snapshots when users correct fields. Knowledge hashes

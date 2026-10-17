@@ -1,5 +1,31 @@
 # Knowledge provenance and retrieval policy
 
+## Current structured corpus
+
+Sixteen JSON entries in `knowledge_base/curated/` supersede overlapping legacy notes for
+live retrieval. Each includes bilingual identity/aliases, units, specimens, scope, overview,
+optional high/low branches, caveats, fasting context, revision, source-check date/method and
+actual MedlinePlus URLs. All have `clinical_review: not_performed`. See SOURCE_CHECKS.md.
+
+`source_checked` means AI-assisted comparison of these short paraphrases with the opened
+source page, not medical expert approval. No publication dates or clinical reviewers are
+inferred from access dates. The linked public source is not claimed to have authored or
+endorsed the application's summaries. No entire articles or medical thresholds were copied.
+
+Chroma's `indicator_notes_v4` stores exact analyte documents. Selection then checks specimen,
+analyte-specific units, computed direction and fasting context. Unsupported directional
+branches are null, not filled by a model. Full hash-bound snapshots stay in history; only
+selected passages are sent to Claude. Citation validation links each explanation to its
+local summary, which itself retains the actual external URL. This is not claim-level auditing.
+
+The content manifest pins LF-normalized file hashes. Missing/mismatched pins or invalid
+schemas disable that curated entry; the legacy fallback, if present, remains unverified.
+To update: read the actual source, compare every retained paraphrase and scope limitation,
+update revision/check date, then update the pin. Do not update pins just to silence failures.
+The manifest is not cryptographically signed; a trusted local maintainer can change it.
+
+## Retained legacy corpus
+
 The 26 text files in `knowledge_base/` were already present in the original prototype.
 They do not include verifiable bibliographic citations, authorship dates or a clinical
 review record. This refactor preserves them as **unverified project notes**. It does
@@ -14,7 +40,7 @@ also needs review. This inventory does not validate or correct the medical claim
 The app exposes the exact file ID, text and SHA-256 content hash for a retrieved note.
 These identify the local artifact; a hash is not proof of medical authority. Generated
 explanations cannot cite any source ID other than the note retrieved for that row.
-All shipped notes are blocked from live explanation by `unverified_knowledge`. Their text
+All legacy notes are blocked from live explanation by `unverified_knowledge`. Their text
 is inspectable only through an explicit UI opt-in. Synthetic preset links are not evidence
 that a model used, or a professional approved, these notes. The model is instructed not to invent external citations, diagnose, prescribe or
 assign a visit deadline. Schema and citation validation do not medically validate prose.
@@ -23,11 +49,12 @@ assign a visit deadline. Schema and citation validation do not medically validat
 
 - The bilingual alias catalog maps known names to stable IDs. No fuzzy substring match.
 - Chroma stores each complete short note keyed by its filename stem. Startup upserts
-  current content and removes stale entries in the dedicated `indicator_notes_v3` collection.
+  current content and removes stale entries in the dedicated `indicator_notes_v4` collection.
   Previous collections remain untouched. JSON provenance metadata is stored alongside each
   Chroma document and returned with it, including `kb:<stem>` and `sha256:<full hash>` version.
   Missing inventory never upgrades trust; reviewer, review date and sources remain unknown.
-  The current loader intentionally does not accept a reviewed flag from the legacy inventory.
+  The loader never upgrades the legacy inventory to checked/reviewed; structured checked
+  entries are separate. Legacy-only retrieval remains available for compatibility tests.
 - Retrieval uses `collection.get(ids=[...])`, not nearest-neighbor ranking. The constant
   one-dimensional vector is a storage placeholder required by Chroma, not a semantic
   embedding. No embedding-model download or vector-quality claims are made.
@@ -52,6 +79,6 @@ the user must check those conditions before interpreting the plot.
 
 ## Next steps for a clinical knowledge project
 
-Replace or review notes with attributable, licensed primary sources, versioned dates,
-applicable populations and units. Add clinician-reviewed evaluation cases. No critical-value
+Expand only after inspecting attributable sources and preserving scoped paraphrases.
+Add independent clinician review and evaluation cases. No critical-value
 rules are shipped because this project has no verified rule set or clinical validation.

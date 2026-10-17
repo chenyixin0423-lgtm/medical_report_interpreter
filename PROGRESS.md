@@ -10,8 +10,9 @@ Single-process Streamlit UI (five pages), strict Pydantic models, two Claude cal
 optional SQLite and allowlisted unit conversion. See AGENTS.md for module responsibilities.
 `abstention.py` assigns per-row decisions before model calls; `review.py` retains immutable
 extraction plus explicit corrections. V4 records add original source snapshots and stable
-occurrence IDs. `tracking.py` performs conservative local PDF text matches; Chroma v3
-retains knowledge ID/version/review/source metadata with each note snapshot.
+occurrence IDs. `tracking.py` performs conservative local PDF text matches; Chroma v4
+retains knowledge ID/version/review/source metadata with each note snapshot. `curated.py`
+selects checked context by analyte, specimen, unit, range direction and fasting status.
 
 ## Completed Features
 Verified in code at the start of this iteration: bilingual aliases; raw/checked/generated
@@ -25,8 +26,19 @@ Existing Synthetic Demo, five pages, History and Trends pass tests.
 The evidence/provenance iteration adds source-linked corrections and trends, model-facing
 facts-only extraction schemas, PDF text-layer matching, per-entry inventory for all 26 notes,
 provenance-aware abstention, compact evidence viewing and v2/v3 historical compatibility.
+The structured-knowledge iteration adds 16 source-checked summaries, four lipid aliases,
+explicit specimen/fasting extraction and correction fields, directional abstention,
+manifest-pinned content, real source links and branch-only Claude context. Clinical expert
+review remains not performed. Known urine/other results are excluded from blood trends.
 
 ## Current Task
+2026-10-17: Structured medical knowledge refactor implemented and verified.
+Started from clean commit 6684671. Read actual MedlinePlus pages for the 16 summaries
+(14 distinct pages), recorded sources and limitations in docs/SOURCE_CHECKS.md. No clinical
+review claimed, no thresholds copied, no paid API calls. This file is included in the local
+implementation checkpoint; use `git log -1` to identify it. No Push or publication.
+
+Previous evidence/provenance iteration:
 2026-10-17: Evidence Tracking / Knowledge Provenance implementation and verification complete.
 This file is included in the local implementation checkpoint (use `git log -1`). Started
 from clean Git baseline 9b373ad. Source snapshots,
@@ -48,8 +60,9 @@ checkpoint; identify it with `git log -1` rather than inferring a hash from chat
 ## Pending Tasks
 No remaining implementation tasks within this iteration's scope.
 Future work only when requested: clean-environment install check, visual review and an
-explicitly authorized synthetic live-API smoke test. Curate attributable, appropriately
-licensed and scoped medical notes before enabling live explanations. Claim audit is deferred.
+explicitly authorized synthetic live-API smoke test. Independent clinician review, wider
+analyte coverage and evaluated population/assay-specific knowledge remain future work.
+Claim audit is deferred.
 
 ## Important Decisions
 Evidence tracking and knowledge provenance are now explicitly authorized and implemented;
@@ -61,6 +74,13 @@ their unsupported clinical assertions are inventoried, not validated. They remai
 and cannot support live explanations. Preset Demo has a separate path that cannot unlock
 the live pipeline or Claude gateway. No source links, publication dates or reviewers invented.
 Knowledge versions are content hashes, not publication dates. Hashes are not medical trust.
+New structured summaries are source_checked, distinct from reviewed/clinical approval.
+Only bounded public-page paraphrases are admitted. Source checks are AI-assisted and may
+contain errors; metadata names the method and actual check date, not a publication date.
+Legacy notes remain unchanged/unverified. Manifest mismatch disables curated admission;
+this guards accidental edits, not malicious local tampering. Null directions stay blocked.
+Unknown specimens block live explanations. Unknown fasting chooses general educational
+context, never fasting criteria. BUN mg/dL only; HbA1c % only. No new conversions or targets.
 Report text matches require unique complete lines; page means PDF page and location means
 extracted-text line, not a visual bounding box. Unknown stays unknown. Human corrections
 never overwrite original source snapshots or claim independent source verification.
@@ -76,9 +96,10 @@ Directory was not a Git repository when inspected; now initialized locally, no r
 Previous verification documents lack a live API call, clean-install validation and browser
 visual review. These are historical limitations, not checks completed in this iteration.
 Plausible OCR errors without explicit ambiguity signals cannot be reliably detected.
-There is no reviewed medical corpus shipped. Live extraction/facts/trends work, but the
-current corpus deliberately produces no live medical explanations. Reviewed-source contracts
-are exercised only with explicitly fabricated .invalid test fixtures, never production notes.
+There is no clinically reviewed corpus shipped. Source-checked summaries now permit limited
+live explanation when context is sufficient. Blood count indices/differentials, eGFR and
+other uncurated legacy indicators remain blocked. AST/HbA1c/TC/TG low and HDL high branches
+are deliberately absent. No pediatric/pregnancy/disease-management targets are supported.
 Image/scanned and multiline PDF locations remain unknown. Text-layer matching is not semantic
 or OCR verification. No cryptographic audit log or malicious-local-history protection claimed.
 Repeated analytes remain under review rather than guessing specimen/method matching.
@@ -86,6 +107,22 @@ Mismatched reference units require explicit review. Re-upload/review old reports
 regenerate gated explanations when adequate knowledge exists; v2/v3 files are not automatically rewritten.
 
 ## Test Results
+Structured knowledge iteration baseline: **100 passed in 14.28s**.
+First integration run: 98 passed / 2 failed (legacy-only inventory count and old UI source
+label assertions). Retained legacy coverage through explicit legacy-only retrieval and
+updated viewer expectations to show source_checked, never clinician approval.
+New corpus routing suite: **11 passed in 16.22s**, including all 16 x 3 directional
+combinations, unknown/wrong specimens, unit/context guards, partial correction, snapshots,
+gateway branch filtering and unchecked-edit rejection.
+Full regression including real-source Mock UI correction: **112 passed in 32.96s**.
+Added known-urine trend separation regression; final full run: **113 passed in 32.87s**.
+`compileall`, `pip check` and `git diff --check` passed. AppTest confirms existing pages,
+synthetic demo, history/trends, source viewing and specimen correction unlocking a bounded
+Mock Claude explanation. Loopback service on 8505 returned **HTTP 200 / ok** (PID 2928
+at verification). No real Claude call, browser visual inspection or clinical evaluation.
+No paid Claude calls; source-check network activity was limited to reading public pages.
+
+Previous evidence/provenance iteration:
 Evidence/provenance iteration baseline: **79 passed in 8.17s**.
 First regression: 40 failures / 39 passed exposed a legacy migration guard treating new
 constructors as legacy. Fixed the guard; existing 79 tests passed in 7.03s.

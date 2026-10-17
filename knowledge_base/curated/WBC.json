@@ -1,0 +1,36 @@
+{
+  "code": "WBC",
+  "name_en": "White blood cell count",
+  "name_zh": "白细胞",
+  "aliases": [
+    "WBC",
+    "leukocytes"
+  ],
+  "revision": "1.0.0",
+  "source_checked_on": "2026-10-17",
+  "verification_method": "AI-assisted comparison with the linked public source; not clinician review",
+  "clinical_review": "not_performed",
+  "sources": [
+    {
+      "name": "MedlinePlus / U.S. National Library of Medicine — White Blood Count (WBC)",
+      "url": "https://medlineplus.gov/lab-tests/white-blood-count-wbc/",
+      "scope": "General blood-test education: test description and result interpretation sections; not individual diagnosis."
+    }
+  ],
+  "units": [
+    "10^9/L",
+    "×10^9/L",
+    "K/uL",
+    "10^3/uL"
+  ],
+  "specimens": [
+    "blood",
+    "whole_blood"
+  ],
+  "scope": "General blood-test education only, with the report's applicable laboratory interval. No pediatric, pregnancy-specific, disease-management or assay-specific targets.",
+  "overview": "Counts circulating white cells involved in immune defense.",
+  "high": "Infection, inflammation, tissue injury, stress or medication effects are possible associations.",
+  "low": "Marrow injury, autoimmune disease and some treatments can reduce counts.",
+  "caveats": "The count alone does not identify a cause. Symptoms, medicines and the differential count provide context.",
+  "fasting_notes": {}
+}

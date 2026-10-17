@@ -14,17 +14,17 @@ DIMENSIONS = {
     **{c: {"count", "fraction"} for c in ("NEUT", "LYMPH", "MONO", "EOS")},
     **{c: {"mass"} for c in ("HGB", "MCHC", "ALB", "TP")},
     **{c: {"activity"} for c in ("ALT", "AST", "GGT", "ALP")},
-    **{c: {"mass", "molar"} for c in ("GLU", "BUN", "CREA", "UA", "TBIL", "DBIL", "IBIL")},
+    **{c: {"mass", "molar"} for c in ("GLU", "BUN", "CREA", "UA", "TBIL", "DBIL", "IBIL", "TC", "LDL", "HDL", "TG")},
     "HCT": {"fraction"}, "HbA1c": {"fraction"}, "MCV": {"volume"}, "MCH": {"cell_mass"}, "eGFR": {"egfr"},
 }
 
 
 def usable_evidence(evidence, code):
     from interpreter.knowledge import SOURCE_MAP
-    expected = SOURCE_MAP.get(code, code)
+    expected = code if evidence.provenance == "source_checked_summary" else SOURCE_MAP.get(code, code)
     header = evidence.text.splitlines()[0] if evidence.text.strip() else ""
     return bool(expected and evidence.indicator_id == code
-        and evidence.source_id == f"knowledge_base/{expected}.txt"
+        and evidence.source_id in (f"knowledge_base/{expected}.txt", f"knowledge_base/curated/{code}.json")
         and sha256(evidence.text.encode()).hexdigest() == evidence.sha256
         and re.search(rf"\b{re.escape(expected)}\b", header, re.I)
         and len(evidence.text.strip()) >= 80)
@@ -90,6 +90,11 @@ def assign_decisions(rows, corrections=(), analysis_rejections=(), review_confli
         else:
             if not synthetic and not supported_knowledge(row.evidence):
                 add("insufficient_evidence", "unverified_knowledge", "The retrieved note has no usable reviewed source; retrieval is not medical verification.", "Display report facts only. A scoped, source-checked knowledge entry is required before live explanation.")
+            if not synthetic and row.evidence.provenance == "source_checked_summary":
+                from interpreter.curated import context_problem
+                problem = context_problem(row)
+                if problem:
+                    add("insufficient_evidence", "knowledge_context", problem, "Confirm specimen and units from the report. Unsupported directions require additional checked knowledge, not guessed explanations.")
             if not usable_evidence(row.evidence, row.canonical_id):
                 add("insufficient_evidence", "unusable_knowledge", "The retrieved note does not pass the local identity/content relevance checks.", "Withhold the explanation and review the local knowledge entry; do not use unrelated text.")
         if row.row_id in analysis_rejections:
@@ -112,9 +117,12 @@ def supported_knowledge(evidence):
     meta = evidence.metadata
     # Metadata is trusted local curation, never model output. A hash identifies the
     # reviewed revision; it does not establish the truth of its medical claims.
-    return (meta.review_status == "reviewed" and bool(meta.sources and meta.reviewer and meta.reviewed_on)
+    checked = (evidence.provenance == "source_checked_summary" and meta.review_status == "source_checked"
+               and bool(meta.sources and meta.source_checked_on and meta.verification_method))
+    legacy_review = meta.review_status == "reviewed" and bool(meta.sources and meta.reviewer and meta.reviewed_on)
+    return ((checked or legacy_review)
             and meta.version == "sha256:" + evidence.sha256
-            and meta.entry_id == "kb:" + evidence.source_id.rsplit("/", 1)[-1].removesuffix(".txt"))
+            and meta.entry_id == "kb:" + evidence.source_id.rsplit("/", 1)[-1].removesuffix(".txt").removesuffix(".json"))
 
 
 def summary_counts(rows):

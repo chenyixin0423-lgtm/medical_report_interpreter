@@ -1,0 +1,34 @@
+{
+  "code": "HCT",
+  "name_en": "Hematocrit",
+  "name_zh": "红细胞压积",
+  "aliases": [
+    "HCT",
+    "PCV"
+  ],
+  "revision": "1.0.0",
+  "source_checked_on": "2026-10-17",
+  "verification_method": "AI-assisted comparison with the linked public source; not clinician review",
+  "clinical_review": "not_performed",
+  "sources": [
+    {
+      "name": "MedlinePlus / U.S. National Library of Medicine — Hematocrit Test",
+      "url": "https://medlineplus.gov/lab-tests/hematocrit-test/",
+      "scope": "General blood-test education: test description and result interpretation sections; not individual diagnosis."
+    }
+  ],
+  "units": [
+    "%",
+    "L/L"
+  ],
+  "specimens": [
+    "blood",
+    "whole_blood"
+  ],
+  "scope": "General blood-test education only, with the report's applicable laboratory interval. No pediatric, pregnancy-specific, disease-management or assay-specific targets.",
+  "overview": "Describes the proportion of blood volume occupied by red cells.",
+  "high": "Dehydration or increased red-cell production can raise the proportion.",
+  "low": "Blood loss, anemia or pregnancy-related fluid changes can lower the proportion.",
+  "caveats": "Age, sex, altitude and hydration affect interpretation. Do not infer a particular disorder from the percentage alone.",
+  "fasting_notes": {}
+}

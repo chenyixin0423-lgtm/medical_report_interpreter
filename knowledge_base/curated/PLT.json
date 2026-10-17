@@ -1,0 +1,36 @@
+{
+  "code": "PLT",
+  "name_en": "Platelet count",
+  "name_zh": "血小板",
+  "aliases": [
+    "PLT",
+    "platelets"
+  ],
+  "revision": "1.0.0",
+  "source_checked_on": "2026-10-17",
+  "verification_method": "AI-assisted comparison with the linked public source; not clinician review",
+  "clinical_review": "not_performed",
+  "sources": [
+    {
+      "name": "MedlinePlus / U.S. National Library of Medicine — Platelet Tests",
+      "url": "https://medlineplus.gov/lab-tests/platelet-tests/",
+      "scope": "General blood-test education: test description and result interpretation sections; not individual diagnosis."
+    }
+  ],
+  "units": [
+    "10^9/L",
+    "×10^9/L",
+    "K/uL",
+    "10^3/uL"
+  ],
+  "specimens": [
+    "blood",
+    "whole_blood"
+  ],
+  "scope": "General blood-test education only, with the report's applicable laboratory interval. No pediatric, pregnancy-specific, disease-management or assay-specific targets.",
+  "overview": "Platelet counts and platelet function tests measure different aspects of clotting.",
+  "high": "Infection, inflammation, anemia or blood loss can be associated with increased counts.",
+  "low": "Viral infection, immune conditions or marrow problems can be associated with decreased counts.",
+  "caveats": "A count is not a platelet-function test and cannot independently establish bleeding or clotting risk.",
+  "fasting_notes": {}
+}

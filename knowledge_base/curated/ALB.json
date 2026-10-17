@@ -1,0 +1,34 @@
+{
+  "code": "ALB",
+  "name_en": "Albumin",
+  "name_zh": "白蛋白",
+  "aliases": [
+    "ALB"
+  ],
+  "revision": "1.0.0",
+  "source_checked_on": "2026-10-17",
+  "verification_method": "AI-assisted comparison with the linked public source; not clinician review",
+  "clinical_review": "not_performed",
+  "sources": [
+    {
+      "name": "MedlinePlus / U.S. National Library of Medicine — Albumin Blood Test",
+      "url": "https://medlineplus.gov/lab-tests/albumin-blood-test/",
+      "scope": "General blood-test education: test description and result interpretation sections; not individual diagnosis."
+    }
+  ],
+  "units": [
+    "g/L",
+    "g/dL"
+  ],
+  "specimens": [
+    "blood",
+    "serum",
+    "plasma"
+  ],
+  "scope": "General blood-test education only, with the report's applicable laboratory interval. No pediatric, pregnancy-specific, disease-management or assay-specific targets.",
+  "overview": "Albumin is a liver-made protein involved in retaining blood fluid and transporting substances.",
+  "high": "Dehydration can increase blood albumin.",
+  "low": "Liver or kidney conditions, inadequate nutrition or infection can lower blood albumin.",
+  "caveats": "Pregnancy and medicines also affect results. This entry is for blood albumin, not urinary albumin, and cannot diagnose a condition alone.",
+  "fasting_notes": {}
+}

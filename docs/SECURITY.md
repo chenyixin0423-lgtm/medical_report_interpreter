@@ -19,6 +19,11 @@ Default binding is `127.0.0.1`; CORS and XSRF protections remain enabled.
    Before/after corrections remain separate from extraction. Correction notes may still
    be sensitive; do not put identifying information into them. Confirmation is a human
    assertion, not proof that a correction is medically accurate.
+   For structured source-checked knowledge, only the specimen/unit/direction-matched
+   passage and its source metadata are sent, not unrelated directional branches. Specimen
+   and fasting status default to unknown and can be corrected against the original report.
+   Runtime does not browse medical websites; source checking is a development-time activity
+   using public pages, never patient data. Source checking is not clinical expert review.
 5. Structured results stay in the current Streamlit session by default. No raw upload or
    original filename is written by application code. Streamlit holds uploader bytes for
    the life of its widget/session; this app does not promise forensic memory erasure.

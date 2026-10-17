@@ -1,0 +1,40 @@
+{
+  "code": "TC",
+  "name_en": "Total cholesterol",
+  "name_zh": "总胆固醇",
+  "aliases": [
+    "TC",
+    "CHOL",
+    "TCHO"
+  ],
+  "revision": "1.0.0",
+  "source_checked_on": "2026-10-17",
+  "verification_method": "AI-assisted comparison with the linked public source; not clinician review",
+  "clinical_review": "not_performed",
+  "sources": [
+    {
+      "name": "MedlinePlus / U.S. National Library of Medicine — Cholesterol Levels",
+      "url": "https://medlineplus.gov/lab-tests/cholesterol-levels/",
+      "scope": "General blood-test education: test description and result interpretation sections; not individual diagnosis."
+    }
+  ],
+  "units": [
+    "mg/dL",
+    "mmol/L"
+  ],
+  "specimens": [
+    "blood",
+    "serum",
+    "plasma"
+  ],
+  "scope": "General blood-test education only, with the report's applicable laboratory interval. No pediatric, pregnancy-specific, disease-management or assay-specific targets.",
+  "overview": "Total cholesterol combines cholesterol carried in several lipoproteins.",
+  "high": "Elevated total cholesterol is relevant to cardiovascular assessment.",
+  "low": null,
+  "caveats": "Interpret with lipid fractions and overall risk; no personalized target is provided.",
+  "fasting_notes": {
+    "unknown": "Collection fasting status is unknown; no fasting-specific classification is made.",
+    "fasting": "Fasting was reported; no individualized lipid target is inferred.",
+    "nonfasting": "Nonfasting collection was reported; no fasting-specific classification is made."
+  }
+}

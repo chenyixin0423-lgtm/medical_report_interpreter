@@ -1,0 +1,36 @@
+{
+  "code": "RBC",
+  "name_en": "Red blood cell count",
+  "name_zh": "红细胞",
+  "aliases": [
+    "RBC",
+    "erythrocytes"
+  ],
+  "revision": "1.0.0",
+  "source_checked_on": "2026-10-17",
+  "verification_method": "AI-assisted comparison with the linked public source; not clinician review",
+  "clinical_review": "not_performed",
+  "sources": [
+    {
+      "name": "MedlinePlus / U.S. National Library of Medicine — Red Blood Cell (RBC) Count",
+      "url": "https://medlineplus.gov/lab-tests/red-blood-cell-rbc-count/",
+      "scope": "General blood-test education: test description and result interpretation sections; not individual diagnosis."
+    }
+  ],
+  "units": [
+    "10^12/L",
+    "×10^12/L",
+    "M/uL",
+    "10^6/uL"
+  ],
+  "specimens": [
+    "blood",
+    "whole_blood"
+  ],
+  "scope": "General blood-test education only, with the report's applicable laboratory interval. No pediatric, pregnancy-specific, disease-management or assay-specific targets.",
+  "overview": "Measures the number of circulating red cells.",
+  "high": "Dehydration, low-oxygen conditions and increased red-cell production are possible associations.",
+  "low": "Blood loss, nutritional problems and kidney failure are possible associations.",
+  "caveats": "Altitude, pregnancy and other blood tests can affect interpretation; a count is not a diagnosis.",
+  "fasting_notes": {}
+}

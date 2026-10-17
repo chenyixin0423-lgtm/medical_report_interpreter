@@ -2,7 +2,26 @@
 
 Date: **2026-10-17** (Asia/Shanghai).
 
-## Current iteration: evidence tracking and knowledge provenance
+## Current iteration: structured source-checked knowledge
+
+- Baseline: **100 passed in 14.28s**. Final full suite: **113 passed in 32.87s**, exit 0.
+- New corpus tests include all 16 entries across high/low/within-range directions, real local
+  Chroma retrieval, supported units/specimens, fasting caveats, null branches, source snapshots,
+  partial correction, selected-only model payloads, manifest mismatch and urine trend exclusion.
+- Actual MedlinePlus pages were inspected for the 16 summaries (14 distinct pages). URLs and
+  checking scope are in SOURCE_CHECKS.md. AI-assisted source checking is not clinician review.
+- AppTest verifies source-checked live workflow with a Mock: unknown specimen blocks, a
+  confirmed correction revalidates and permits an explanation, real source links appear, and
+  the original snapshot is retained. Existing five pages, Demo, History and Trends still pass.
+- First integration run: 98 passed / 2 failed because previous tests assumed every production
+  note was unverified. Preserved legacy-only tests and updated production-view expectations.
+- `compileall`, `pip check` and `git diff --check` passed.
+- Hidden loopback Streamlit service started on `127.0.0.1:8505`; health **HTTP 200 / ok**.
+- No paid Claude calls, clean installation, screenshot review, medical accuracy benchmark or
+  clinical evaluation. Historical Windows pyreadline3 warnings occurred in some earlier runs;
+  the final pytest process exited 0. No Push or deployment.
+
+## Previous iteration: evidence tracking and knowledge provenance
 
 - Baseline: **79 passed in 8.17s**. Final: **100 passed in 14.74s**, exit code 0.
 - `compileall`, `pip check` and `git diff --check` passed. Git emits normal LF/CRLF notices.

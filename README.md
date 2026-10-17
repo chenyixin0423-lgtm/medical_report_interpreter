@@ -4,9 +4,10 @@ A local-first AI portfolio project for exploring laboratory reports with transpa
 retrieval, structured validation and explicit uncertainty.
 
 Upload a de-identified PDF or image, review extracted facts, and inspect the report's
-values alongside retrieved knowledge provenance and gated explanations. The 26 inherited
-notes are currently **Unverified**, so live medical explanations are withheld; extraction,
-review, facts, history and numeric trends remain available. Or launch
+values alongside retrieved knowledge provenance and gated explanations. Sixteen new
+**source-checked summaries** support limited live explanations when specimen, unit,
+printed range and directional coverage match. The 26 inherited notes remain Unverified;
+source checking is not clinical expert review. Or launch
 the built-in **Synthetic demo** immediately: no API key, patient documents or embedding
 model download required.
 
@@ -47,7 +48,7 @@ Open [http://127.0.0.1:8501](http://127.0.0.1:8501). The application defaults to
 **Synthetic demo**. If PowerShell blocks activation, run
 ` .\.venv\Scripts\python -m streamlit run app.py ` directly.
 
-The initial Chroma index contains only the existing 26 text notes. No sentence-transformer
+The Chroma index prefers 16 structured summaries over overlapping legacy notes. No sentence-transformer
 or external embedding download is needed. Internet access is required to install dependencies;
 after installation, the synthetic workflow does not make Claude API calls.
 
@@ -81,9 +82,10 @@ after changing configuration.
 
 Switch to **Live analysis**. Remove identifying information from the report, accept the
 document-transmission notice, extract the facts and compare them with the original.
-Only then request explanations for eligible rows. With the shipped unverified corpus,
-no rows qualify for live medical explanation; this is an intentional abstention, not an
-API error. The workflow makes **at most two model requests**;
+Confirm the specimen type and fasting status from the document (leave unknown if absent),
+using the existing correction form as needed. Only eligible rows receive limited educational
+explanations. Unknown specimens, unsupported units/directions and unverified legacy notes
+remain blocked. The workflow makes **at most two model requests**;
 the SDK may retry a failed request once. API charges apply. Tests use mocks.
 
 Uploaded content goes to Anthropic. Metadata stripping does not redact visible identifiers,
@@ -136,13 +138,14 @@ flowchart LR
 
 The prototype retrieved 15 arbitrary relevant-looking notes using a fixed general query.
 This version first identifies the actual report indicators, resolves known aliases, and
-retrieves only their corresponding notes. With 26 short, structured documents, exact entity
+retrieves their corresponding entries, then selects context by specimen, analyte-specific
+unit allowlist, printed-range direction and reported fasting status. For this small corpus, exact entity
 retrieval is small, predictable and auditable.
 
 Chroma remains the document store. Retrieval uses `get(ids=[...])`, not semantic similarity.
 Constant one-dimensional placeholder vectors satisfy its storage interface; they are not
 semantic embeddings. Current notes are re-indexed at startup and stale entries removed
-from the dedicated v3 collection. Older collections are left untouched. Unknown indicators produce an explicit coverage gap.
+from the dedicated v4 collection. Older collections are left untouched. Unknown indicators produce an explicit coverage gap.
 See [knowledge provenance and unit policy](docs/KNOWLEDGE_BASE.md).
 
 ### Facts are not model opinions
@@ -257,12 +260,39 @@ The inventory identifies unsupported assertions; it is **not a clinical review**
 text files remain unchanged. No source URL, author, publication date or reviewer was invented.
 References to an organization inside a note are not a verified bibliography.
 
-All shipped entries have **Unverified** status, empty external sources and unknown review
-details. They are retrieved for inspection but cannot support live model explanations.
-Synthetic Demo preserves its fixed examples through a preset-only path; passing these rows
-to the live pipeline or Claude gateway does not bypass the source gate. The data contract
-can represent reviewed, scoped sources, but this release's legacy loader does not promote
-entries to reviewed status. Adding a real reviewed corpus requires a separate curation step.
+Legacy entries remain **Unverified**, with empty external sources and unknown review details.
+They are inspectable but cannot support live explanations. New structured entries have a
+separate **source_checked** status: their bounded paraphrases were compared with linked
+MedlinePlus pages on 2026-10-17 using AI-assisted source checking. This is neither clinician
+review nor validation of the generated output. Clinical reviewer/date remain empty.
+Synthetic Demo retains preset results; it cannot bypass live context or provenance gates.
+
+### Source-checked coverage
+
+| Area | Indicators |
+| --- | --- |
+| Blood count | WBC, RBC, HGB, HCT, PLT |
+| Liver-related blood tests | ALT, AST, ALB |
+| Kidney-related blood tests | BUN, CREA |
+| Glycemia | GLU, HbA1c |
+| Lipids | TC, LDL, HDL, TG |
+
+English/Chinese names and aliases, accepted units, specimen types, general descriptions,
+high/low branches, scope caveats and real links are stored in `knowledge_base/curated/`.
+See [the source-check register](docs/SOURCE_CHECKS.md) for every page and limitation.
+No generic reference ranges, diagnostic thresholds, urgent-care rules or drug advice were imported.
+AST/HbA1c/TC/TG low results and HDL high results intentionally lack a directional explanation
+in this release. General descriptions are retained but these branches abstain. BUN currently
+accepts mg/dL only to avoid confusing urea and nitrogen conventions; HbA1c accepts % only.
+Other supported chemistry entries accept their listed mg/dL and/or mmol/L/µmol/L units, but
+no mass-to-molar conversion was added. Laboratory intervals are not personalized lipid or A1C targets.
+
+Only the applicable passage, not every high/low branch, reaches Claude. Unknown fasting
+selects general context with an explicit caveat, never fasting diagnostic criteria. Missing
+or incompatible specimens block live explanation. Existing reference/context checks remain.
+`manifest.json` pins source-checked file content (LF-normalized SHA-256); editing a summary
+without rechecking it and updating the manifest makes it ineligible. This is a maintenance
+safeguard, not a signature or external validation. Historical snapshots are not rewritten.
 
 Open **Detailed Results** → an indicator to see the retained extraction, current corrected
 fields, observation ID, source check/location, knowledge ID/version and source metadata.
@@ -297,12 +327,13 @@ interpreter/
   security.py                  Bounded image/PDF validation
   llm.py                       Claude extraction and explanation calls
   knowledge.py                 Chroma note indexing and retrieval
+  curated.py                   Structured corpus validation and context-specific passage selection
   pipeline.py                  Prepare / generate / validate orchestration
   storage.py                   Transactional SQLite history
   trends.py                    Series matching and exclusions
   demo.py                      Synthetic reports and preset explanations
   ui.py                        Five native Streamlit views
-knowledge_base/                26 inherited notes and per-entry provenance inventory
+knowledge_base/                Legacy notes/inventory plus 16 structured source-checked summaries
 tests/                         Core, security, storage, RAG, mock and UI tests
 docs/                          Architecture, provenance, security and verification
 .env.example                   Safe configuration template
@@ -354,7 +385,8 @@ Never include live reports, keys, usernames or other browser tabs.
 ## Limitations and scope
 
 - OCR/extraction may misread or omit rows; user review is mandatory but cannot guarantee accuracy.
-- Notes are unverified educational material. No external medical sources are fabricated.
+- Sixteen summaries are source-checked educational material, not clinician-reviewed guidance.
+  Legacy notes remain unverified. No external medical source or expert review is fabricated.
 - Name matching is an explicit allowlist. Unsupported aliases stay unmapped.
 - Trend plots cannot establish matched assay, specimen or fasting conditions.
 - No mass-to-molar or assay-specific conversion is attempted.

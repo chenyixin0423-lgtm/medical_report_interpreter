@@ -18,6 +18,8 @@ def trend_groups(records, code: str, series: str, mode: str):
             spec = specification(row.original.unit)
             if not report.facts_reviewed:
                 reason = "Facts not reviewed"
+            elif row.original.specimen in {"urine", "other"}:
+                reason = "Specimen outside the supported blood-test trend scope"
             elif not report.extracted.report_date:
                 reason = "Report date missing"
             elif counts[code] > 1:

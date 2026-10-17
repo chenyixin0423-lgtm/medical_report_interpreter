@@ -3,6 +3,10 @@ import re
 import unicodedata
 
 CATALOG = {
+    "TC": ("Total cholesterol", "总胆固醇|胆固醇|CHOL|TCHO"),
+    "LDL": ("LDL cholesterol", "低密度脂蛋白胆固醇|LDL-C|LDLC|low density lipoprotein cholesterol"),
+    "HDL": ("HDL cholesterol", "高密度脂蛋白胆固醇|HDL-C|HDLC|high density lipoprotein cholesterol"),
+    "TG": ("Triglycerides", "甘油三酯|triglyceride|TRIG"),
     "WBC": ("White blood cell count", "白细胞|白细胞计数|leukocytes"),
     "RBC": ("Red blood cell count", "红细胞|红细胞计数|erythrocytes"),
     "HGB": ("Hemoglobin", "血红蛋白|血红蛋白浓度|HB|haemoglobin"),

@@ -1,0 +1,35 @@
+{
+  "code": "HGB",
+  "name_en": "Hemoglobin",
+  "name_zh": "血红蛋白",
+  "aliases": [
+    "HGB",
+    "HB",
+    "haemoglobin"
+  ],
+  "revision": "1.0.0",
+  "source_checked_on": "2026-10-17",
+  "verification_method": "AI-assisted comparison with the linked public source; not clinician review",
+  "clinical_review": "not_performed",
+  "sources": [
+    {
+      "name": "MedlinePlus / U.S. National Library of Medicine — Hemoglobin Test",
+      "url": "https://medlineplus.gov/lab-tests/hemoglobin-test/",
+      "scope": "General blood-test education: test description and result interpretation sections; not individual diagnosis."
+    }
+  ],
+  "units": [
+    "g/L",
+    "g/dL"
+  ],
+  "specimens": [
+    "blood",
+    "whole_blood"
+  ],
+  "scope": "General blood-test education only, with the report's applicable laboratory interval. No pediatric, pregnancy-specific, disease-management or assay-specific targets.",
+  "overview": "Measures the oxygen-carrying protein in red cells.",
+  "high": "Lung or heart conditions and increased red-cell production are possible associations; altitude and hydration also matter.",
+  "low": "Anemia, blood loss and nutrient deficiencies are possible associations.",
+  "caveats": "Laboratory intervals depend on patient characteristics. The test alone cannot determine the cause; this is not an A1C test.",
+  "fasting_notes": {}
+}

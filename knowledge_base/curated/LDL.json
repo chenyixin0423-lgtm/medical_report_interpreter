@@ -1,0 +1,40 @@
+{
+  "code": "LDL",
+  "name_en": "LDL cholesterol",
+  "name_zh": "低密度脂蛋白胆固醇",
+  "aliases": [
+    "LDL",
+    "LDL-C",
+    "LDLC"
+  ],
+  "revision": "1.0.0",
+  "source_checked_on": "2026-10-17",
+  "verification_method": "AI-assisted comparison with the linked public source; not clinician review",
+  "clinical_review": "not_performed",
+  "sources": [
+    {
+      "name": "MedlinePlus / U.S. National Library of Medicine — Cholesterol Levels",
+      "url": "https://medlineplus.gov/lab-tests/cholesterol-levels/",
+      "scope": "General blood-test education: test description and result interpretation sections; not individual diagnosis."
+    }
+  ],
+  "units": [
+    "mg/dL",
+    "mmol/L"
+  ],
+  "specimens": [
+    "blood",
+    "serum",
+    "plasma"
+  ],
+  "scope": "General blood-test education only, with the report's applicable laboratory interval. No pediatric, pregnancy-specific, disease-management or assay-specific targets.",
+  "overview": "LDL cholesterol contributes to arterial plaque.",
+  "high": "Higher LDL is associated with greater coronary risk.",
+  "low": "Lower LDL is generally favorable, but does not establish individual health or a treatment decision.",
+  "caveats": "LDL may be calculated or directly measured; this app does not calculate it or set targets.",
+  "fasting_notes": {
+    "unknown": "Collection fasting status is unknown; no fasting-specific classification is made.",
+    "fasting": "Fasting was reported; no individualized lipid target is inferred.",
+    "nonfasting": "Nonfasting collection was reported; no fasting-specific classification is made."
+  }
+}

@@ -1,0 +1,34 @@
+{
+  "code": "BUN",
+  "name_en": "Blood urea nitrogen",
+  "name_zh": "尿素氮",
+  "aliases": [
+    "BUN",
+    "urea nitrogen"
+  ],
+  "revision": "1.0.0",
+  "source_checked_on": "2026-10-17",
+  "verification_method": "AI-assisted comparison with the linked public source; not clinician review",
+  "clinical_review": "not_performed",
+  "sources": [
+    {
+      "name": "MedlinePlus / U.S. National Library of Medicine — BUN (Blood Urea Nitrogen)",
+      "url": "https://medlineplus.gov/lab-tests/bun-blood-urea-nitrogen/",
+      "scope": "General blood-test education: test description and result interpretation sections; not individual diagnosis."
+    }
+  ],
+  "units": [
+    "mg/dL"
+  ],
+  "specimens": [
+    "blood",
+    "serum",
+    "plasma"
+  ],
+  "scope": "General blood-test education only, with the report's applicable laboratory interval. No pediatric, pregnancy-specific, disease-management or assay-specific targets.",
+  "overview": "Measures blood urea nitrogen as one part of kidney assessment.",
+  "high": "Reduced kidney function, dehydration, high protein intake or medicines can increase BUN.",
+  "low": "Low protein intake, malnutrition or liver disease can decrease BUN.",
+  "caveats": "Interpret with other kidney measurements. This narrow entry accepts nitrogen mass concentration only; it does not equate urea with BUN or convert between them.",
+  "fasting_notes": {}
+}

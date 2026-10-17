@@ -1,0 +1,33 @@
+{
+  "code": "HbA1c",
+  "name_en": "Glycated hemoglobin",
+  "name_zh": "糖化血红蛋白",
+  "aliases": [
+    "HbA1c",
+    "hemoglobin a1c"
+  ],
+  "revision": "1.0.0",
+  "source_checked_on": "2026-10-17",
+  "verification_method": "AI-assisted comparison with the linked public source; not clinician review",
+  "clinical_review": "not_performed",
+  "sources": [
+    {
+      "name": "MedlinePlus / U.S. National Library of Medicine — Hemoglobin A1C (HbA1c) Test",
+      "url": "https://medlineplus.gov/lab-tests/hemoglobin-a1c-hba1c-test/",
+      "scope": "General blood-test education: test description and result interpretation sections; not individual diagnosis."
+    }
+  ],
+  "units": [
+    "%"
+  ],
+  "specimens": [
+    "blood",
+    "whole_blood"
+  ],
+  "scope": "General blood-test education only, with the report's applicable laboratory interval. No pediatric, pregnancy-specific, disease-management or assay-specific targets.",
+  "overview": "Reflects blood glucose exposure over roughly two to three months.",
+  "high": "An elevated A1C may reflect higher average glucose; diagnostic confirmation requires clinical assessment.",
+  "low": null,
+  "caveats": "Red-cell disorders, kidney or liver disease and pregnancy may affect interpretation. This entry supplies no diagnostic threshold, individualized target or gestational-diabetes diagnosis.",
+  "fasting_notes": {}
+}

@@ -1,0 +1,36 @@
+{
+  "code": "AST",
+  "name_en": "Aspartate aminotransferase",
+  "name_zh": "天门冬氨酸氨基转移酶",
+  "aliases": [
+    "AST",
+    "GOT",
+    "SGOT"
+  ],
+  "revision": "1.0.0",
+  "source_checked_on": "2026-10-17",
+  "verification_method": "AI-assisted comparison with the linked public source; not clinician review",
+  "clinical_review": "not_performed",
+  "sources": [
+    {
+      "name": "MedlinePlus / U.S. National Library of Medicine — AST Test",
+      "url": "https://medlineplus.gov/lab-tests/ast-test/",
+      "scope": "General blood-test education: test description and result interpretation sections; not individual diagnosis."
+    }
+  ],
+  "units": [
+    "U/L",
+    "IU/L"
+  ],
+  "specimens": [
+    "blood",
+    "serum",
+    "plasma"
+  ],
+  "scope": "General blood-test education only, with the report's applicable laboratory interval. No pediatric, pregnancy-specific, disease-management or assay-specific targets.",
+  "overview": "AST is used with other tests to evaluate liver-related findings.",
+  "high": "Liver conditions, heart problems, surgery and other tissue injuries can increase AST.",
+  "low": null,
+  "caveats": "Exercise, pregnancy and medicines can affect results. AST is not a liver-specific diagnosis. Below-interval interpretation is not covered in this summary.",
+  "fasting_notes": {}
+}

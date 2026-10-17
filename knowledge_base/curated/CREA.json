@@ -1,0 +1,36 @@
+{
+  "code": "CREA",
+  "name_en": "Serum creatinine",
+  "name_zh": "肌酐",
+  "aliases": [
+    "CREA",
+    "SCr",
+    "creatinine"
+  ],
+  "revision": "1.0.0",
+  "source_checked_on": "2026-10-17",
+  "verification_method": "AI-assisted comparison with the linked public source; not clinician review",
+  "clinical_review": "not_performed",
+  "sources": [
+    {
+      "name": "MedlinePlus / U.S. National Library of Medicine — Creatinine Test",
+      "url": "https://medlineplus.gov/lab-tests/creatinine-test/",
+      "scope": "General blood-test education: test description and result interpretation sections; not individual diagnosis."
+    }
+  ],
+  "units": [
+    "mg/dL",
+    "umol/L"
+  ],
+  "specimens": [
+    "blood",
+    "serum",
+    "plasma"
+  ],
+  "scope": "General blood-test education only, with the report's applicable laboratory interval. No pediatric, pregnancy-specific, disease-management or assay-specific targets.",
+  "overview": "Blood creatinine helps assess kidney filtration but depends on muscle and other factors.",
+  "high": "Kidney injury or disease may raise it; dehydration, muscle injury, exercise and meat intake can also contribute.",
+  "low": "Low muscle mass, malnutrition or serious liver disease may lower it.",
+  "caveats": "A single result cannot diagnose a specific disease. A within-range value does not exclude early kidney disease. This entry excludes urine creatinine and eGFR calculation.",
+  "fasting_notes": {}
+}

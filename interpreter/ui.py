@@ -34,7 +34,7 @@ def table(record):
              "Range check": r.status.replace("_", " ") if r.decision and r.decision.state == "interpretable" else "Withheld — see review notes",
              "Readiness": r.decision.state if r.decision else "needs_review",
              "Why / next action": " ".join(x.message + " " + x.action for x in r.decision.reasons) if r.decision else "Revalidate this row.",
-             "Knowledge": "Project note" if r.evidence else "Not covered",
+             "Knowledge": ("Source checked" if r.evidence.provenance == "source_checked_summary" else "Unverified legacy") if r.evidence else "Not covered",
              "Review notes": " ".join(r.issues)} for r in record.checked]
 
 
@@ -63,7 +63,7 @@ def detail(record):
         st.warning(record.analysis_issue)
     explanations = {x.row_id: x for x in record.analysis.explanations} if record.analysis else {}
     st.subheader("Facts, evidence & explanations")
-    st.caption("These layers are intentionally separate. Project notes are not verified medical sources.")
+    st.caption("These layers are separate. Source checking is not clinical expert review or verification of a generated conclusion.")
     for index, row in enumerate(record.checked, 1):
         with st.expander(f"Indicator {index} · {row.canonical_id or 'Unmapped'} · {row.decision.state}"):
             st.text("Available to display: recorded value, unit and printed reference text; unresolved fields are not verified facts.")
@@ -91,7 +91,7 @@ def detail(record):
             st.text(f"Current value: {row.original.raw_value} {row.original.unit or ''}\nCurrent reference: {row.original.reference.text or 'Not supplied'}\nCurrent flag: {row.original.report_flag}")
             for issue in row.issues:
                 st.text(f"Review: {issue}")
-            st.markdown("**Knowledge base evidence · unverified project note**")
+            st.markdown("**Knowledge context · source checking is not clinical review**")
             if row.evidence:
                 st.caption(row.evidence.source_id + " · SHA256 " + row.evidence.sha256[:12])
                 meta = row.evidence.metadata
@@ -99,6 +99,8 @@ def detail(record):
                     st.text(f"Knowledge ID: {meta.entry_id}\nVersion: {meta.version}\nReview status: {meta.review_status}")
                     st.text(f"Applicability: {meta.applicability}\nAudit note: {meta.audit_note}")
                     st.text(f"Reviewer: {meta.reviewer or 'Unknown'} | Review date: {meta.reviewed_on or 'Unknown'}")
+                    if meta.source_checked_on:
+                        st.text(f"Source checked: {meta.source_checked_on}\nMethod: {meta.verification_method}\nClinical expert review: not performed")
                     for item in meta.sources:
                         st.text(f"Source: {item.name}\nURL: {item.url}\nScope: {item.scope}")
                 st.text("External sources: Unknown / Unverified" if not meta or not meta.sources else "Recorded sources do not prove the generated explanation.")
@@ -106,7 +108,12 @@ def detail(record):
                     st.text("Use: preset-linked context only; no model used this note. Not clinical evidence.")
                 else:
                     st.text("Use: linked to this explanation" if row.row_id in explanations else "Use: retrieved only; not used for a validated explanation")
-                if st.checkbox("Show retained unverified note (may contain unsupported medical advice)", key=f"note-{record.id}-{row.row_id}"):
+                if row.evidence.selected_text:
+                    st.text("Selected context for this specimen, unit and range direction:")
+                    st.text(row.evidence.selected_text)
+                label = ("Show structured source-checked summary" if row.evidence.provenance == "source_checked_summary"
+                         else "Show retained unverified note (may contain unsupported medical advice)")
+                if st.checkbox(label, key=f"note-{record.id}-{row.row_id}"):
                     st.text(row.evidence.text)
             else:
                 st.info("Knowledge base coverage is insufficient for this indicator.")
@@ -160,6 +167,10 @@ def correction_editor(facts):
             name = st.text_input("Indicator name", value=raw.name)
             value = st.text_input("Value as printed", value=raw.raw_value or "")
             unit = st.text_input("Measurement unit", value=raw.unit or "")
+            specimen_options = ["unknown", "blood", "whole_blood", "serum", "plasma", "urine", "other"]
+            specimen = st.selectbox("Specimen as reported", specimen_options, index=specimen_options.index(raw.specimen))
+            fasting_options = ["unknown", "fasting", "nonfasting"]
+            fasting = st.selectbox("Fasting as reported", fasting_options, index=fasting_options.index(raw.fasting))
             bounds = st.text_input("Printed reference interval", value=raw.reference.text or "")
             refunit = st.text_input("Reference unit", value=raw.reference.unit or "")
             flag = st.selectbox("Printed flag", ["unknown", "normal", "high", "low"],
@@ -175,7 +186,7 @@ def correction_editor(facts):
                 after = Measurement(name=name.strip(), raw_value=value.strip() or None, unit=unit.strip() or None,
                     reference={"text": bounds.strip() or None, "unit": refunit.strip() or None,
                                "context_required": required, "context_confirmed": context},
-                    report_flag=flag, uncertain=uncertain)
+                    report_flag=flag, uncertain=uncertain, specimen=specimen, fasting=fasting)
                 change = Correction(row_id=row_id, before=facts.indicators[index], after=after,
                                     reason=reason.strip(), confirmed_from_report=confirmed)
                 st.session_state.corrections = [c for c in corrections if c.row_id != row_id] + [change]
@@ -221,6 +232,7 @@ def upload_page(demo, kb):
     st.caption("Correct individual fields below or upload a clearer report. Changes are rechecked and never automatically resolve all missing information.")
     st.text(f"Extracted report date: {facts.report_date or 'Unknown — excluded from dated trends'}")
     st.dataframe([{"Original label": x.name, "Value": x.raw_value, "Unit": x.unit,
+        "Specimen": x.specimen, "Fasting": x.fasting,
         "Reference range": x.reference.text, "Reference unit": x.reference.unit,
         "Printed flag": x.report_flag, "Uncertain": x.uncertain} for x in facts.indicators], hide_index=True)
     for text in facts.warnings:
@@ -336,7 +348,7 @@ def main():
         mode = st.radio("Workspace", ["Synthetic demo", "Live analysis"])
         page = st.radio("Navigate", ["Dashboard", "Upload & Analyze", "Detailed Results", "History", "Trends"])
         st.divider()
-        st.caption("26 local knowledge notes · English interface · Bilingual indicator matching")
+        st.caption("Source-checked summaries + unverified legacy notes · Bilingual indicator matching")
         st.caption("No diagnostic or clinical validation claims")
     st.title("Medical Report Interpreter")
     st.caption("A transparent workspace for laboratory reports")

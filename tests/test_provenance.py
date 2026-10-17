@@ -115,7 +115,7 @@ def test_correction_and_conversion_keep_original_source(tmp_path):
 
 
 def test_all_26_notes_retain_unverified_versioned_metadata_and_block_live(tmp_path):
-    kb = KnowledgeBase(tmp_path / "chroma")
+    kb = KnowledgeBase(tmp_path / "chroma", use_curated=False)
     inventory = json.loads((KB_PATH / "provenance.json").read_text())
     assert set(inventory) == kb.ids and len(kb.ids) == 26
     for code in kb.ids:

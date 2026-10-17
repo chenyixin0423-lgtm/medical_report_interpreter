@@ -1,0 +1,40 @@
+{
+  "code": "GLU",
+  "name_en": "Glucose",
+  "name_zh": "血糖",
+  "aliases": [
+    "GLU",
+    "FBG",
+    "FPG"
+  ],
+  "revision": "1.0.0",
+  "source_checked_on": "2026-10-17",
+  "verification_method": "AI-assisted comparison with the linked public source; not clinician review",
+  "clinical_review": "not_performed",
+  "sources": [
+    {
+      "name": "MedlinePlus / U.S. National Library of Medicine — Blood Glucose Test",
+      "url": "https://medlineplus.gov/lab-tests/blood-glucose-test/",
+      "scope": "General blood-test education: test description and result interpretation sections; not individual diagnosis."
+    }
+  ],
+  "units": [
+    "mmol/L",
+    "mg/dL"
+  ],
+  "specimens": [
+    "blood",
+    "serum",
+    "plasma"
+  ],
+  "scope": "General blood-test education only, with the report's applicable laboratory interval. No pediatric, pregnancy-specific, disease-management or assay-specific targets.",
+  "overview": "Measures glucose in a blood sample; meaning depends on the test and collection conditions.",
+  "high": "Diabetes is one possibility; major illness, stress and medicines can also raise glucose.",
+  "low": "Glucose-lowering medicines, insufficient food intake and some organ or hormone disorders can contribute.",
+  "caveats": "These are possibilities, not diagnostic categories. No diabetes thresholds or treatment recommendations are supplied.",
+  "fasting_notes": {
+    "unknown": "Fasting status is unknown: use only general blood-glucose context, not fasting or tolerance-test diagnostic criteria.",
+    "fasting": "Reported fasting status does not establish duration or protocol. Do not apply diagnostic thresholds.",
+    "nonfasting": "Use nonfasting general context; do not apply fasting diagnostic criteria."
+  }
+}

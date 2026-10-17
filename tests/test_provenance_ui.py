@@ -21,8 +21,8 @@ def test_synthetic_evidence_view_and_live_unverified_flow(tmp_path, monkeypatch)
     texts = "\n".join(x.value for x in app.text)
     assert "Observation ID:" in texts and "Knowledge ID: kb:WBC" in texts
     assert "PDF page: Unknown" in texts and "Synthetic fixture: no real patient document" in texts
-    assert "External sources: Unknown / Unverified" in texts
-    assert "Review status: unverified" in texts
+    assert "Clinical expert review: not performed" in texts
+    assert "Review status: source_checked" in texts
     # Retained advice is opt-in, never presented as an endorsed explanation.
     note = next(c for c in app.checkbox if c.key.startswith("note-"))
     note.check().run()

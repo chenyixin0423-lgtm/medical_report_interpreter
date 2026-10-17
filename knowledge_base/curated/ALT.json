@@ -1,0 +1,36 @@
+{
+  "code": "ALT",
+  "name_en": "Alanine aminotransferase",
+  "name_zh": "丙氨酸氨基转移酶",
+  "aliases": [
+    "ALT",
+    "GPT",
+    "SGPT"
+  ],
+  "revision": "1.0.0",
+  "source_checked_on": "2026-10-17",
+  "verification_method": "AI-assisted comparison with the linked public source; not clinician review",
+  "clinical_review": "not_performed",
+  "sources": [
+    {
+      "name": "MedlinePlus / U.S. National Library of Medicine — ALT Blood Test",
+      "url": "https://medlineplus.gov/lab-tests/alt-blood-test/",
+      "scope": "General blood-test education: test description and result interpretation sections; not individual diagnosis."
+    }
+  ],
+  "units": [
+    "U/L",
+    "IU/L"
+  ],
+  "specimens": [
+    "blood",
+    "serum",
+    "plasma"
+  ],
+  "scope": "General blood-test education only, with the report's applicable laboratory interval. No pediatric, pregnancy-specific, disease-management or assay-specific targets.",
+  "overview": "ALT is an enzyme concentrated mainly in the liver.",
+  "high": "Liver-cell injury, infection or some medicines can increase ALT; exercise can also affect results.",
+  "low": "Unusually low ALT may be associated with vitamin B6 deficiency or chronic kidney disease.",
+  "caveats": "ALT level alone does not measure the extent of liver damage. Consider other liver tests and patient context; no medication changes are recommended here.",
+  "fasting_notes": {}
+}

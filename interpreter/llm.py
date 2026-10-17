@@ -68,7 +68,9 @@ Keep qualitative and qualified values (e.g. positive or <5) as strings. Date is 
 only if unambiguous; otherwise null. Exclude names and personal identifiers. Warnings should
 describe extraction problems without reproducing patient information. Mark reference.context_required
 when the printed interval depends on age, sex, laboratory or assay selection that is unresolved.
-Never set context_confirmed=true: this is reserved for human review.""")
+Never set context_confirmed=true: this is reserved for human review.
+Copy specimen and fasting only when explicitly stated in the document, otherwise unknown.
+Never infer a blood specimen from the analyte name or infer fasting from a glucose value.""")
         for item in report.indicators:
             item.reference.context_confirmed = False
         from interpreter.tracking import track_extraction
@@ -76,14 +78,27 @@ Never set context_confirmed=true: this is reserved for human review.""")
 
     def analyze(self, rows, question=""):
         from interpreter.abstention import supported_knowledge
+        from interpreter.curated import context_problem
         rows = [r for r in rows if r.decision is not None and r.decision.state == "interpretable"
-                and supported_knowledge(r.evidence)]
+                and supported_knowledge(r.evidence)
+                and (r.evidence.provenance != "source_checked_summary" or not context_problem(r))]
         if not rows:
             return GeneratedAnalysis(explanations=[], limitations=[])
-        payload = {"checked_indicators": [r.model_dump() for r in rows]}
+        serialized = []
+        for row in rows:
+            item = row.model_dump()
+            if row.evidence.provenance == "source_checked_summary":
+                # Never send unrelated high/low branches, archived legacy text or a
+                # full structured corpus to Claude. Keep ID/version and real sources.
+                item["evidence"]["text"] = row.evidence.selected_text
+            serialized.append(item)
+        payload = {"checked_indicators": serialized}
         return self._call(GeneratedAnalysis, [{"type": "text", "text": json.dumps(payload, ensure_ascii=False)}],
                           """Explain each row in plain English. Use only the supplied project notes for
-medical context within their recorded applicability. Retrieval and local source review do not prove any conclusion.
+medical context within their recorded applicability. Source checking is not clinical expert review.
+Retrieval does not prove any conclusion. Do not introduce causes, thresholds or advice
+absent from the selected context. Unknown fasting is not confirmed fasting. A printed range
+is not an individualized treatment target, particularly for lipids and HbA1c.
 Do not repeat or infer personal information. Do not replace raw facts, computed status or reference ranges.
 For each row return its exact row_id and only its evidence.source_id, or [] when no evidence exists.
 When no evidence exists, state that knowledge coverage is insufficient and do not invent medical context.

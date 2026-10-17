@@ -10,7 +10,8 @@ def prepare(report, knowledge, corrections=(), *, synthetic=False):
     rows = check_report(effective_report(report, corrections))
     for row in rows:
         try:
-            row.evidence = knowledge.retrieve(row.canonical_id)
+            row.evidence = (knowledge.retrieve_for(row) if callable(getattr(type(knowledge), "retrieve_for", None))
+                            else knowledge.retrieve(row.canonical_id))
         except ValueError:
             row.knowledge_rejected = True
         if row.evidence is not None and not usable_evidence(row.evidence, row.canonical_id):
@@ -68,7 +69,7 @@ def finish(report, rows, gateway, series="My reports", question="", corrections=
         # No model-written report summary/limitations: those could contain refused facts.
         analysis = GeneratedAnalysis(explanations=accepted, limitations=[
             "Only eligible rows were sent for educational explanations. Refused rows are not diagnostic evidence.",
-            "Project notes are unverified. Interpretation readiness does not establish medical correctness."])
+            "Source checking is not clinical expert review. Interpretation readiness does not establish medical correctness."])
         if rejected:
             issue = "Some generated explanations failed row/source validation and were withheld. Other eligible rows remain available."
         if not accepted:
