@@ -42,6 +42,7 @@ def check_report(report: ExtractedReport) -> list[CheckedIndicator]:
     rows = []
     for index, (raw, code) in enumerate(zip(report.indicators, codes)):
         row = CheckedIndicator(row_id=f"row-{index + 1}", canonical_id=code,
+                               observation_id=report.sources[index].observation_id,
                                display_name=CATALOG[code][0] if code else raw.name,
                                original=raw, numeric_value=numeric(raw.raw_value))
         if not code:

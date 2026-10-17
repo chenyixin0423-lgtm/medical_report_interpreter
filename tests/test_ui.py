@@ -44,6 +44,8 @@ def test_live_review_and_mock_analysis(tmp_path, monkeypatch):
         "row_id": "row-1", "text": "<script>alert('x')</script> ![remote](https://invalid.example/pixel)",
         "source_ids": ["knowledge_base/WBC.txt"]}], "limitations": []})
     monkeypatch.setattr(ui, "ClaudeGateway", lambda: gateway)
+    from tests.synthetic import SyntheticKnowledge
+    monkeypatch.setattr(ui, "knowledge", SyntheticKnowledge)
     app = AppTest.from_file(str(APP), default_timeout=30).run()
     app.radio[0].set_value("Live analysis").run()
     app.session_state["pending"] = ExtractedReport.model_validate({"report_date": "2026-01-01", "indicators": [{

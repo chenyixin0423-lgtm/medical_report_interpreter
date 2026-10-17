@@ -24,6 +24,8 @@ def test_mixed_report_correction_form_and_partial_analysis(tmp_path, monkeypatch
             for r in rows], "limitations": []})
     model.analyze.side_effect = respond
     monkeypatch.setattr(ui, "ClaudeGateway", lambda: model)
+    from tests.synthetic import SyntheticKnowledge
+    monkeypatch.setattr(ui, "knowledge", SyntheticKnowledge)
     app = AppTest.from_file(str(APP), default_timeout=30).run()
     app.radio[0].set_value("Live analysis").run()
     app.session_state["pending"] = ExtractedReport.model_validate({"report_date": "2026-01-01", "indicators": [

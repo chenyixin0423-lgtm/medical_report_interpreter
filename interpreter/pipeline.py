@@ -6,7 +6,7 @@ from interpreter.abstention import assign_decisions, usable_evidence
 from interpreter.review import effective_report, correction_conflicts
 
 
-def prepare(report, knowledge, corrections=()):
+def prepare(report, knowledge, corrections=(), *, synthetic=False):
     rows = check_report(effective_report(report, corrections))
     for row in rows:
         try:
@@ -18,7 +18,7 @@ def prepare(report, knowledge, corrections=()):
             row.knowledge_rejected = True
         if row.evidence is None:
             row.issues.append("Knowledge base coverage is insufficient for this indicator.")
-    return assign_decisions(rows, corrections, review_conflicts=correction_conflicts(report, corrections))
+    return assign_decisions(rows, corrections, review_conflicts=correction_conflicts(report, corrections), synthetic=synthetic)
 
 
 def finish(report, rows, gateway, series="My reports", question="", corrections=()):
@@ -31,7 +31,7 @@ def finish(report, rows, gateway, series="My reports", question="", corrections=
     for supplied, computed in zip(rows, expected):
         row = supplied.model_copy(deep=True)
         if any(getattr(row, f) != getattr(computed, f) for f in
-               ("row_id", "canonical_id", "original", "numeric_value", "status")):
+               ("row_id", "observation_id", "canonical_id", "original", "numeric_value", "status")):
             input_conflicts.append(computed.row_id)
             row = computed
             row.evidence = supplied.evidence

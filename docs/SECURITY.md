@@ -22,6 +22,11 @@ Default binding is `127.0.0.1`; CORS and XSRF protections remain enabled.
 5. Structured results stay in the current Streamlit session by default. No raw upload or
    original filename is written by application code. Streamlit holds uploader bytes for
    the life of its widget/session; this app does not promise forensic memory erasure.
+   Source snapshots and uniquely matched PDF row excerpts are structured results too:
+   they may be sensitive. They are saved only with an explicit local history save. Local
+   matching accepts only complete name/value/unit/range lines, not surrounding page text;
+   this is data minimization, not guaranteed de-identification. Excerpts are not sent in
+   the explanation request. Model output cannot supply trusted evidence IDs or locations.
 6. `MRI_ENABLE_LOCAL_HISTORY=true` allows explicit per-record saves to local SQLite.
    This is unencrypted, single-user storage. All sessions on that server could read the
    same history if enabled. Keep it disabled on shared/public hosts. Series labels are

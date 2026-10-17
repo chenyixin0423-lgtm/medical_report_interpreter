@@ -6,7 +6,7 @@ import os
 from pydantic import ValidationError
 
 from interpreter.config import model_name
-from interpreter.models import ExtractedReport, GeneratedAnalysis
+from interpreter.models import ExtractionPayload, GeneratedAnalysis
 
 
 class ModelError(RuntimeError):
@@ -59,7 +59,7 @@ class ClaudeGateway:
         kind = "document" if upload.media_type == "application/pdf" else "image"
         content = [{"type": kind, "source": {"type": "base64", "media_type": upload.media_type,
                     "data": base64.b64encode(upload.data).decode("ascii")}}]
-        report = self._call(ExtractedReport, content, """Extract every laboratory result as printed.
+        report = self._call(ExtractionPayload, content, """Extract every laboratory result as printed.
 Keep raw_value, unit and reference.text verbatim. Use null for unreadable or absent fields.
 reference.unit may copy the row's unit only when the printed reference range clearly shares it.
 Use uncertain=true for unreadable or ambiguous rows. Do not infer ranges from general knowledge.
@@ -71,16 +71,19 @@ when the printed interval depends on age, sex, laboratory or assay selection tha
 Never set context_confirmed=true: this is reserved for human review.""")
         for item in report.indicators:
             item.reference.context_confirmed = False
-        return report
+        from interpreter.tracking import track_extraction
+        return track_extraction(report, upload)
 
     def analyze(self, rows, question=""):
-        rows = [r for r in rows if r.decision is not None and r.decision.state == "interpretable"]
+        from interpreter.abstention import supported_knowledge
+        rows = [r for r in rows if r.decision is not None and r.decision.state == "interpretable"
+                and supported_knowledge(r.evidence)]
         if not rows:
             return GeneratedAnalysis(explanations=[], limitations=[])
         payload = {"checked_indicators": [r.model_dump() for r in rows]}
         return self._call(GeneratedAnalysis, [{"type": "text", "text": json.dumps(payload, ensure_ascii=False)}],
                           """Explain each row in plain English. Use only the supplied project notes for
-medical context and explicitly acknowledge they are unverified educational notes, not clinical guidelines.
+medical context within their recorded applicability. Retrieval and local source review do not prove any conclusion.
 Do not repeat or infer personal information. Do not replace raw facts, computed status or reference ranges.
 For each row return its exact row_id and only its evidence.source_id, or [] when no evidence exists.
 When no evidence exists, state that knowledge coverage is insufficient and do not invent medical context.

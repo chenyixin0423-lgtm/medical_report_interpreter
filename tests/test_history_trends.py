@@ -30,7 +30,7 @@ def test_history_roundtrip_delete_and_corruption(tmp_path):
     store.save(b)
     store.save(a)
     assert len(store.load()[0]) == 2
-    assert store.load()[0][0].extracted == a.extracted
+    assert next(r for r in store.load()[0] if r.id == a.id).extracted == a.extracted
     store.delete("' OR 1=1 --")
     assert len(store.load()[0]) == 2
     store.delete(a.id)
@@ -64,6 +64,7 @@ def test_trends_exclude_duplicate_uncertain_dates_and_flags():
     b.checked = check_report(b.extracted)
     c = make_record()
     c.extracted.indicators.append(c.extracted.indicators[0].model_copy(deep=True))
+    c.extracted = ExtractedReport(indicators=c.extracted.indicators, report_date=c.extracted.report_date)
     c.checked = check_report(c.extracted)
     groups, excluded = trend_groups([a, b, c], "HGB", "My reports", "live")
     assert not groups
@@ -75,7 +76,9 @@ def test_pipeline_validates_mock_analysis_and_preserves_facts(tmp_path):
     from interpreter.knowledge import KnowledgeBase
     facts = make_record().extracted
     facts.indicators[0].reference.text = "13-17"
-    rows = prepare(facts, KnowledgeBase(tmp_path / "chroma"))
+    facts = ExtractedReport(indicators=facts.indicators, report_date=facts.report_date)
+    from tests.synthetic import SyntheticKnowledge
+    rows = prepare(facts, SyntheticKnowledge())
     gateway = Mock()
     gateway.analyze.return_value = GeneratedAnalysis.model_validate({"explanations": [
         {"row_id": "row-1", "text": "Educational example", "source_ids": ["knowledge_base/HGB.txt"]}], "limitations": []})

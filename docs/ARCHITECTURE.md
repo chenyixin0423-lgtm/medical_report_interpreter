@@ -23,7 +23,10 @@ flowchart TD
 
 ## Contracts
 
-`ExtractedReport` contains raw measurement strings, units, printed reference text,
+`ExtractionPayload` is the model-facing schema; it cannot supply source verification or IDs.
+`tracking.py` creates application-owned occurrence IDs and immutable source snapshots,
+optionally matching unique complete lines in local PDF text (not scanned image OCR).
+`ExtractedReport` contains those source links plus raw measurement strings, units, printed reference text,
 printed flags and uncertainty. There are no patient identity fields. The model is
 not permitted to invent reference intervals when extraction fails.
 
@@ -35,7 +38,9 @@ extraction do not receive a definite range classification. A printed flag that
 contradicts the calculation becomes `conflict`.
 
 `Evidence` contains the full retrieved note, its actual project-relative source ID,
-content hash and explicit unverified provenance. The copied content preserves the
+content hash and explicit provenance metadata (stable ID/version, sources, applicability,
+review status and review details). All 26 shipped notes remain unverified and block live
+explanation, regardless of whether their headers and hashes match. The copied content preserves the
 evidence used at analysis time even if the local knowledge base changes later.
 
 `InterpretationDecision` adds interpretable / needs_review / insufficient_evidence /
@@ -56,9 +61,12 @@ the derived checks and readiness, verifies evidence
 integrity and validates citation references again. A failed explanation call does
 not discard extracted facts: the result displays a clear explanation-unavailable notice.
 
-Schema v3 is current. V2 records are upgraded in memory without automatically changing
+Schema v4 is current. V2/v3 records are upgraded in memory without automatically changing
 their files. Old explanations are withheld because they did not pass the new gate.
 Missing decisions are recomputed; genuinely corrupt records retain the skip/warning behavior.
+Migrated source locations stay unknown; UUIDs identify retained row occurrences, not newly
+verified evidence. Original snapshots must match extraction and checked row IDs must match
+their source occurrences. User corrections never overwrite the original snapshots.
 
 ## Storage and trend boundaries
 

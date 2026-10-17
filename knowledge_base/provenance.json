@@ -1,0 +1,106 @@
+{
+  "ALB": {
+    "applicability": "Albumin; population and assay applicability unestablished.",
+    "audit_note": "Unverified legacy project note. Unsourced severity cutoffs, oedema associations and treatment statements."
+  },
+  "ALP": {
+    "applicability": "Alkaline phosphatase; adult, childhood and pregnancy claims unverified.",
+    "audit_note": "Unverified legacy project note. Unsourced age/sex ranges and near-certain reassurance in pregnancy."
+  },
+  "ALT": {
+    "applicability": "Alanine aminotransferase; no validated laboratory or population scope.",
+    "audit_note": "Unverified legacy project note. Unsourced severity grading, diagnostic certainty and follow-up timeframes."
+  },
+  "AST": {
+    "applicability": "Aspartate aminotransferase; method and population unknown.",
+    "audit_note": "Unverified legacy project note. Unsourced ratio specificity, cardiac testing and diagnostic assertions."
+  },
+  "BUN": {
+    "applicability": "Blood urea nitrogen; urea versus BUN conventions require review.",
+    "audit_note": "Unverified legacy project note. Conflates urea and nitrogen terminology; unsourced ratios and aetiology statements."
+  },
+  "CREA": {
+    "applicability": "Creatinine; age, sex, assay and equation applicability unconfirmed.",
+    "audit_note": "Unverified legacy project note. Unsourced specificity claims, kidney decline threshold and CKD staging."
+  },
+  "DBIL": {
+    "applicability": "Direct/indirect bilirubin; shared DBIL/IBIL note, age scope unknown.",
+    "audit_note": "Unverified legacy project note. Unsourced fraction ratios, neonatal statements and treatment reassurance."
+  },
+  "eGFR": {
+    "applicability": "Estimated GFR; equation, age and clinical context not established.",
+    "audit_note": "Unverified legacy project note. Unsourced staging, referral/therapy actions, race-based equation mention and urgency."
+  },
+  "EOS": {
+    "applicability": "Eosinophils; count versus percentage and population need confirmation.",
+    "audit_note": "Unverified legacy project note. Unsourced severity thresholds, investigation recommendations and urgent evaluation."
+  },
+  "GGT": {
+    "applicability": "Gamma-glutamyl transferase; population and assay not established.",
+    "audit_note": "Unverified legacy project note. Unsourced alcohol inference, medication advice and fixed recheck timeframe."
+  },
+  "GLU": {
+    "applicability": "Glucose; fasting status and diagnostic population unconfirmed.",
+    "audit_note": "Unverified legacy project note. Names WHO/ADA without a traceable guideline; thresholds and interventions not verified."
+  },
+  "HbA1c": {
+    "applicability": "HbA1c; assay, population and diagnostic applicability unconfirmed.",
+    "audit_note": "Unverified legacy project note. Names ADA/WHO without citations; targets, testing schedules and risk-reduction percentages unsourced."
+  },
+  "HCT": {
+    "applicability": "Hematocrit; adult sex-specific ranges unverified.",
+    "audit_note": "Unverified legacy project note. Unsourced ranges, clinical associations and investigation advice."
+  },
+  "HGB": {
+    "applicability": "Hemoglobin; population-specific interpretation unconfirmed.",
+    "audit_note": "Unverified legacy project note. Unsourced anaemia severity, transfusion threshold and treatment discussion."
+  },
+  "LYMPH": {
+    "applicability": "Lymphocytes; absolute/relative counts and age context unconfirmed.",
+    "audit_note": "Unverified legacy project note. Unsourced ranges, disease associations and interpretation rules."
+  },
+  "MCH": {
+    "applicability": "Mean corpuscular hemoglobin; assay and population unconfirmed.",
+    "audit_note": "Unverified legacy project note. Unsourced ranges and anaemia-pattern classification."
+  },
+  "MCHC": {
+    "applicability": "Mean corpuscular hemoglobin concentration; assay applicability unconfirmed.",
+    "audit_note": "Unverified legacy project note. Unsourced impossibility threshold and near-certain haemolysis/artifact assertions."
+  },
+  "MCV": {
+    "applicability": "Mean corpuscular volume; age and assay applicability unconfirmed.",
+    "audit_note": "Unverified legacy project note. Unsourced classification cutoffs and differential diagnoses."
+  },
+  "MONO": {
+    "applicability": "Monocytes; count/percentage and population unconfirmed.",
+    "audit_note": "Unverified legacy project note. Unsourced disease associations and investigation suggestions."
+  },
+  "NEUT": {
+    "applicability": "Neutrophils; count/percentage and population unconfirmed.",
+    "audit_note": "Unverified legacy project note. Unsourced infection-risk thresholds and protective action recommendations."
+  },
+  "PLT": {
+    "applicability": "Platelets; population and assay applicability unconfirmed.",
+    "audit_note": "Unverified legacy project note. Unsourced critical bleeding thresholds, monitoring and clinical advice."
+  },
+  "RBC": {
+    "applicability": "Red blood cells; population-specific ranges unverified.",
+    "audit_note": "Unverified legacy project note. Unsourced differential diagnoses and interpretation claims."
+  },
+  "TBIL": {
+    "applicability": "Total bilirubin; adult/neonatal applicability unconfirmed.",
+    "audit_note": "Unverified legacy project note. Unsourced jaundice classification, benign reassurance and neonatal risk claims."
+  },
+  "TP": {
+    "applicability": "Total protein; population and assay unconfirmed.",
+    "audit_note": "Unverified legacy project note. Unsourced ranges, disease associations and electrophoresis recommendations."
+  },
+  "UA": {
+    "applicability": "Uric acid; demographic and clinical applicability unconfirmed.",
+    "audit_note": "Unverified legacy project note. Unsourced hydration quantity and urate-lowering treatment discussion."
+  },
+  "WBC": {
+    "applicability": "White blood cells; population and specimen applicability unconfirmed.",
+    "audit_note": "Unverified legacy project note. Unsourced ranges, disease associations and severity/clinical guidance."
+  }
+}

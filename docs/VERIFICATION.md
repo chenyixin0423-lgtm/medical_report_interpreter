@@ -2,7 +2,28 @@
 
 Date: **2026-10-17** (Asia/Shanghai).
 
-## Current iteration: uncertainty and task recovery
+## Current iteration: evidence tracking and knowledge provenance
+
+- Baseline: **79 passed in 8.17s**. Final: **100 passed in 14.74s**, exit code 0.
+- `compileall`, `pip check` and `git diff --check` passed. Git emits normal LF/CRLF notices.
+- Fixed an initial legacy migration guard regression; updated a history assertion to compare
+  independent records by ID rather than identical values. Details retained in PROGRESS.md.
+- Real local Chroma tests verify all 26 IDs, content versions, unverified sources, refresh,
+  alias linkage and historical snapshots. No legacy note content was modified.
+- Synthetic PDF bytes plus mock extraction exercise actual pypdf matching, source persistence,
+  duplicate/inexact/multiline rejection, unknown image locations and model-field rejection.
+- Tests cover original/corrected association, conversion links, metadata corruption, v2/v3
+  migration, malformed legacy records and inventory, and no live bypass from Demo presets.
+- AppTest verifies the evidence viewer, source metadata, opt-in retained notes, real unverified
+  corpus abstention, all five existing pages, mixed-state corrections, History and Trends.
+- Hidden local Streamlit service started on `127.0.0.1:8504`. Approved health request:
+  **HTTP 200 / ok**. Sandboxed startup/health attempts were unsuccessful.
+- A post-summary ignored pyreadline3 Windows console-handle warning occurred; pytest exited 0.
+- No paid API calls, external medical-source validation, browser screenshot review, clinical
+  validation or clean-environment installation. All shipped medical notes remain Unverified.
+- Local commit only; no push, remote creation or deployment.
+
+## Previous iteration: uncertainty and task recovery
 
 - Fresh baseline before changes: **49 passed in 6.99s**.
 - Final full regression: **79 passed in 8.50s**; no failed tests.

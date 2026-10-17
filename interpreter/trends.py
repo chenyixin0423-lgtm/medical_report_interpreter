@@ -40,7 +40,9 @@ def trend_groups(records, code: str, series: str, mode: str):
             groups.setdefault(unit, []).append({"Date": report.extracted.report_date,
                 "Value": row.numeric_value * factor, "Unit": unit,
                 "Original value": row.original.raw_value, "Original unit": row.original.unit,
-                "Report": report.id[:8]})
+                "Report": report.id, "Observation ID": row.observation_id,
+                "Extraction value": report.extracted.sources[int(row.row_id.split("-")[1])-1].raw.raw_value,
+                "Conversion factor": factor})
     for points in groups.values():
         points.sort(key=lambda p: (p["Date"], p["Report"]))
     return groups, excluded

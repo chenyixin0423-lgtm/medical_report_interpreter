@@ -69,18 +69,45 @@ def detail(record):
             st.text("Available to display: recorded value, unit and printed reference text; unresolved fields are not verified facts.")
             for reason in row.decision.reasons:
                 st.text(f"{reason.message}\nNext action: {reason.action}")
+            source = record.extracted.sources[index - 1]
+            st.markdown("**Report source evidence**")
+            st.text(f"Observation ID: {row.observation_id}")
+            st.text(f"Origin: {source.origin} | Source check: {source.verification}")
+            st.json(source.raw.model_dump())
+            st.text(f"PDF page: {source.page or 'Unknown'} | Position: {source.location or 'Unknown'}")
+            if source.excerpt:
+                st.text("Locally matched PDF text (text-layer match, not proof of extraction accuracy):")
+                st.text(source.excerpt)
+            elif source.verification == "synthetic":
+                st.text("Synthetic fixture: no real patient document, original excerpt or PDF location exists.")
+            else:
+                st.text("Original excerpt: Unknown. Source unverified; extracted fields are not independently verified original evidence.")
+            st.caption("Human corrections remain separate and do not verify the original extraction or its location.")
             if record.extracted.indicators[index - 1] != row.original:
                 st.text("Original extraction (retained):")
                 st.json(record.extracted.indicators[index - 1].model_dump())
                 st.text("Current reviewed/corrected fields:")
-            st.text(f"Original label: {row.original.name}")
-            st.text(f"Original value: {row.original.raw_value} {row.original.unit or ''}\nPrinted range: {row.original.reference.text or 'Not supplied'}\nPrinted flag: {row.original.report_flag}")
+            st.text(f"Current label: {row.original.name}")
+            st.text(f"Current value: {row.original.raw_value} {row.original.unit or ''}\nCurrent reference: {row.original.reference.text or 'Not supplied'}\nCurrent flag: {row.original.report_flag}")
             for issue in row.issues:
                 st.text(f"Review: {issue}")
             st.markdown("**Knowledge base evidence · unverified project note**")
             if row.evidence:
                 st.caption(row.evidence.source_id + " · SHA256 " + row.evidence.sha256[:12])
-                st.text(row.evidence.text)
+                meta = row.evidence.metadata
+                if meta:
+                    st.text(f"Knowledge ID: {meta.entry_id}\nVersion: {meta.version}\nReview status: {meta.review_status}")
+                    st.text(f"Applicability: {meta.applicability}\nAudit note: {meta.audit_note}")
+                    st.text(f"Reviewer: {meta.reviewer or 'Unknown'} | Review date: {meta.reviewed_on or 'Unknown'}")
+                    for item in meta.sources:
+                        st.text(f"Source: {item.name}\nURL: {item.url}\nScope: {item.scope}")
+                st.text("External sources: Unknown / Unverified" if not meta or not meta.sources else "Recorded sources do not prove the generated explanation.")
+                if record.mode == "synthetic":
+                    st.text("Use: preset-linked context only; no model used this note. Not clinical evidence.")
+                else:
+                    st.text("Use: linked to this explanation" if row.row_id in explanations else "Use: retrieved only; not used for a validated explanation")
+                if st.checkbox("Show retained unverified note (may contain unsupported medical advice)", key=f"note-{record.id}-{row.row_id}"):
+                    st.text(row.evidence.text)
             else:
                 st.info("Knowledge base coverage is insufficient for this indicator.")
             st.markdown("**Preset explanation**" if record.mode == "synthetic" else "**Model-generated explanation · not medically verified**")
@@ -237,7 +264,7 @@ def history_page(records, demo, store):
     if demo:
         st.caption("These three synthetic reports are built in. Hide one for this session or restore the demo.")
     elif store:
-        st.warning("Local history is enabled for a trusted single-user machine. Saved structured data is unencrypted and may contain sensitive model output. Raw uploads and filenames are not saved.")
+        st.warning("Local history is enabled for a trusted single-user machine. Structured facts and matched report excerpts are unencrypted and may be sensitive. Raw uploads and filenames are not saved.")
     else:
         st.caption("Session-only storage. Data is lost when this session ends. Local persistence is disabled by default.")
     for record in records:

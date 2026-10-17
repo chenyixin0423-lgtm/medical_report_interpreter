@@ -17,6 +17,9 @@ unnecessary infrastructure, frameworks, services or speculative abstractions.
 - `llm.py`, `pipeline.py`: schema-bound Claude calls and processing orchestration.
 - `abstention.py`: deterministic readiness/reasons and safe summary counts; no confidence scores.
 - `review.py`: correction baselines and effective facts without overwriting extraction.
+- `tracking.py`: occurrence-linked original snapshots and conservative PDF text matches.
+- `knowledge_base/provenance.json`: all 26 legacy-note applicability/concern inventories;
+  no invented sources or clinical review. Chroma snapshots include ID/version/source metadata.
 - `storage.py`, `trends.py`: optional local SQLite, session history and numeric trends.
 - `security.py`, `demo.py`: bounded uploads and synthetic preset examples.
 - `tests/`: deterministic, real local Chroma, mock Claude and Streamlit AppTest coverage.
@@ -36,8 +39,12 @@ mock model calls; avoid paid API calls unless needed and authorized.
 After changes run relevant tests; before a stable checkpoint run the full suite using
 `.\.venv\Scripts\python -m pytest -q` (Windows). Record actual results in PROGRESS.md.
 Update PROGRESS.md after every major stage, including failures, decisions and next steps.
-Current scope: task recovery and uncertainty/abstention. Do not add full evidence
-tracking, provenance infrastructure, claim auditing or a large UI redesign.
+Current scope: report evidence tracking and knowledge provenance integrated with
+abstention. Do not add claim auditing, multi-model review or a large UI redesign.
+Keep occurrence IDs independent of indicator names. Never promote model extraction
+or human confirmation to independently verified original evidence. Unknown locations
+stay unknown. Retain original snapshots when users correct fields. Knowledge hashes
+prove content identity, not medical authority. Synthetic presets never unlock live analysis.
 
 ## Abstention invariants
 Only `interpretable` rows may enter the explanation request. Preserve blocked rows as
@@ -45,7 +52,9 @@ facts with actionable reasons; never include them in definite summary counts. Do
 forward arbitrary questions or generated report summaries that bypass the row gate.
 Readiness is recomputed after edits and on history load; editing alone is not verification.
 Keep original extraction immutable; store explicit before/after corrections and source
-confirmation. Schema v2 history upgrades in memory with old explanations withheld.
+confirmation. Schema v2/v3 history upgrades to v4 in memory with old explanations withheld.
+The shipped legacy corpus is unverified and blocks live explanation. Do not remove this
+gate to improve Demo appearance. Demo's synthetic preset exemption is not a live bypass.
 When changing this policy run `tests/test_abstention.py` and `tests/test_abstention_ui.py`
 plus the full existing suite. Do not relax a failing test just to admit unsupported data.
 

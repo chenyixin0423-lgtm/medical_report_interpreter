@@ -74,10 +74,10 @@ def test_mock_claude_extraction():
     from interpreter.llm import ClaudeGateway, ModelError
     from interpreter.security import ValidatedUpload
     client = Mock()
-    block = SimpleNamespace(type="tool_use", name="submit_result", input=report().model_dump())
+    block = SimpleNamespace(type="tool_use", name="submit_result", input=report().model_dump(exclude={"extraction_id", "sources"}))
     client.messages.create.return_value = SimpleNamespace(stop_reason="tool_use", content=[block])
     gateway = ClaudeGateway(client=client)
-    assert gateway.extract(ValidatedUpload(b"fake for mocked API", "image/png")) == report()
+    assert gateway.extract(ValidatedUpload(b"fake for mocked API", "image/png")).indicators == report().indicators
     request = client.messages.create.call_args.kwargs
     assert request["tools"][0]["input_schema"]["additionalProperties"] is False
     client.messages.create.return_value.stop_reason = "max_tokens"
@@ -97,7 +97,8 @@ def test_mock_claude_analysis_includes_only_row_evidence(tmp_path):
     payload = {"explanations": [{"row_id": "row-1", "text": "Educational example.", "source_ids": ["knowledge_base/WBC.txt"]}], "limitations": []}
     client.messages.create.return_value = SimpleNamespace(stop_reason="tool_use", content=[
         SimpleNamespace(type="tool_use", name="submit_result", input=payload)])
-    rows = prepare(report(), KnowledgeBase(tmp_path / "chroma"))
+    from tests.synthetic import SyntheticKnowledge
+    rows = prepare(report(), SyntheticKnowledge())
     result = ClaudeGateway(client=client).analyze(rows, "Explain this")
     validate_analysis(result, rows)
     sent = client.messages.create.call_args.kwargs["messages"][0]["content"][0]["text"]

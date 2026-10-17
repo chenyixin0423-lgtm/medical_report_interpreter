@@ -4,7 +4,9 @@ A local-first AI portfolio project for exploring laboratory reports with transpa
 retrieval, structured validation and explicit uncertainty.
 
 Upload a de-identified PDF or image, review extracted facts, and inspect the report's
-values alongside retrieved knowledge notes and model-generated explanations. Or launch
+values alongside retrieved knowledge provenance and gated explanations. The 26 inherited
+notes are currently **Unverified**, so live medical explanations are withheld; extraction,
+review, facts, history and numeric trends remain available. Or launch
 the built-in **Synthetic demo** immediately: no API key, patient documents or embedding
 model download required.
 
@@ -79,7 +81,9 @@ after changing configuration.
 
 Switch to **Live analysis**. Remove identifying information from the report, accept the
 document-transmission notice, extract the facts and compare them with the original.
-Only then generate explanations for eligible rows. The workflow makes **at most two model requests**;
+Only then request explanations for eligible rows. With the shipped unverified corpus,
+no rows qualify for live medical explanation; this is an intentional abstention, not an
+API error. The workflow makes **at most two model requests**;
 the SDK may retry a failed request once. API charges apply. Tests use mocks.
 
 Uploaded content goes to Anthropic. Metadata stripping does not redact visible identifiers,
@@ -93,7 +97,8 @@ session-only until **Save locally** is clicked in History.
 
 - Default location: `.local_data/history.sqlite3`.
 - Optional `MRI_DATA_DIR`: an absolute writable directory for SQLite and Chroma.
-- Only structured records are saved; raw uploads and original filenames are not.
+- Structured records include original extraction snapshots, corrections and any matched
+  row excerpts. Raw uploads and original filenames are not saved.
 - Structured records can still contain sensitive information. SQLite is not encrypted.
 - Do not enable local history on shared/public servers: it is a shared server-side store,
   not a multi-user access-control system.
@@ -137,7 +142,7 @@ retrieval is small, predictable and auditable.
 Chroma remains the document store. Retrieval uses `get(ids=[...])`, not semantic similarity.
 Constant one-dimensional placeholder vectors satisfy its storage interface; they are not
 semantic embeddings. Current notes are re-indexed at startup and stale entries removed
-from the dedicated v2 collection. Unknown indicators produce an explicit coverage gap.
+from the dedicated v3 collection. Older collections are left untouched. Unknown indicators produce an explicit coverage gap.
 See [knowledge provenance and unit policy](docs/KNOWLEDGE_BASE.md).
 
 ### Facts are not model opinions
@@ -218,14 +223,57 @@ corrections and incompatible indicator units are excluded from trends.
 
 ### History compatibility
 
-New records use schema v3. Existing v2 records are upgraded **in memory**, with readiness
+New records use schema v4. Existing v2/v3 records are upgraded **in memory**, with readiness
 recomputed and old un-gated explanations withheld. Files are not rewritten automatically.
 Existing fact-integrity checks still apply; genuinely malformed records are skipped with
 a UI warning. Unsupported legacy JSON from the original MVP is not auto-imported.
 
-This iteration does not add full Evidence Tracking, Knowledge Provenance, Claim Audit or
+This iteration adds evidence links and knowledge provenance, not Claim Audit or
 multi-model cross-validation. It cannot detect every plausible OCR mistake or establish
 that free-form medical language is true. No clinical evaluation is claimed.
+
+## Evidence Tracking & Knowledge Provenance
+
+Each extracted occurrence has a stable internal UUID derived from its extraction ID and
+row position, independent of the analyte's canonical ID. Two WBC rows remain distinct.
+Original name/value/unit/reference snapshots live in `ExtractedReport.sources`; corrections
+are stored separately. Normalized rows and trend points carry the same observation ID.
+Re-uploading a document creates a new extraction, not a deduplication match.
+
+**Report source checks:** Claude returns facts only, never trusted IDs or locations.
+For PDFs, local text extraction records a page and extracted-text line only when a unique
+complete line exactly matches the extracted name, value, unit and range in order. No
+neighboring document text is retained. This conservative check is a **text-layer match**,
+not verification that OCR, table semantics or medical interpretation is correct. Scanned
+images, multiline/ambiguous rows and unmatched text show **Unknown / source unverified**.
+No bounding boxes or page guesses are fabricated. Human correction does not rewrite or
+verify the original source. Synthetic examples explicitly have no real source document.
+
+**Knowledge provenance:** all 26 legacy notes were inventoried in
+`knowledge_base/provenance.json`, including content concerns and unconfirmed applicability.
+Each retrieved snapshot includes stable `kb:<code>` ID, content-addressed revision
+(`sha256:<digest>`), source list, applicability, review status, reviewer/date and audit note.
+The inventory identifies unsupported assertions; it is **not a clinical review**. Original
+text files remain unchanged. No source URL, author, publication date or reviewer was invented.
+References to an organization inside a note are not a verified bibliography.
+
+All shipped entries have **Unverified** status, empty external sources and unknown review
+details. They are retrieved for inspection but cannot support live model explanations.
+Synthetic Demo preserves its fixed examples through a preset-only path; passing these rows
+to the live pipeline or Claude gateway does not bypass the source gate. The data contract
+can represent reviewed, scoped sources, but this release's legacy loader does not promote
+entries to reviewed status. Adding a real reviewed corpus requires a separate curation step.
+
+Open **Detailed Results** → an indicator to see the retained extraction, current corrected
+fields, observation ID, source check/location, knowledge ID/version and source metadata.
+The UI distinguishes a retrieved-only note from an explanation's linked context. Legacy
+note text is hidden behind an explicit opt-in because it may contain unsupported advice.
+Retrieval, hashes and citation linkage do not prove that any generated medical claim is true.
+
+V2/v3 histories receive deterministic occurrence IDs on load, unknown source locations and
+recomputed readiness; old explanations are withheld. Nothing is rewritten automatically.
+Snapshots retain their historical knowledge revision even if current note content changes.
+These are local integrity checks, not signed audit logs or a tamper-proof evidence system.
 
 ## Continuing development across sessions
 
@@ -244,6 +292,7 @@ interpreter/
   validation.py                Numeric, range, conflict and citation checks
   abstention.py                Per-row readiness, actionable reasons and safe counts
   review.py                    Immutable extraction and correction reconciliation
+  tracking.py                  Conservative PDF text matches and original source snapshots
   units.py                     Conservative conversion allowlist
   security.py                  Bounded image/PDF validation
   llm.py                       Claude extraction and explanation calls
@@ -253,7 +302,7 @@ interpreter/
   trends.py                    Series matching and exclusions
   demo.py                      Synthetic reports and preset explanations
   ui.py                        Five native Streamlit views
-knowledge_base/                26 inherited, unverified project notes
+knowledge_base/                26 inherited notes and per-entry provenance inventory
 tests/                         Core, security, storage, RAG, mock and UI tests
 docs/                          Architecture, provenance, security and verification
 .env.example                   Safe configuration template

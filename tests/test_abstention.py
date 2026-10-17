@@ -11,13 +11,7 @@ from interpreter.review import effective_report
 from interpreter.storage import HistoryStore
 
 
-class SyntheticKnowledge:
-    def retrieve(self, code):
-        if code not in {"WBC", "HGB", "GLU", "ALT"}:
-            return None
-        text = f"Indicator: {code}\nSynthetic educational testing note only. This fabricated note exercises software routing and does not describe patient care."
-        return Evidence(source_id=f"knowledge_base/{code}.txt", indicator_id=code,
-                        text=text, sha256=sha256(text.encode()).hexdigest())
+from tests.synthetic import SyntheticKnowledge
 
 
 def measurement(**updates):
@@ -186,7 +180,7 @@ def test_v2_migration_rechecks_and_withholds_old_explanations(tmp_path):
         db.execute("INSERT INTO reports VALUES (?, ?, ?)", (record.id, record.created_at, text))
     records, rejected = store.load()
     assert not rejected and len(records) == 1
-    assert records[0].schema_version == 3 and records[0].analysis is None
+    assert records[0].schema_version == 4 and records[0].analysis is None
     assert records[0].checked[0].decision.state == "interpretable"
     with sqlite3.connect(store.path) as db:
         assert db.execute("SELECT payload FROM reports").fetchone()[0] == text
@@ -219,7 +213,7 @@ def test_gateway_never_trusts_model_claim_of_human_context_confirmation():
     client = Mock()
     extracted = facts(measurement(reference={"text": "4-10", "unit": "10^9/L", "context_required": True, "context_confirmed": True}))
     client.messages.create.return_value = SimpleNamespace(stop_reason="tool_use", content=[
-        SimpleNamespace(type="tool_use", name="submit_result", input=extracted.model_dump())])
+        SimpleNamespace(type="tool_use", name="submit_result", input=extracted.model_dump(exclude={"extraction_id", "sources"}))])
     result = ClaudeGateway(client=client).extract(ValidatedUpload(b"synthetic mock", "image/png"))
     assert not result.indicators[0].reference.context_confirmed
     assert prepare(result, SyntheticKnowledge())[0].decision.state == "needs_review"

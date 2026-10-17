@@ -1,7 +1,7 @@
 """Strict contracts. Extracted strings are never replaced by generated explanations."""
 from datetime import date, datetime, timezone
 from typing import Literal
-from uuid import uuid4
+from uuid import uuid4, uuid5, NAMESPACE_URL
 
 from pydantic import BaseModel, ConfigDict, Field, field_validator, model_validator
 
@@ -26,7 +26,7 @@ class Measurement(Model):
     uncertain: bool = False
 
 
-class ExtractedReport(Model):
+class ExtractionPayload(Model):
     report_date: str | None = None
     indicators: list[Measurement] = Field(min_length=1, max_length=200)
     warnings: list[str] = Field(default_factory=list, max_length=30)
@@ -40,12 +40,81 @@ class ExtractedReport(Model):
         return value
 
 
+class ReportSource(Model):
+    observation_id: str
+    row_id: str
+    raw: Measurement
+    origin: Literal["model_extraction", "unknown", "synthetic"] = "unknown"
+    verification: Literal["unverified", "text_match", "synthetic"] = "unverified"
+    excerpt: str | None = Field(default=None, max_length=500)
+    page: int | None = Field(default=None, ge=1, le=20)
+    location: str | None = None
+
+    @model_validator(mode="after")
+    def location_contract(self):
+        if self.verification != "text_match" and (self.page is not None or self.location is not None or self.excerpt is not None):
+            raise ValueError("Unverified or synthetic evidence cannot claim a document location/excerpt.")
+        if self.verification == "text_match" and not (self.excerpt and self.page and self.location):
+            raise ValueError("Text matches require a retained excerpt and location.")
+        return self
+
+
+class ExtractedReport(ExtractionPayload):
+    extraction_id: str = Field(default_factory=lambda: str(uuid4()))
+    sources: list[ReportSource] = Field(default_factory=list, max_length=200)
+
+    @model_validator(mode="after")
+    def source_links(self):
+        if not self.sources:
+            self.sources = [ReportSource(observation_id=str(uuid5(NAMESPACE_URL, f"{self.extraction_id}/row-{i+1}")),
+                row_id=f"row-{i+1}", raw=r.model_copy(deep=True)) for i, r in enumerate(self.indicators)]
+        if len(self.sources) != len(self.indicators):
+            raise ValueError("Every occurrence requires its own source snapshot.")
+        for i, source in enumerate(self.sources):
+            if source.row_id != f"row-{i+1}" or source.observation_id != str(uuid5(NAMESPACE_URL, f"{self.extraction_id}/row-{i+1}")):
+                raise ValueError("Source occurrence identity mismatch.")
+        return self
+
+
+class KnowledgeSource(Model):
+    name: str = Field(min_length=1)
+    url: str = Field(pattern=r"^https://")
+    scope: str = Field(min_length=1)
+
+
+class KnowledgeMetadata(Model):
+    entry_id: str
+    version: str
+    review_status: Literal["unverified", "reviewed"] = "unverified"
+    sources: list[KnowledgeSource] = Field(default_factory=list)
+    applicability: str = "Unknown; not established for patient interpretation."
+    reviewer: str | None = None
+    reviewed_on: str | None = None
+    audit_note: str = "No traceable source or clinical review is recorded."
+
+    @model_validator(mode="after")
+    def review_contract(self):
+        if self.review_status == "reviewed":
+            if not (self.sources and self.reviewer and self.reviewed_on):
+                raise ValueError("Reviewed content needs explicit sources and review details.")
+            date.fromisoformat(self.reviewed_on)
+        return self
+
+
 class Evidence(Model):
     source_id: str
     indicator_id: str
     text: str
     provenance: Literal["unverified_project_note"] = "unverified_project_note"
     sha256: str
+    metadata: KnowledgeMetadata | None = None
+
+    @model_validator(mode="after")
+    def metadata_identity(self):
+        if self.metadata and (self.metadata.entry_id != "kb:" + self.source_id.rsplit("/", 1)[-1].removesuffix(".txt")
+                              or self.metadata.version != "sha256:" + self.sha256):
+            raise ValueError("Knowledge metadata identity/version integrity failed.")
+        return self
 
 
 Status = Literal["within_range", "high", "low", "unknown", "conflict"]
@@ -75,6 +144,7 @@ class Correction(Model):
 
 class CheckedIndicator(Model):
     row_id: str
+    observation_id: str | None = None
     canonical_id: str | None
     display_name: str
     original: Measurement
@@ -98,7 +168,7 @@ class GeneratedAnalysis(Model):
 
 
 class ReportRecord(Model):
-    schema_version: Literal[2, 3] = 3
+    schema_version: Literal[2, 3, 4] = 4
     id: str = Field(default_factory=lambda: str(uuid4()))
     created_at: str = Field(default_factory=lambda: datetime.now(timezone.utc).isoformat())
     series: str = Field(default="My reports", min_length=1, max_length=60)
@@ -114,16 +184,28 @@ class ReportRecord(Model):
 
     @model_validator(mode="before")
     @classmethod
-    def upgrade_v2(cls, data):
+    def upgrade_legacy(cls, data):
         # Reclassify old records in memory, never overwrite their files automatically.
-        if isinstance(data, dict) and data.get("schema_version") == 2:
+        if isinstance(data, dict) and data.get("schema_version") in (2, 3):
             from copy import deepcopy
             data = deepcopy(data)
-            data["schema_version"] = 3
+            if isinstance(data.get("extracted"), ExtractedReport):
+                data["extracted"] = data["extracted"].model_dump()
+            if not isinstance(data.get("extracted"), dict) or not isinstance(data.get("id"), str):
+                raise ValueError("Legacy record lacks its original identity or extraction.")
+            data["schema_version"] = 4
+            data["extracted"].setdefault("extraction_id", "legacy:" + data.get("id", "unknown"))
             data["analysis"] = None
             data["analysis_issue"] = "Legacy record: readiness rechecked; old explanations withheld. Reanalyze to generate gated explanations."
-            for row in data.get("checked", []):
+            if not isinstance(data.get("checked"), list):
+                raise ValueError("Legacy checked rows are invalid.")
+            for index, row in enumerate(data["checked"]):
+                if isinstance(row, CheckedIndicator):
+                    row = data["checked"][index] = row.model_dump()
+                if not isinstance(row, dict) or not isinstance(row.get("row_id"), str):
+                    raise ValueError("Legacy row identity is missing.")
                 row.pop("decision", None)
+                row.setdefault("observation_id", str(uuid5(NAMESPACE_URL, f"{data['extracted']['extraction_id']}/{row['row_id']}")))
         return data
 
     @model_validator(mode="after")
@@ -133,6 +215,8 @@ class ReportRecord(Model):
         ids = [x.row_id for x in self.checked]
         if len(ids) != len(set(ids)):
             raise ValueError("Duplicate row IDs.")
+        if any(s.raw != raw for s, raw in zip(self.extracted.sources, self.extracted.indicators)):
+            raise ValueError("Source snapshot differs from retained extraction.")
         from interpreter.review import effective_report, correction_conflicts
         effective = effective_report(self.extracted, self.corrections)
         if any(c.original != raw for c, raw in zip(self.checked, effective.indicators)):
@@ -143,7 +227,7 @@ class ReportRecord(Model):
         from interpreter.knowledge import SOURCE_MAP
         expected = check_report(effective)
         for actual, computed in zip(self.checked, expected):
-            for field in ("row_id", "canonical_id", "display_name", "numeric_value", "status"):
+            for field in ("row_id", "observation_id", "canonical_id", "display_name", "numeric_value", "status"):
                 if getattr(actual, field) != getattr(computed, field):
                     raise ValueError("Derived data does not agree with original facts.")
             if not all(issue in actual.issues for issue in computed.issues):
@@ -160,7 +244,8 @@ class ReportRecord(Model):
         if not set(self.analysis_rejections + self.data_conflicts).issubset(ids):
             raise ValueError("Unknown analysis rejection row.")
         assign_decisions(computed_rows, self.corrections, self.analysis_rejections,
-                         correction_conflicts(self.extracted, self.corrections), self.data_conflicts)
+                         correction_conflicts(self.extracted, self.corrections), self.data_conflicts,
+                         synthetic=self.mode == "synthetic")
         for actual, computed in zip(self.checked, computed_rows):
             if actual.decision is not None and actual.decision != computed.decision:
                 raise ValueError("Readiness must agree with deterministic checks.")

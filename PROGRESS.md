@@ -9,7 +9,9 @@ Single-process Streamlit UI (five pages), strict Pydantic models, two Claude cal
 (extraction/explanation), exact canonical-ID retrieval from Chroma, session-first history,
 optional SQLite and allowlisted unit conversion. See AGENTS.md for module responsibilities.
 `abstention.py` assigns per-row decisions before model calls; `review.py` retains immutable
-extraction plus explicit corrections. V3 records persist decisions and correction metadata.
+extraction plus explicit corrections. V4 records add original source snapshots and stable
+occurrence IDs. `tracking.py` performs conservative local PDF text matches; Chroma v3
+retains knowledge ID/version/review/source metadata with each note snapshot.
 
 ## Completed Features
 Verified in code at the start of this iteration: bilingual aliases; raw/checked/generated
@@ -17,11 +19,21 @@ data separation; numeric range checks and printed-flag conflicts; exact Chroma r
 image/PDF validation; synthetic preset demo; history save/delete; numeric trends and
 exclusions; five-page native UI; mocked API and AppTest tests; English documentation.
 Task recovery instructions now exist in AGENTS.md and this file.
-This iteration adds four readiness states with actionable reasons, per-row input/output
+The previous iteration added four readiness states with actionable reasons, per-row input/output
 gating, safe counts, correction forms/revalidation and non-destructive v2 history compatibility.
 Existing Synthetic Demo, five pages, History and Trends pass tests.
+The evidence/provenance iteration adds source-linked corrections and trends, model-facing
+facts-only extraction schemas, PDF text-layer matching, per-entry inventory for all 26 notes,
+provenance-aware abstention, compact evidence viewing and v2/v3 historical compatibility.
 
 ## Current Task
+2026-10-17: Evidence Tracking / Knowledge Provenance implementation and verification complete.
+This file is included in the local implementation checkpoint (use `git log -1`). Started
+from clean Git baseline 9b373ad. Source snapshots,
+legacy migration, versioned provenance, live gating, evidence UI and synthetic tests are
+implemented. No claim auditing, medical thresholds or large UI redesign added.
+
+Previous iteration:
 Implement per-indicator uncertainty and abstention in the actual processing flow, plus
 human corrections, partial analysis, readiness counts and compatible history loading.
 Stage 1 complete: fresh baseline 49 passed; local checkpoint `15473e6` created.
@@ -36,13 +48,22 @@ checkpoint; identify it with `git log -1` rather than inferring a hash from chat
 ## Pending Tasks
 No remaining implementation tasks within this iteration's scope.
 Future work only when requested: clean-environment install check, visual review and an
-explicitly authorized synthetic live-API smoke test. Full provenance/claim audit is deferred.
+explicitly authorized synthetic live-API smoke test. Curate attributable, appropriately
+licensed and scoped medical notes before enabling live explanations. Claim audit is deferred.
 
 ## Important Decisions
-No full Evidence Tracking, Knowledge Provenance or Claim Audit system in this iteration.
+Evidence tracking and knowledge provenance are now explicitly authorized and implemented;
+Claim Audit and multi-model review remain outside scope.
 Keep the existing architecture. Readiness states are not medical risk categories.
 An unusual value alone is not proof of OCR error. Model agreement is not verification.
-Existing knowledge notes lack clinical review; eligible explanations remain educational.
+All 26 legacy notes lack verifiable bibliographies/review. Original texts are preserved;
+their unsupported clinical assertions are inventoried, not validated. They remain Unverified
+and cannot support live explanations. Preset Demo has a separate path that cannot unlock
+the live pipeline or Claude gateway. No source links, publication dates or reviewers invented.
+Knowledge versions are content hashes, not publication dates. Hashes are not medical trust.
+Report text matches require unique complete lines; page means PDF page and location means
+extracted-text line, not a visual bounding box. Unknown stays unknown. Human corrections
+never overwrite original source snapshots or claim independent source verification.
 Summary counts exclude refused rows. Arbitrary questions and model report summaries are
 withheld to avoid bypassing the row gate. Structural checks cannot establish truth of prose.
 Trends may display numeric facts even when missing intervals/notes block interpretation.
@@ -50,17 +71,39 @@ Trends may display numeric facts even when missing intervals/notes block interpr
 ## Known Issues
 Original code sent rejected rows to Claude; new pipeline now filters them. Original review
 confirmation lacked editing; corrections now retain original extraction and require rechecking.
-Old v2 history is upgraded in memory; its un-gated explanations are withheld, files untouched.
+Old v2/v3 history is upgraded in memory; old explanations are withheld, files untouched.
 Directory was not a Git repository when inspected; now initialized locally, no remote.
 Previous verification documents lack a live API call, clean-install validation and browser
 visual review. These are historical limitations, not checks completed in this iteration.
 Plausible OCR errors without explicit ambiguity signals cannot be reliably detected.
-Knowledge checks are basic identity/header/content checks, not clinical evidence review.
+There is no reviewed medical corpus shipped. Live extraction/facts/trends work, but the
+current corpus deliberately produces no live medical explanations. Reviewed-source contracts
+are exercised only with explicitly fabricated .invalid test fixtures, never production notes.
+Image/scanned and multiline PDF locations remain unknown. Text-layer matching is not semantic
+or OCR verification. No cryptographic audit log or malicious-local-history protection claimed.
 Repeated analytes remain under review rather than guessing specimen/method matching.
 Mismatched reference units require explicit review. Re-upload/review old reports to
-regenerate gated explanations; v2 files are not automatically rewritten.
+regenerate gated explanations when adequate knowledge exists; v2/v3 files are not automatically rewritten.
 
 ## Test Results
+Evidence/provenance iteration baseline: **79 passed in 8.17s**.
+First regression: 40 failures / 39 passed exposed a legacy migration guard treating new
+constructors as legacy. Fixed the guard; existing 79 tests passed in 7.03s.
+New source/provenance suite: 17 passed in 7.08s. Expanded regression: 96 passed / 1 failed
+because an old history test compared the newest record to a different record with identical
+values. Fixed it to select by record ID, preserving independent occurrence identity.
+Full regression after that fix: **97 passed in 14.29s**. Additional defensive migration and
+malformed-inventory cases added; final full regression: **100 passed in 14.74s**.
+Exit code 0; the inherited pyreadline3 console destructor emitted an ignored Windows
+handle warning after the summary (also present historically), not an application test failure.
+Syntax compilation and dependency checks passed. AppTest exercises evidence display,
+synthetic note opt-in, live source insufficiency and matched PDF source details. No paid API.
+Sandboxed startup on port 8503 did not expose a healthy endpoint; retried a hidden,
+loopback-only process on 8504 through the approved execution path. Approved local health
+request returned **HTTP 200 / ok**; sandboxed local requests were blocked. Service PID at
+verification was 58552. No browser screenshot/visual review or real Claude call was performed.
+
+Previous uncertainty iteration:
 Fresh baseline: `.venv/Scripts/python -m pytest -q` — 49 passed in 6.99s.
 First post-change regression: 45 passed / 4 failed because old assertions assumed all rows
 were analyzed, unsupported HGB units were trended, and only four metrics existed. These

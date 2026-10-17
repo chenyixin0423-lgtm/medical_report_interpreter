@@ -30,7 +30,7 @@ def usable_evidence(evidence, code):
         and len(evidence.text.strip()) >= 80)
 
 
-def assign_decisions(rows, corrections=(), analysis_rejections=(), review_conflicts=(), data_conflicts=()):
+def assign_decisions(rows, corrections=(), analysis_rejections=(), review_conflicts=(), data_conflicts=(), *, synthetic=False):
     counts = Counter(r.canonical_id for r in rows if r.canonical_id)
     pending = {c.row_id for c in corrections if not c.confirmed_from_report}
     for row in rows:
@@ -88,7 +88,8 @@ def assign_decisions(rows, corrections=(), analysis_rejections=(), review_confli
             else:
                 add("unsupported", "no_knowledge", "No relevant knowledge note covers this row.", "Display the report facts only; seek appropriate laboratory or professional interpretation.")
         else:
-            # Reuse existing IDs/hash; this is a minimal relevance gate, not source auditing.
+            if not synthetic and not supported_knowledge(row.evidence):
+                add("insufficient_evidence", "unverified_knowledge", "The retrieved note has no usable reviewed source; retrieval is not medical verification.", "Display report facts only. A scoped, source-checked knowledge entry is required before live explanation.")
             if not usable_evidence(row.evidence, row.canonical_id):
                 add("insufficient_evidence", "unusable_knowledge", "The retrieved note does not pass the local identity/content relevance checks.", "Withhold the explanation and review the local knowledge entry; do not use unrelated text.")
         if row.row_id in analysis_rejections:
@@ -103,6 +104,17 @@ def assign_decisions(rows, corrections=(), analysis_rejections=(), review_confli
                 code="conditions_met", message="Current checks permit a bounded educational explanation from the printed facts and local note.",
                 action="Compare with the original report. Reference applicability and medical meaning still require professional judgment.")])
     return rows
+
+
+def supported_knowledge(evidence):
+    if not evidence or not evidence.metadata:
+        return False
+    meta = evidence.metadata
+    # Metadata is trusted local curation, never model output. A hash identifies the
+    # reviewed revision; it does not establish the truth of its medical claims.
+    return (meta.review_status == "reviewed" and bool(meta.sources and meta.reviewer and meta.reviewed_on)
+            and meta.version == "sha256:" + evidence.sha256
+            and meta.entry_id == "kb:" + evidence.source_id.rsplit("/", 1)[-1].removesuffix(".txt"))
 
 
 def summary_counts(rows):

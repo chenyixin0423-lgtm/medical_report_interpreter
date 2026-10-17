@@ -14,7 +14,7 @@ def demo_reports(knowledge):
         def item(name, value, unit, bounds):
             return {"name": name, "raw_value": value, "unit": unit,
                     "reference": {"text": bounds, "unit": unit}}
-        facts = ExtractedReport.model_validate({"report_date": day, "indicators": [
+        facts = ExtractedReport.model_validate({"extraction_id": f"synthetic-series-a:{day}:v1", "report_date": day, "indicators": [
             item("白细胞(WBC)", wbc, "10^9/L", "4.0-10.0"),
             item("Hemoglobin", hgb, "g/L" if index == 1 else "g/dL", "130-170" if index == 1 else "13.0-17.0"),
             item("Glucose", glu, "mmol/L", "3.9-5.5"),
@@ -22,7 +22,10 @@ def demo_reports(knowledge):
             item("TSH", "2.1", "mIU/L", None),
             item("Urine protein", "Negative", None, "Negative"),
         ], "warnings": ["SYNTHETIC: all values and reference ranges are invented for software demonstration."]})
-        rows = prepare(facts, knowledge)
+        for source in facts.sources:
+            source.origin = "synthetic"
+            source.verification = "synthetic"
+        rows = prepare(facts, knowledge, synthetic=True)
         analysis = GeneratedAnalysis.model_validate({"explanations": [
             {"row_id": row.row_id,
              "text": ("Preset example: the displayed status is calculated only from the synthetic report's printed range. "
