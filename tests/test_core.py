@@ -89,17 +89,19 @@ def test_mock_claude_extraction():
     assert "SECRET" not in str(exc.value)
 
 
-def test_mock_claude_analysis_includes_only_row_evidence():
+def test_mock_claude_analysis_includes_only_row_evidence(tmp_path):
     from interpreter.llm import ClaudeGateway
+    from interpreter.pipeline import prepare
+    from interpreter.knowledge import KnowledgeBase
     client = Mock()
-    payload = {"explanations": [{"row_id": "row-1", "text": "No knowledge coverage.", "source_ids": []}], "limitations": []}
+    payload = {"explanations": [{"row_id": "row-1", "text": "Educational example.", "source_ids": ["knowledge_base/WBC.txt"]}], "limitations": []}
     client.messages.create.return_value = SimpleNamespace(stop_reason="tool_use", content=[
         SimpleNamespace(type="tool_use", name="submit_result", input=payload)])
-    rows = check_report(report())
+    rows = prepare(report(), KnowledgeBase(tmp_path / "chroma"))
     result = ClaudeGateway(client=client).analyze(rows, "Explain this")
     validate_analysis(result, rows)
     sent = client.messages.create.call_args.kwargs["messages"][0]["content"][0]["text"]
-    assert "row-1" in sent and "Explain this" in sent
+    assert "row-1" in sent and "Explain this" not in sent
 
 
 def test_incomplete_duplicate_and_extra_analysis_rows():

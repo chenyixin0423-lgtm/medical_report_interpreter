@@ -15,6 +15,8 @@ unnecessary infrastructure, frameworks, services or speculative abstractions.
 - `catalog.py`, `units.py`, `validation.py`: aliases, compatible units and deterministic checks.
 - `knowledge.py`: exact-ID retrieval from 26 existing project notes using Chroma.
 - `llm.py`, `pipeline.py`: schema-bound Claude calls and processing orchestration.
+- `abstention.py`: deterministic readiness/reasons and safe summary counts; no confidence scores.
+- `review.py`: correction baselines and effective facts without overwriting extraction.
 - `storage.py`, `trends.py`: optional local SQLite, session history and numeric trends.
 - `security.py`, `demo.py`: bounded uploads and synthetic preset examples.
 - `tests/`: deterministic, real local Chroma, mock Claude and Streamlit AppTest coverage.
@@ -36,6 +38,16 @@ After changes run relevant tests; before a stable checkpoint run the full suite 
 Update PROGRESS.md after every major stage, including failures, decisions and next steps.
 Current scope: task recovery and uncertainty/abstention. Do not add full evidence
 tracking, provenance infrastructure, claim auditing or a large UI redesign.
+
+## Abstention invariants
+Only `interpretable` rows may enter the explanation request. Preserve blocked rows as
+facts with actionable reasons; never include them in definite summary counts. Do not
+forward arbitrary questions or generated report summaries that bypass the row gate.
+Readiness is recomputed after edits and on history load; editing alone is not verification.
+Keep original extraction immutable; store explicit before/after corrections and source
+confirmation. Schema v2 history upgrades in memory with old explanations withheld.
+When changing this policy run `tests/test_abstention.py` and `tests/test_abstention_ui.py`
+plus the full existing suite. Do not relax a failing test just to admit unsupported data.
 
 ## Git
 Create local commits at tested stable stages. Inspect staged files and exclusions before

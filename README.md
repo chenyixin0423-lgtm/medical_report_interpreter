@@ -79,7 +79,7 @@ after changing configuration.
 
 Switch to **Live analysis**. Remove identifying information from the report, accept the
 document-transmission notice, extract the facts and compare them with the original.
-Only then generate explanations. The normal workflow makes **two model requests**;
+Only then generate explanations for eligible rows. The workflow makes **at most two model requests**;
 the SDK may retry a failed request once. API charges apply. Tests use mocks.
 
 Uploaded content goes to Anthropic. Metadata stripping does not redact visible identifiers,
@@ -150,10 +150,89 @@ Qualified values such as `<5`, text results, missing ranges, ambiguous units or 
 extraction remain unclassified. Printed flags conflicting with calculated ranges require
 manual review. No hard-coded medical critical-value rules or fixed visit timelines are shipped.
 
-Each explanation must cover an existing row exactly once and cite only the note actually
+Each accepted explanation must cover an eligible row exactly once and cite only the note actually
 retrieved for that row. The knowledge notes inherited from the MVP have no verified
 bibliography and are prominently labeled **unverified project notes**, not medical authority.
 Schema validation cannot verify the medical accuracy of free-form explanations.
+
+## Uncertainty & Abstention
+
+The interpretation gate is deterministic application code, not a prompt-only instruction
+or an LLM confidence percentage. `interpreter/abstention.py` reuses normalized IDs,
+parsed numbers, printed-range checks, compatible-unit definitions and retrieved notes.
+
+| Readiness | Meaning | Typical next action |
+| --- | --- | --- |
+| `interpretable` | Current checks permit a bounded educational explanation | Check the report and remember that clinical applicability is not established |
+| `needs_review` | Ambiguity or conflicting data prevents interpretation | Resolve the stated value, unit, interval, name or correction conflict |
+| `insufficient_evidence` | Required data or usable supporting content is missing | Obtain the missing value/unit/printed interval or review the unusable note |
+| `unsupported` | Indicator, unit or knowledge coverage is outside current capabilities | Keep report facts visible and seek appropriate interpretation elsewhere |
+
+Every decision contains stable reason codes, plain-language explanations and next actions.
+These states are **not risk grades**: interpretable does not mean normal, and unsupported
+does not mean dangerous. Multiple causes are retained; primary-state precedence is
+needs_review → unsupported → insufficient_evidence, solely for consistent counts.
+
+### Rules and actual data flow
+
+- Unreadable extraction, missing/qualified/non-numeric values, ambiguous names, repeated
+  analytes and conflicting printed flags block interpretation. An extreme value alone
+  is never labeled an OCR error. Two agreeing model calls are not verification.
+- Units must exist, be allowlisted and have a dimension appropriate to the indicator.
+  Reference and measurement units must be reconciled. The range gate deliberately does
+  not silently convert reference intervals, even when a compatible numeric conversion exists.
+- Missing, reversed or ambiguous printed intervals block range-dependent explanations.
+  Explicit demographic/method/laboratory context requirements must be confirmed. A generic
+  printed interval is used only for a bounded comparison, not proof of population applicability.
+- Missing knowledge blocks generated explanation. Mismatched IDs/hashes, empty/short notes
+  or mismatched note headers fail the basic relevance gate. This is **not** semantic evidence
+  evaluation or verification of medical content; inherited notes remain unverified.
+- Derived facts inconsistent with retained extraction/corrections are recomputed and the
+  affected row is withheld. Stale or duplicate corrections are not applied.
+- Only eligible rows enter the second Claude call. If none qualify, no explanation call
+  occurs. A missing, duplicated or incorrectly cited generated row is withheld while
+  other valid eligible explanations survive. A globally malformed API response still
+  withholds all generated explanations, but preserves report facts and decisions.
+- Dashboard counts are computed locally. Refused rows never contribute to the eligible
+  out-of-range count. Model-generated report summaries/limitations are not forwarded.
+  Arbitrary free-text questions are currently unsupported and not sent, preventing them
+  from bypassing the row gate by reintroducing refused data.
+
+### Correct and revalidate
+
+In **Upload & Analyze**, expand **Correct extracted fields**, select a row, edit the name,
+value, unit, printed interval/flag or uncertainty/context fields, and provide a correction
+reason. Explicitly confirm changed fields against the original report. **Apply correction
+and revalidate** reruns normalization, range checks, retrieval and the interpretation gate.
+The overall review checkbox is reset after edits.
+
+Original extraction is retained separately from before/after corrections. Unconfirmed
+changes remain blocked; confirmed changes still fail if information is missing or conflicting.
+Corrections are human assertions, not independently verified medical facts. This version
+does not reconcile multiple specimens/methods for repeated analytes; those stay under review.
+
+The existing five pages, Synthetic Demo, local history and trends are preserved. Trends may
+show reliable numeric observations even when interpretation lacks a reference interval or
+knowledge note; this does not restore medical interpretability. Unconfirmed/conflicting
+corrections and incompatible indicator units are excluded from trends.
+
+### History compatibility
+
+New records use schema v3. Existing v2 records are upgraded **in memory**, with readiness
+recomputed and old un-gated explanations withheld. Files are not rewritten automatically.
+Existing fact-integrity checks still apply; genuinely malformed records are skipped with
+a UI warning. Unsupported legacy JSON from the original MVP is not auto-imported.
+
+This iteration does not add full Evidence Tracking, Knowledge Provenance, Claim Audit or
+multi-model cross-validation. It cannot detect every plausible OCR mistake or establish
+that free-form medical language is true. No clinical evaluation is claimed.
+
+## Continuing development across sessions
+
+Read [AGENTS.md](AGENTS.md) and then [PROGRESS.md](PROGRESS.md), inspect `git status` and the
+actual code, and run relevant tests. PROGRESS.md records completed stages, decisions,
+failed checks, pending work and exact next steps. Stable checkpoints are committed locally;
+no automatic push or remote repository creation is performed.
 
 ## Project layout
 
@@ -163,6 +242,8 @@ interpreter/
   models.py                    Strict raw/checked/generated contracts
   catalog.py                   Bilingual aliases and stable IDs
   validation.py                Numeric, range, conflict and citation checks
+  abstention.py                Per-row readiness, actionable reasons and safe counts
+  review.py                    Immutable extraction and correction reconciliation
   units.py                     Conservative conversion allowlist
   security.py                  Bounded image/PDF validation
   llm.py                       Claude extraction and explanation calls

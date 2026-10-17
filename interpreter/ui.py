@@ -12,6 +12,9 @@ from interpreter.pipeline import finish, prepare
 from interpreter.security import UploadError, validate_upload
 from interpreter.storage import HistoryStore
 from interpreter.trends import trend_groups
+from interpreter.abstention import STATES, summary_counts
+from interpreter.models import Correction, Measurement
+from interpreter.review import effective_report
 
 DISCLAIMER = ("Educational AI demonstration — not a diagnostic or treatment service. "
               "Check all extracted values against the original report. A result inside a printed range "
@@ -28,16 +31,23 @@ def table(record):
     return [{"Indicator": r.display_name, "ID": r.canonical_id or "Unmapped", "Value": r.original.raw_value or "Unreadable",
              "Unit": r.original.unit or "Not provided", "Report range": r.original.reference.text or "Not provided",
              "Range unit": r.original.reference.unit or "Not provided",
-             "Range check": r.status.replace("_", " "), "Knowledge": "Project note" if r.evidence else "Not covered",
+             "Range check": r.status.replace("_", " ") if r.decision and r.decision.state == "interpretable" else "Withheld — see review notes",
+             "Readiness": r.decision.state if r.decision else "needs_review",
+             "Why / next action": " ".join(x.message + " " + x.action for x in r.decision.reasons) if r.decision else "Revalidate this row.",
+             "Knowledge": "Project note" if r.evidence else "Not covered",
              "Review notes": " ".join(r.issues)} for r in record.checked]
 
 
 def metrics(record):
+    counts = summary_counts(record.checked)
     cols = st.columns(4)
     cols[0].metric("Indicators", len(record.checked))
-    cols[1].metric("Outside printed range", sum(r.status in ("high", "low") for r in record.checked))
+    cols[1].metric("Eligible outside range", counts["interpretable_outside_range"])
     cols[2].metric("Uncertain / conflicting", sum(r.status in ("unknown", "conflict") for r in record.checked))
     cols[3].metric("Knowledge coverage", f"{sum(r.evidence is not None for r in record.checked)} / {len(record.checked)}")
+    for col, state in zip(st.columns(4), STATES):
+        col.metric(state.replace("_", " ").title(), counts[state])
+    st.caption("Readiness describes available information, not medical risk. Interpretable does not mean normal; unsupported does not mean dangerous.")
 
 
 def detail(record):
@@ -55,7 +65,14 @@ def detail(record):
     st.subheader("Facts, evidence & explanations")
     st.caption("These layers are intentionally separate. Project notes are not verified medical sources.")
     for index, row in enumerate(record.checked, 1):
-        with st.expander(f"Indicator {index} · {row.canonical_id or 'Unmapped'} · {row.status.replace('_', ' ')}"):
+        with st.expander(f"Indicator {index} · {row.canonical_id or 'Unmapped'} · {row.decision.state}"):
+            st.text("Available to display: recorded value, unit and printed reference text; unresolved fields are not verified facts.")
+            for reason in row.decision.reasons:
+                st.text(f"{reason.message}\nNext action: {reason.action}")
+            if record.extracted.indicators[index - 1] != row.original:
+                st.text("Original extraction (retained):")
+                st.json(record.extracted.indicators[index - 1].model_dump())
+                st.text("Current reviewed/corrected fields:")
             st.text(f"Original label: {row.original.name}")
             st.text(f"Original value: {row.original.raw_value} {row.original.unit or ''}\nPrinted range: {row.original.reference.text or 'Not supplied'}\nPrinted flag: {row.original.report_flag}")
             for issue in row.issues:
@@ -100,6 +117,46 @@ def dashboard(records):
 def reset_pending():
     st.session_state.pop("pending", None)
     st.session_state.pop("review_facts", None)
+    st.session_state.pop("corrections", None)
+    st.session_state.pop("correction_row", None)
+
+
+def correction_editor(facts):
+    corrections = st.session_state.get("corrections", [])
+    current = effective_report(facts, corrections)
+    with st.expander("Correct extracted fields", expanded=False):
+        index = st.selectbox("Indicator to correct", range(len(facts.indicators)),
+                            format_func=lambda i: f"Row {i + 1}", key="correction_row")
+        row_id = f"row-{index + 1}"
+        raw = current.indicators[index]
+        with st.form(f"correct-{row_id}"):
+            name = st.text_input("Indicator name", value=raw.name)
+            value = st.text_input("Value as printed", value=raw.raw_value or "")
+            unit = st.text_input("Measurement unit", value=raw.unit or "")
+            bounds = st.text_input("Printed reference interval", value=raw.reference.text or "")
+            refunit = st.text_input("Reference unit", value=raw.reference.unit or "")
+            flag = st.selectbox("Printed flag", ["unknown", "normal", "high", "low"],
+                                index=["unknown", "normal", "high", "low"].index(raw.report_flag))
+            uncertain = st.checkbox("Text is still unclear", value=raw.uncertain)
+            required = st.checkbox("Interval requires demographic / method / laboratory selection", value=raw.reference.context_required)
+            context = st.checkbox("I confirmed the applicable printed interval", value=raw.reference.context_confirmed)
+            reason = st.text_input("Reason for correction (no identifying information)")
+            confirmed = st.checkbox("I checked these changed fields against the original report")
+            applied = st.form_submit_button("Apply correction and revalidate")
+        if applied:
+            try:
+                after = Measurement(name=name.strip(), raw_value=value.strip() or None, unit=unit.strip() or None,
+                    reference={"text": bounds.strip() or None, "unit": refunit.strip() or None,
+                               "context_required": required, "context_confirmed": context},
+                    report_flag=flag, uncertain=uncertain)
+                change = Correction(row_id=row_id, before=facts.indicators[index], after=after,
+                                    reason=reason.strip(), confirmed_from_report=confirmed)
+                st.session_state.corrections = [c for c in corrections if c.row_id != row_id] + [change]
+                st.session_state.pop("review_facts", None)
+                st.rerun()
+            except ValueError:
+                st.error("Provide an indicator name and correction reason, and valid field values. Nothing was changed.")
+    return st.session_state.get("corrections", [])
 
 
 def upload_page(demo, kb):
@@ -119,8 +176,7 @@ def upload_page(demo, kb):
                                 key="report_upload", on_change=reset_pending)
     consent = st.checkbox("I have removed identifying information and agree to send this document to Anthropic.")
     if st.button("Extract report facts", type="primary", disabled=not (uploaded and consent)):
-        st.session_state.pop("pending", None)
-        st.session_state.pop("review_facts", None)
+        reset_pending()
         try:
             with st.status("Extracting structured facts…", expanded=True) as status:
                 st.write("Checking file content and size")
@@ -135,24 +191,29 @@ def upload_page(demo, kb):
         return
     facts = st.session_state.pending
     st.subheader("Review extracted facts")
-    st.caption("If any value is wrong, re-upload a clearer report. Unreadable data will not be guessed.")
+    st.caption("Correct individual fields below or upload a clearer report. Changes are rechecked and never automatically resolve all missing information.")
     st.text(f"Extracted report date: {facts.report_date or 'Unknown — excluded from dated trends'}")
     st.dataframe([{"Original label": x.name, "Value": x.raw_value, "Unit": x.unit,
         "Reference range": x.reference.text, "Reference unit": x.reference.unit,
         "Printed flag": x.report_flag, "Uncertain": x.uncertain} for x in facts.indicators], hide_index=True)
     for text in facts.warnings:
         st.text(text)
+    corrections = correction_editor(facts)
+    preview = prepare(facts, kb, corrections)
+    st.dataframe([{"Row": r.row_id, "Current value": r.original.raw_value, "Readiness": r.decision.state,
+        "Reasons": " ".join(x.message for x in r.decision.reasons),
+        "Next actions": " ".join(x.action for x in r.decision.reasons)} for r in preview], hide_index=True)
     series = st.text_input("Series label (a pseudonym, never a patient name)", value="My reports", max_chars=60)
-    question = st.text_area("Optional question (no personal information)", max_chars=2000)
+    st.caption("This workflow explains eligible rows only. Free-form diagnostic or treatment questions are unsupported and are not sent to the model.")
     reviewed = st.checkbox("I checked these values, units, ranges and date against the original, and this series contains reports from the same person.", key="review_facts")
     if st.button("Analyze reviewed facts", disabled=not (reviewed and series.strip()), type="primary"):
         try:
             with st.status("Building evidence-based context…", expanded=True) as status:
                 st.write("Normalizing indicator names and checking printed ranges")
-                rows = prepare(facts, kb)
+                rows = prepare(facts, kb, corrections)
                 st.write(f"Retrieved project notes for {sum(r.evidence is not None for r in rows)} of {len(rows)} rows")
                 st.write("Generating explanations and validating source references")
-                record = finish(facts, rows, ClaudeGateway(), series.strip(), question)
+                record = finish(facts, rows, ClaudeGateway(), series.strip(), corrections=corrections)
                 st.session_state.setdefault("live_records", []).insert(0, record)
                 st.session_state.pop("pending", None)
                 status.update(label="Analysis complete" if record.analysis else "Facts ready; explanations unavailable",

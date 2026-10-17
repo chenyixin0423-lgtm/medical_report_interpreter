@@ -53,7 +53,8 @@ def test_trend_conversion_isolation_and_unknown():
 
 def test_trends_separate_incompatible_units():
     groups, _ = trend_groups([make_record(), make_record("2", "mmol/L")], "HGB", "My reports", "live")
-    assert set(groups) == {"g/L", "mmol/L"}
+    # A dimension incompatible with the analyte is now explicitly excluded.
+    assert set(groups) == {"g/L"}
 
 
 def test_trends_exclude_duplicate_uncertain_dates_and_flags():
@@ -69,13 +70,15 @@ def test_trends_exclude_duplicate_uncertain_dates_and_flags():
     assert len(excluded) == 4
 
 
-def test_pipeline_validates_mock_analysis_and_preserves_facts():
+def test_pipeline_validates_mock_analysis_and_preserves_facts(tmp_path):
     from unittest.mock import Mock
+    from interpreter.knowledge import KnowledgeBase
     facts = make_record().extracted
-    rows = prepare(facts, EmptyKnowledge())
+    facts.indicators[0].reference.text = "13-17"
+    rows = prepare(facts, KnowledgeBase(tmp_path / "chroma"))
     gateway = Mock()
     gateway.analyze.return_value = GeneratedAnalysis.model_validate({"explanations": [
-        {"row_id": "row-1", "text": "Insufficient coverage", "source_ids": []}], "limitations": []})
+        {"row_id": "row-1", "text": "Educational example", "source_ids": ["knowledge_base/HGB.txt"]}], "limitations": []})
     result = finish(facts, rows, gateway)
     assert result.analysis is not None
     assert result.extracted == facts

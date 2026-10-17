@@ -28,7 +28,8 @@ def demo_reports(knowledge):
              "text": ("Preset example: the displayed status is calculated only from the synthetic report's printed range. "
                       "It is not a diagnosis. The linked project note is unverified educational context."
                       if row.evidence else "Preset example: knowledge base coverage is insufficient. Check the original report with a qualified professional."),
-             "source_ids": [row.evidence.source_id] if row.evidence else []} for row in rows],
+             "source_ids": [row.evidence.source_id] if row.evidence else []} for row in rows
+             if row.decision.state == "interpretable"],
             "limitations": ["Preset explanations, not a real-time model response.",
                             "Synthetic ranges do not establish reference intervals for any population."]})
         validate_analysis(analysis, rows)

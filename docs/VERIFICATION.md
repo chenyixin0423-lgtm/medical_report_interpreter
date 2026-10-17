@@ -2,6 +2,26 @@
 
 Date: **2026-10-17** (Asia/Shanghai).
 
+## Current iteration: uncertainty and task recovery
+
+- Fresh baseline before changes: **49 passed in 6.99s**.
+- Final full regression: **79 passed in 8.50s**; no failed tests.
+- `compileall` succeeded; `pip check`: no broken requirements found.
+- Updated service started at `127.0.0.1:8502`; health returned **HTTP 200 / ok**.
+- Streamlit AppTest exercised all existing pages and mixed-state correction: unconfirmed
+  edits stay blocked, confirmed edits are revalidated, refused rows stay out of model inputs,
+  and summary counts exclude refused abnormalities.
+- Added synthetic tests cover missing/ambiguous values, unsupported/incompatible units,
+  missing/reversed/contextual intervals, ambiguous/unknown names, irrelevant/missing notes,
+  duplicate measurements, stale/conflicting corrections, inconsistent derived data,
+  generated row/source conflicts, partial acceptance and read-only v2 history migration.
+- No paid Claude calls, browser visual review, clinical evaluation or clean installation
+  were performed this iteration. Earlier browser limitations below are historical.
+- Recovery docs: AGENTS.md and PROGRESS.md. Local baseline commit: `15473e6`;
+  implementation checkpoint is recorded in local Git history. No push or remote creation.
+
+The following sections record the preceding refactor's verification baseline.
+
 ## Executed checks
 
 | Check | Result |

@@ -11,7 +11,7 @@ def test_demo_navigation_and_live_empty_states(tmp_path, monkeypatch):
     monkeypatch.delenv("ANTHROPIC_API_KEY", raising=False)
     app = AppTest.from_file(str(APP), default_timeout=30).run()
     assert not app.exception
-    assert [x.value for x in app.metric] == ["6", "1", "2", "4 / 6"]
+    assert [x.value for x in app.metric] == ["6", "1", "2", "4 / 6", "4", "1", "0", "1"]
     for page in ["Upload & Analyze", "Detailed Results", "History", "Trends"]:
         app.radio[1].set_value(page).run()
         assert not app.exception, page

@@ -68,10 +68,10 @@ def check_report(report: ExtractedReport) -> list[CheckedIndicator]:
 
 
 def validate_analysis(analysis: GeneratedAnalysis, rows: list[CheckedIndicator]) -> None:
-    expected = {r.row_id: r for r in rows}
+    expected = {r.row_id: r for r in rows if r.decision is not None and r.decision.state == "interpretable"}
     ids = [x.row_id for x in analysis.explanations]
     if len(ids) != len(set(ids)) or set(ids) != set(expected):
-        raise ValueError("Analysis must cover every row exactly once.")
+        raise ValueError("Analysis must cover only interpretable rows, exactly once.")
     for explanation in analysis.explanations:
         evidence = expected[explanation.row_id].evidence
         allowed = [evidence.source_id] if evidence else []

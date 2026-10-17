@@ -13,9 +13,12 @@ Default binding is `127.0.0.1`; CORS and XSRF protections remain enabled.
 3. With the user's consent, the **entire document** is sent to Anthropic for extraction.
    Image metadata stripping does not redact visible names. PDF bytes are not anonymized.
    Users must de-identify documents themselves. Do not use real patient data in a public demo.
-4. Extracted facts, retrieved project notes and the optional question are sent in a second
-   request after the review checkbox. The prompt excludes patient identifiers; it is not
+4. Only eligible rows and their retrieved project notes are sent in a second
+   request after the review checkbox. Arbitrary questions are not forwarded. The prompt excludes patient identifiers; it is not
    an automated guarantee of de-identification.
+   Before/after corrections remain separate from extraction. Correction notes may still
+   be sensitive; do not put identifying information into them. Confirmation is a human
+   assertion, not proof that a correction is medically accurate.
 5. Structured results stay in the current Streamlit session by default. No raw upload or
    original filename is written by application code. Streamlit holds uploader bytes for
    the life of its widget/session; this app does not promise forensic memory erasure.

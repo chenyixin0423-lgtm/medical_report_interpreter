@@ -59,17 +59,25 @@ class ClaudeGateway:
         kind = "document" if upload.media_type == "application/pdf" else "image"
         content = [{"type": kind, "source": {"type": "base64", "media_type": upload.media_type,
                     "data": base64.b64encode(upload.data).decode("ascii")}}]
-        return self._call(ExtractedReport, content, """Extract every laboratory result as printed.
+        report = self._call(ExtractedReport, content, """Extract every laboratory result as printed.
 Keep raw_value, unit and reference.text verbatim. Use null for unreadable or absent fields.
 reference.unit may copy the row's unit only when the printed reference range clearly shares it.
 Use uncertain=true for unreadable or ambiguous rows. Do not infer ranges from general knowledge.
 Set report_flag only from a printed high/low/normal flag, otherwise unknown.
 Keep qualitative and qualified values (e.g. positive or <5) as strings. Date is ISO YYYY-MM-DD
 only if unambiguous; otherwise null. Exclude names and personal identifiers. Warnings should
-describe extraction problems without reproducing patient information.""")
+describe extraction problems without reproducing patient information. Mark reference.context_required
+when the printed interval depends on age, sex, laboratory or assay selection that is unresolved.
+Never set context_confirmed=true: this is reserved for human review.""")
+        for item in report.indicators:
+            item.reference.context_confirmed = False
+        return report
 
     def analyze(self, rows, question=""):
-        payload = {"checked_indicators": [r.model_dump() for r in rows], "question": question[:2000]}
+        rows = [r for r in rows if r.decision is not None and r.decision.state == "interpretable"]
+        if not rows:
+            return GeneratedAnalysis(explanations=[], limitations=[])
+        payload = {"checked_indicators": [r.model_dump() for r in rows]}
         return self._call(GeneratedAnalysis, [{"type": "text", "text": json.dumps(payload, ensure_ascii=False)}],
                           """Explain each row in plain English. Use only the supplied project notes for
 medical context and explicitly acknowledge they are unverified educational notes, not clinical guidelines.

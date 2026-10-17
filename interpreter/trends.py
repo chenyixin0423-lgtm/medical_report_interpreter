@@ -24,6 +24,9 @@ def trend_groups(records, code: str, series: str, mode: str):
                 reason = "Repeated indicator"
             elif row.original.uncertain or row.status == "conflict":
                 reason = "Uncertain or conflicting facts"
+            elif row.decision and any(x.code in {"correction_unconfirmed", "correction_conflict", "incompatible_unit", "derived_data_conflict"}
+                                      for x in row.decision.reasons):
+                reason = "Unconfirmed correction or incompatible unit"
             elif row.numeric_value is None:
                 reason = "Non-numeric value"
             elif not spec:

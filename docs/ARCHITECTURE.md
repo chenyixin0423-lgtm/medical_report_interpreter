@@ -12,8 +12,9 @@ flowchart TD
     E --> F["Bilingual alias normalization"]
     F --> G["Deterministic printed-range checks"]
     F --> H["Chroma exact-ID knowledge retrieval"]
-    G --> I["Claude call 2: explain checked facts and notes"]
-    H --> I
+    G --> N["Per-row readiness gate"]
+    H --> N
+    N --> I["Claude call 2: explain eligible facts and notes"]
     I --> J["Schema, row coverage and citation validation"]
     J --> K["Separate facts, evidence and explanation views"]
     K --> L["Session history; optional SQLite save"]
@@ -37,15 +38,27 @@ contradicts the calculation becomes `conflict`.
 content hash and explicit unverified provenance. The copied content preserves the
 evidence used at analysis time even if the local knowledge base changes later.
 
-`GeneratedAnalysis` may only provide an explanation for each existing row and a
-limitations list. Unknown/extra fields are forbidden. Each row must appear exactly
-once, and its source IDs must equal its retrieved evidence ID (or an empty list).
-This validates structure and provenance references, not truthfulness of prose.
+`InterpretationDecision` adds interpretable / needs_review / insufficient_evidence /
+unsupported, with reason codes, messages and actions. `abstention.py` builds these
+decisions from existing checks. Readiness is not medical risk or model confidence.
+
+`GeneratedAnalysis` is requested only for eligible rows. Unknown/extra fields are forbidden.
+Each eligible row must appear exactly once with its retrieved note ID. Missing, duplicated
+or wrongly cited explanations are withheld per row. Unknown response rows are discarded.
+Model-generated report summaries/limitations and arbitrary user questions are not forwarded
+to bypass the gate. Summary counts and displayed limitations are deterministic application text.
+This validates structure and routing, not truthfulness of natural-language prose.
 
 `ReportRecord` stores the facts, checked rows and optional generated explanation as
-separate fields. Loading a record recomputes the derived checks, verifies evidence
+separate fields, with immutable extraction and explicit before/after corrections.
+Unconfirmed, stale or conflicting edits cannot unlock interpretation. Loading recomputes
+the derived checks and readiness, verifies evidence
 integrity and validates citation references again. A failed explanation call does
 not discard extracted facts: the result displays a clear explanation-unavailable notice.
+
+Schema v3 is current. V2 records are upgraded in memory without automatically changing
+their files. Old explanations are withheld because they did not pass the new gate.
+Missing decisions are recomputed; genuinely corrupt records retain the skip/warning behavior.
 
 ## Storage and trend boundaries
 
